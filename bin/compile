@@ -79,6 +79,8 @@ if [ ! `which pdflatex` ]; then
     ./install-tl --profile=$PROF
 fi
 
+tlmgr option repository ftp://tug.org/historic/systems/texlive/2012/tlnet-final
+
 tlmgr update --self
 
 # install user-provided-packages
