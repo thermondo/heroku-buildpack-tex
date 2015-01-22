@@ -79,20 +79,20 @@ if [ ! `which pdflatex` ]; then
     ./install-tl --profile=$PROF
 fi
 
+build-step "upgrading installed packages"
 tlmgr update --self
+tlmgr update --all
 
 # install user-provided-packages
 if [ -f $BUILD_DIR/texlive.packages ]; then
     build-step "installed custom packages"
-    while read line           
-    do           
+    MISSING_PACKAGES=$(export LC_ALL=C; comm -23 <(cat $BUILD_DIR/texlive.packages | sort) <(tlmgr list --only-installed | sed 's/i \([^:]*\).*/\1/' | sort))
+    while read line
+    do
         build-info "$line"
         tlmgr install $line
-    done <$BUILD_DIR/texlive.packages
+    done <$MISSING_PACKAGES
 fi
-
-build-step "upgrading installed packages"
-tlmgr update --all
 
 build-step "cleanup"
 rm -rf $TEXLIVE_HOME/texmf-dist/doc
