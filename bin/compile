@@ -107,3 +107,10 @@ fi
 
 # Set up the environment for runtimes now that compilation has finished
 echo 'export PATH=$HOME/.texlive/bin/x86_64-linux:$PATH' >> $PROFILE_D
+
+# run custom job
+if [ -f $BUILD_DIR/texlive.run ]; then
+    build-step "run custom (build-)script"
+    ./texlive.run
+fi
+
