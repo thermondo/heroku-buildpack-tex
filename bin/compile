@@ -111,6 +111,7 @@ echo 'export PATH=$HOME/.texlive/bin/x86_64-linux:$PATH' >> $PROFILE_D
 # run custom job
 if [ -f $BUILD_DIR/texlive.run ]; then
     build-step "run custom (build-)script"
+    chmod +x $BUILD_DIR/texlive.run
     $BUILD_DIR/texlive.run
 fi
 
