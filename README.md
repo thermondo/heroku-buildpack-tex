@@ -5,7 +5,7 @@ This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) fo
 
     $ ls
 
-    $ heroku create --buildpack git://github.com/syphar/heroku-buildpack-tex.git
+    $ heroku create --buildpack git://github.com/LMUGAF/heroku-buildpack-tex.git
 
     $ git push heroku master
     ...
