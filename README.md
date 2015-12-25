@@ -62,4 +62,9 @@ You can add a file called `texlive.packages` in your repo:
 
 It looks similar to the default `texlive.profile`, but without the `1` or `0` at the end. The buildpack runs `tlmgr install` on every line in this file. So you can use single packages or these collections. 
 
-When you add custom packages, keep in mind that Heroku has a maximum compressed slug-size of 300 MB (see [here](https://devcenter.heroku.com/articles/slug-compiler#slug-size)). And TeX-Live can get quite big. 
+When you add custom packages, keep in mind that Heroku has a maximum compressed slug-size of 300 MB (see [here](https://devcenter.heroku.com/articles/slug-compiler#slug-size)). And TeX-Live can get quite big.
+
+Custom command execution
+------------------------
+You can add a texlive.run-file, which will be run after installation of all dependencies. Here you could compile your tex-document and do something with the result. 
+
