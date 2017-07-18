@@ -9,11 +9,18 @@ CACHE_DIR=$2
 BIN_DIR=$(cd $(dirname $0); pwd) # absolute path
 
 
-TEXLIVE_INSTALLER_URL="http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz"
+TEXLIVE_INSTALLER_PATH="http://mirror.ctan.org/systems/texlive/tlnet"
+# Optional: use custom path to texlive installer
+if [ -f $BUILD_DIR/.texlive-path ]; then
+    TEXLIVE_INSTALLER_PATH=$(cat $BUILD_DIR/.texlive-path)
+fi
+
+TEXLIVE_INSTALLER_URL="$TEXLIVE_INSTALLER_PATH/install-tl-unx.tar.gz"
+echo "using texlive installer from $TEXLIVE_INSTALLER_URL"
 
 TEXLIVE_HOME=$BUILD_DIR/.texlive
 TEXLIVE_CACHE=$CACHE_DIR/.texlive
-TOOL_CACHE=$CACHE_DIR/.tools 
+TOOL_CACHE=$CACHE_DIR/.tools
 TOOL_BIN=$CACHE_DIR/.tools/bin
 TEMPDIR=$TEMP/.texlive
 PATH=$TEXLIVE_HOME/bin/x86_64-linux:$TOOL_BIN:$PATH
@@ -25,7 +32,7 @@ source $BIN_DIR/utils
 # Prepare the various paths
 mkdir -p $TEXLIVE_HOME
 mkdir -p $TEXLIVE_CACHE
-mkdir -p $TOOL_BIN 
+mkdir -p $TOOL_BIN
 mkdir -p $TOOL_CACHE
 mkdir -p `dirname $PROFILE_D`
 
@@ -35,7 +42,7 @@ if [ ! -f $TOOL_BIN/wget ]; then
     build-info "download"
     WGET_BUILD=/tmp/wget-build/
     WGET_URL="http://ftp.gnu.org/gnu/wget/wget-1.16.tar.gz"
-    mkdir -p $WGET_BUILD 
+    mkdir -p $WGET_BUILD
     cd $WGET_BUILD
     curl $WGET_URL -L -s -o - | tar -xzf - -C $WGET_BUILD
 
@@ -66,19 +73,20 @@ if [ ! `which pdflatex` ]; then
 
     PROF=$BIN_DIR/../conf/texlive.profile
 
-    echo "TEXDIR $TEXLIVE_HOME" >> $PROF 
+    echo "TEXDIR $TEXLIVE_HOME" >> $PROF
     echo "TEXMFCONFIG $TEXLIVE_HOME/var/texmf-config" >> $PROF
-    echo "TEXMFHOME $TEXLIVE_HOME/var/texmf" >> $PROF 
-    echo "TEXMFLOCAL $TEXLIVE_HOME/texmf-local" >> $PROF 
-    echo "TEXMFSYSCONFIG $TEXLIVE_HOME/texmf-config" >> $PROF 
-    echo "TEXMFSYSVAR $TEXLIVE_HOME/texmf-var" >> $PROF 
-    echo "TEXMFVAR $TEXLIVE_HOME/var/texmf-var" >> $PROF 
+    echo "TEXMFHOME $TEXLIVE_HOME/var/texmf" >> $PROF
+    echo "TEXMFLOCAL $TEXLIVE_HOME/texmf-local" >> $PROF
+    echo "TEXMFSYSCONFIG $TEXLIVE_HOME/texmf-config" >> $PROF
+    echo "TEXMFSYSVAR $TEXLIVE_HOME/texmf-var" >> $PROF
+    echo "TEXMFVAR $TEXLIVE_HOME/var/texmf-var" >> $PROF
 
-    cd $TEXLIVE_HOME 
+    cd $TEXLIVE_HOME
 
-    ./install-tl --profile=$PROF
+    ./install-tl --repository=$TEXLIVE_INSTALLER_PATH --profile=$PROF
 fi
 
+tlmgr option repository $TEXLIVE_INSTALLER_PATH
 tlmgr update --self
 
 # install user-provided-packages
