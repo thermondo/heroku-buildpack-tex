@@ -51,7 +51,7 @@ How does it work?
 
 The downside of this method compared to a prepackaged TeX-Live is that the first push will take some minutes. But we get more flexibility and custom packages!
 
-custom packages
+Custom packages
 ---------------
 You can add a file called `texlive.packages` in your repo:
 
@@ -64,7 +64,11 @@ It looks similar to the default `texlive.profile`, but without the `1` or `0` at
 
 When you add custom packages, keep in mind that Heroku has a maximum compressed slug-size of 300 MB (see [here](https://devcenter.heroku.com/articles/slug-compiler#slug-size)). And TeX-Live can get quite big.
 
-custom TeX Live version
-----------------------
-By default the latest TeX Live version will be installed. You can customize the path to the installer to use by adding a file called `.texlive-path` to your project.
-It should contain only the path to the location of the TeX Live installer that you want to use without trailing `/`.
+Custom TeX Live version
+-----------------------
+By default the latest TeX Live version will be installed. You can customize the path to the repository to be used by adding a file called `.texlive-repository` to your project.
+It should contain only the path to the location of the TeX Live repository that you want to use without trailing `/`. For example:
+
+    ftp://tug.org/historic/systems/texlive/2016/tlnet-final
+
+will install the latest TeX Live 2016 release.

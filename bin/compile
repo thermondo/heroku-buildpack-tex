@@ -9,13 +9,14 @@ CACHE_DIR=$2
 BIN_DIR=$(cd $(dirname $0); pwd) # absolute path
 
 
-TEXLIVE_INSTALLER_PATH="http://mirror.ctan.org/systems/texlive/tlnet"
+TEXLIVE_REPOSITORY="http://mirror.ctan.org/systems/texlive/tlnet"
+
 # Optional: use custom path to texlive installer
-if [ -f $BUILD_DIR/.texlive-path ]; then
-    TEXLIVE_INSTALLER_PATH=$(cat $BUILD_DIR/.texlive-path)
+if [ -f $BUILD_DIR/.texlive-repository ]; then
+    TEXLIVE_REPOSITORY=$(cat $BUILD_DIR/.texlive-repository)
 fi
 
-TEXLIVE_INSTALLER_URL="$TEXLIVE_INSTALLER_PATH/install-tl-unx.tar.gz"
+TEXLIVE_INSTALLER_URL="$TEXLIVE_REPOSITORY/install-tl-unx.tar.gz"
 echo "using texlive installer from $TEXLIVE_INSTALLER_URL"
 
 TEXLIVE_HOME=$BUILD_DIR/.texlive
@@ -83,10 +84,10 @@ if [ ! `which pdflatex` ]; then
 
     cd $TEXLIVE_HOME
 
-    ./install-tl --repository=$TEXLIVE_INSTALLER_PATH --profile=$PROF
+    ./install-tl --repository=$TEXLIVE_REPOSITORY --profile=$PROF
 fi
 
-tlmgr option repository $TEXLIVE_INSTALLER_PATH
+tlmgr option repository $TEXLIVE_REPOSITORY
 tlmgr update --self
 
 # install user-provided-packages
