@@ -1,0 +1,9 @@
+sudo: required
+branches:
+  only:
+  - master
+services:
+- docker
+script:
+- docker build . -t heroku-tex
+- docker run -ti heroku-tex:latest /app/.texlive/bin/x86_64-linux/pdflatex --version

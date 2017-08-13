@@ -37,29 +37,6 @@ mkdir -p $TOOL_BIN
 mkdir -p $TOOL_CACHE
 mkdir -p `dirname $PROFILE_D`
 
-if [ ! -f $TOOL_BIN/wget ]; then
-    build-step "compiling wget"
-
-    build-info "download"
-    WGET_BUILD=/tmp/wget-build/
-    WGET_URL="http://ftp.gnu.org/gnu/wget/wget-1.16.tar.gz"
-    mkdir -p $WGET_BUILD
-    cd $WGET_BUILD
-    curl $WGET_URL -L -s -o - | tar -xzf - -C $WGET_BUILD
-
-    cd wget-1.16
-    build-info "configure"
-    ./configure --prefix=$CACHE_DIR/.tools/wget --without-ssl > /tmp/wget_configure 2>&1
-
-    build-info "make"
-    make > /tmp/wget_make 2>&1
-
-    build-info "make install"
-    make install > /tmp/wget_make_install 2>&1
-
-    cp $CACHE_DIR/.tools/wget/bin/wget $TOOL_BIN/
-fi
-
 if [ "$(ls -A $TEXLIVE_CACHE)" ]; then
     cp -R $TEXLIVE_CACHE/* $TEXLIVE_HOME
 fi
@@ -115,4 +92,4 @@ if [ ! `which pdflatex` ]; then
 fi
 
 # Set up the environment for runtimes now that compilation has finished
-echo 'export PATH=$HOME/.texlive/bin/x86_64-linux:$PATH' >> $PROFILE_D
+echo "export PATH=$TEXLIVE_HOME/bin/x86_64-linux:$$PATH" > $PROFILE_D
