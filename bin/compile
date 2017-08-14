@@ -21,10 +21,8 @@ echo "using texlive installer from $TEXLIVE_INSTALLER_URL"
 
 TEXLIVE_HOME=$BUILD_DIR/.texlive
 TEXLIVE_CACHE=$CACHE_DIR/.texlive
-TOOL_CACHE=$CACHE_DIR/.tools
-TOOL_BIN=$CACHE_DIR/.tools/bin
 TEMPDIR=$TEMP/.texlive
-PATH=$TEXLIVE_HOME/bin/x86_64-linux:$TOOL_BIN:$PATH
+PATH=$TEXLIVE_HOME/bin/x86_64-linux:$PATH
 PROFILE_D=$BUILD_DIR/.profile.d/texlive.sh
 
 # Output helpers
@@ -33,8 +31,6 @@ source $BIN_DIR/utils
 # Prepare the various paths
 mkdir -p $TEXLIVE_HOME
 mkdir -p $TEXLIVE_CACHE
-mkdir -p $TOOL_BIN
-mkdir -p $TOOL_CACHE
 mkdir -p `dirname $PROFILE_D`
 
 if [ "$(ls -A $TEXLIVE_CACHE)" ]; then
@@ -92,4 +88,4 @@ if [ ! `which pdflatex` ]; then
 fi
 
 # Set up the environment for runtimes now that compilation has finished
-echo "export PATH=$TEXLIVE_HOME/bin/x86_64-linux:$$PATH" > $PROFILE_D
+echo "export PATH=$TEXLIVE_HOME/bin/x86_64-linux:\$PATH" > $PROFILE_D

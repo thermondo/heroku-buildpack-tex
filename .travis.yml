@@ -6,4 +6,4 @@ services:
 - docker
 script:
 - docker build . -t heroku-tex
-- docker run -ti heroku-tex:latest /app/.texlive/bin/x86_64-linux/pdflatex --version
+- docker run -ti heroku-tex:latest pdflatex --version
