@@ -1,4 +1,5 @@
+#!/usr/bin/env bash
 # Output helpers
-function build-step (){ echo "-----> $@"; }
-function build-warn (){ echo " !     $@"; }
-function build-info (){ echo "       $@"; }
+function build-step (){ echo "-----> $*"; }
+function build-warn (){ echo " !     $*"; }
+function build-info (){ echo "       $*"; }

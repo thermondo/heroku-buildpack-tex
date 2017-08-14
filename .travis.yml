@@ -4,6 +4,13 @@ branches:
   - master
 services:
 - docker
+addons:
+  apt:
+    sources:
+    - debian-sid    # Grab ShellCheck from the Debian repo
+    packages:
+    - shellcheck
 script:
+- shellcheck bin/*
 - docker build . -t heroku-tex
 - docker run -ti heroku-tex:latest pdflatex --version

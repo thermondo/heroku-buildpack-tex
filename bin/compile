@@ -6,14 +6,14 @@ set -e
 
 BUILD_DIR=$1
 CACHE_DIR=$2
-BIN_DIR=$(cd $(dirname $0); pwd) # absolute path
+BIN_DIR=$(cd "$(dirname "$0")"; pwd) # absolute path
 
 
 TEXLIVE_REPOSITORY="http://mirror.ctan.org/systems/texlive/tlnet"
 
 # Optional: use custom path to texlive installer
-if [ -f $BUILD_DIR/.texlive-repository ]; then
-    TEXLIVE_REPOSITORY=$(cat $BUILD_DIR/.texlive-repository)
+if [ -f "$BUILD_DIR/.texlive-repository" ]; then
+    TEXLIVE_REPOSITORY=$(cat "$BUILD_DIR/.texlive-repository")
 fi
 
 TEXLIVE_INSTALLER_URL="$TEXLIVE_REPOSITORY/install-tl-unx.tar.gz"
@@ -21,71 +21,72 @@ echo "using texlive installer from $TEXLIVE_INSTALLER_URL"
 
 TEXLIVE_HOME=$BUILD_DIR/.texlive
 TEXLIVE_CACHE=$CACHE_DIR/.texlive
-TEMPDIR=$TEMP/.texlive
 PATH=$TEXLIVE_HOME/bin/x86_64-linux:$PATH
 PROFILE_D=$BUILD_DIR/.profile.d/texlive.sh
 
 # Output helpers
-source $BIN_DIR/utils
+# shellcheck source=bin/utils
+source "$BIN_DIR/utils"
 
 # Prepare the various paths
-mkdir -p $TEXLIVE_HOME
-mkdir -p $TEXLIVE_CACHE
-mkdir -p `dirname $PROFILE_D`
+mkdir -p "$TEXLIVE_HOME"
+mkdir -p "$TEXLIVE_CACHE"
+mkdir -p "$(dirname "$PROFILE_D")"
 
-if [ "$(ls -A $TEXLIVE_CACHE)" ]; then
-    cp -R $TEXLIVE_CACHE/* $TEXLIVE_HOME
+if [ "$(ls -A "$TEXLIVE_CACHE")" ]; then
+    cp -R "$TEXLIVE_CACHE/"* "$TEXLIVE_HOME"
 fi
 
-if [ ! -f $TEXLIVE_HOME/install-tl ]; then
+if [ ! -f "$TEXLIVE_HOME/install-tl" ]; then
     build-step "getting install-tl"
-    curl $TEXLIVE_INSTALLER_URL -L -s -o - | tar --strip-components=1 -xzf - -C $TEXLIVE_HOME
+    curl "$TEXLIVE_INSTALLER_URL" -L -s -o - | tar --strip-components=1 -xzf - -C "$TEXLIVE_HOME"
 fi
 
-if [ ! `which pdflatex` ]; then
+if [ ! "$(which pdflatex)" ]; then
     build-step "Installing TeX Live"
 
     PROF=$BIN_DIR/../conf/texlive.profile
+    {
+      echo "TEXDIR $TEXLIVE_HOME";
+      echo "TEXMFCONFIG $TEXLIVE_HOME/var/texmf-config";
+      echo "TEXMFHOME $TEXLIVE_HOME/var/texmf";
+      echo "TEXMFLOCAL $TEXLIVE_HOME/texmf-local";
+      echo "TEXMFSYSCONFIG $TEXLIVE_HOME/texmf-config";
+      echo "TEXMFSYSVAR $TEXLIVE_HOME/texmf-var";
+      echo "TEXMFVAR $TEXLIVE_HOME/var/texmf-var";
+    } >> "$PROF"
 
-    echo "TEXDIR $TEXLIVE_HOME" >> $PROF
-    echo "TEXMFCONFIG $TEXLIVE_HOME/var/texmf-config" >> $PROF
-    echo "TEXMFHOME $TEXLIVE_HOME/var/texmf" >> $PROF
-    echo "TEXMFLOCAL $TEXLIVE_HOME/texmf-local" >> $PROF
-    echo "TEXMFSYSCONFIG $TEXLIVE_HOME/texmf-config" >> $PROF
-    echo "TEXMFSYSVAR $TEXLIVE_HOME/texmf-var" >> $PROF
-    echo "TEXMFVAR $TEXLIVE_HOME/var/texmf-var" >> $PROF
+    cd "$TEXLIVE_HOME"
 
-    cd $TEXLIVE_HOME
-
-    ./install-tl --repository=$TEXLIVE_REPOSITORY --profile=$PROF
+    ./install-tl --repository="$TEXLIVE_REPOSITORY" --profile="$PROF"
 fi
 
-tlmgr option repository $TEXLIVE_REPOSITORY
+tlmgr option repository "$TEXLIVE_REPOSITORY"
 tlmgr update --self
 
 # install user-provided-packages
-if [ -f $BUILD_DIR/texlive.packages ]; then
+if [ -f "$BUILD_DIR/texlive.packages" ]; then
     build-step "installed custom packages"
-    tlmgr install $(cat $BUILD_DIR/texlive.packages)
+    tlmgr install "$(cat "$BUILD_DIR/texlive.packages")"
 fi
 
 build-step "upgrading installed packages"
 tlmgr update --all
 
 build-step "cleanup"
-rm -rf $TEXLIVE_HOME/texmf-dist/doc
+rm -rf "$TEXLIVE_HOME/texmf-dist/doc"
 
 # Make sure the cache is empty
-rm -rf $TEXLIVE_CACHE/*
+rm -rf "${TEXLIVE_CACHE:?}/"*
 
 # Store a copy of it in the cache so it doesn't have to be fetched again
-cp -R $TEXLIVE_HOME/* $TEXLIVE_CACHE/
+cp -R "$TEXLIVE_HOME/"* "$TEXLIVE_CACHE/"
 
 # Check for an essential binary to make sure it's installed
-if [ ! `which pdflatex` ]; then
+if [ ! "$(which pdflatex)" ]; then
     build-warn "TeX Live installation failed"
     exit 1
 fi
 
 # Set up the environment for runtimes now that compilation has finished
-echo "export PATH=$TEXLIVE_HOME/bin/x86_64-linux:\$PATH" > $PROFILE_D
+echo "export PATH=$TEXLIVE_HOME/bin/x86_64-linux:\$PATH" > "$PROFILE_D"
