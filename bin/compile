@@ -12,8 +12,8 @@ BIN_DIR=$(cd "$(dirname "$0")"; pwd) # absolute path
 TEXLIVE_REPOSITORY="http://mirror.ctan.org/systems/texlive/tlnet"
 
 # Optional: use custom path to texlive installer
-if [ -f "$BUILD_DIR/.texlive-repository" ]; then
-    TEXLIVE_REPOSITORY=$(cat "$BUILD_DIR/.texlive-repository")
+if [ -f $BUILD_DIR/texlive.repository ]; then
+    TEXLIVE_REPOSITORY=$(cat "$BUILD_DIR/texlive.repository")
 fi
 
 TEXLIVE_INSTALLER_URL="$TEXLIVE_REPOSITORY/install-tl-unx.tar.gz"
@@ -67,7 +67,8 @@ tlmgr update --self
 # install user-provided-packages
 if [ -f "$BUILD_DIR/texlive.packages" ]; then
     build-step "installed custom packages"
-    tlmgr install "$(cat "$BUILD_DIR/texlive.packages")"
+    # shellcheck disable=SC2046
+    tlmgr install $(cat "$BUILD_DIR/texlive.packages")
 fi
 
 build-step "upgrading installed packages"

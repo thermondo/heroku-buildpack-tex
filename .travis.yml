@@ -12,5 +12,4 @@ addons:
     - shellcheck
 script:
 - shellcheck bin/*
-- docker build . -t heroku-tex
-- docker run -ti heroku-tex:latest pdflatex --version
+- ./run_test.sh

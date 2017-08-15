@@ -66,7 +66,7 @@ When you add custom packages, keep in mind that Heroku has a maximum compressed 
 
 Custom TeX Live version
 -----------------------
-By default the latest TeX Live version will be installed. You can customize the path to the repository to be used by adding a file called `.texlive-repository` to your project.
+By default the latest TeX Live version will be installed. You can customize the path to the repository to be used by adding a file called `texlive.repository` to your project.
 It should contain only the path to the location of the TeX Live repository that you want to use without trailing `/`. For example:
 
     ftp://tug.org/historic/systems/texlive/2016/tlnet-final

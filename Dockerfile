@@ -9,6 +9,8 @@ RUN mkdir -p /app/builds /var/env /tmp/build-cache /tmp/heroku-buildpack-tex
 # Setup Sphinx test docs
 COPY . /tmp/heroku-buildpack-tex
 
+COPY .tests /app
+
 # Install Sphinx buildpack
 RUN /tmp/heroku-buildpack-tex/bin/compile /app /var/env /tmp/build-cache
 
