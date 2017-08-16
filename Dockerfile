@@ -4,7 +4,7 @@ WORKDIR /app
 
 ENV STACK=heroku-16
 
-RUN mkdir -p /app/builds /var/env /tmp/build-cache /tmp/heroku-buildpack-tex
+RUN mkdir -p /app /var/env /tmp/build-cache /tmp/heroku-buildpack-tex
 
 # Setup Sphinx test docs
 COPY . /tmp/heroku-buildpack-tex
