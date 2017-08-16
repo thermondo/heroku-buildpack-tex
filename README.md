@@ -1,5 +1,7 @@
 # TeX Live buildpack for Heroku
 
+[![Build Status](https://travis-ci.org/Thermondo/heroku-buildpack-tex.svg?branch=master)](https://travis-ci.org/Thermondo/heroku-buildpack-tex)
+
 This is a [Heroku buildpack][buildpacks] to run [TeX Live][tl] inside a dyno.
 
 This can be useful if you simply want to play around with TeX Live without
