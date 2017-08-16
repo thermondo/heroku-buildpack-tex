@@ -78,8 +78,6 @@ build-step "Updating installed packages..."
 tlmgr update --all
 
 build-step "Cleaning up temporary files..."
-rm -rf "$TEXLIVE_HOME/texmf-dist/doc"
-
 # Make sure the cache is empty
 rm -rf "${TEXLIVE_CACHE:?}/"*
 
