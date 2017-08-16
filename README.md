@@ -27,7 +27,7 @@ heroku buildpacks:add git://github.com/Thermondo/heroku-buildpack-tex.git#VERSIO
 ```
 
 ### How does it work?
------------------
+
 *   In this form, it uses [install-tl][install-tl] it installs a working
     TeX Live into your application into your Heroku app.
 *   It installs `scheme-small` to have a working minimal setup.
