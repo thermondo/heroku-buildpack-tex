@@ -101,4 +101,4 @@ fi
 # shellcheck disable=SC2016
 echo 'export PATH=$HOME/.texlive/bin/x86_64-linux:$PATH' > "$PROFILE_D"
 
-build-step "TeX Live installation successfully!"
+build-step "TeX Live installation successful!"

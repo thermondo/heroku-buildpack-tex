@@ -31,7 +31,7 @@ heroku buildpacks:add git://github.com/Thermondo/heroku-buildpack-tex.git#VERSIO
 *   In this form, it uses [install-tl][install-tl] it installs a working
     TeX Live into your application into your Heroku app.
 *   It installs `scheme-small` to have a working minimal setup.
-*   It uses [tlmgr](http://www.tug.org/texlive/tlmgr.html) to install custom
+*   It uses [tlmgr][tlmgr] to install custom
     packages.
 *   On subsequent pushes it uses [tlmgr][tlmgr] to update all installed
     packages.
@@ -56,9 +56,9 @@ the end. The buildpack runs `tlmgr install` on every line in this file.
 So you can use single packages or these collections.
 
 When you add custom packages, keep in mind that Heroku has a maximum compressed
-slug-size of 300 MB
-(see [here](https://devcenter.heroku.com/articles/slug-compiler#slug-size)).
-And TeX-Live can get quite big.
+slug-size, see
+[here](https://devcenter.heroku.com/articles/slug-compiler#slug-size).
+A full TeX Live installation is very large.
 
 ### Custom TeX Live version
 
