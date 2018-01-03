@@ -76,8 +76,10 @@ tlmgr update --self
 # install user-provided-packages
 if [ -f "$BUILD_DIR/texlive.packages" ]; then
     build-step "Installing custom packages..."
+    sort -u "$BUILD_DIR/texlive.packages" > "$TEXLIVE_CACHE/texlive.packages.sorted"
+    tlmgr info --only-installed --data name | sort > "$TEXLIVE_CACHE/texlive.packages.installed"
     # shellcheck disable=SC2046
-    tlmgr install $(cat "$BUILD_DIR/texlive.packages")
+    tlmgr install $(comm -23 "$TEXLIVE_CACHE/texlive.packages.sorted" "$TEXLIVE_CACHE/texlive.packages.installed")
 fi
 
 build-step "Updating installed packages..."
