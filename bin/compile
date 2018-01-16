@@ -68,31 +68,39 @@ if [ ! "$(which pdflatex)" ]; then
     ./install-tl --repository="$TEXLIVE_REPOSITORY" --profile="$PROF"
 fi
 
-build-step "Updating TeX Live..."
+if wget -q $TEXLIVE_REPOSITORY
+then
+  build-step "Updating TeX Live..."
 
-tlmgr option repository "$TEXLIVE_REPOSITORY"
-tlmgr update --self
+  tlmgr option repository "$TEXLIVE_REPOSITORY"
 
-# install user-provided-packages
-if [ -f "$BUILD_DIR/texlive.packages" ]; then
-    build-step "Installing custom packages..."
-    # shellcheck disable=SC2046
-    tlmgr install $(cat "$BUILD_DIR/texlive.packages")
+  build-step "TeX Live repository set to $TEXLIVE_REPOSITORY"
+
+  tlmgr update --self
+
+  # install user-provided-packages
+  if [ -f "$BUILD_DIR/texlive.packages" ]; then
+      build-step "Installing custom packages..."
+      # shellcheck disable=SC2046
+      tlmgr install $(cat "$BUILD_DIR/texlive.packages")
+  fi
+
+  build-step "Updating installed packages..."
+  tlmgr update --all
+
+  build-step "Cleaning up temporary files..."
+  # Make sure the cache is empty
+  rm -rf "${TEXLIVE_CACHE:?}/"*
+
+  build-step "Caching..."
+  # Store a copy of it in the cache so it doesn't have to be fetched again
+  cp -R "$TEXLIVE_HOME/"* "$TEXLIVE_CACHE/"
+else
+  build-step "Unable to access $TEXLIVE_REPOSITORY; falling back on cached installation"
 fi
 
-build-step "Updating installed packages..."
-tlmgr update --all
-
-build-step "Cleaning up temporary files..."
-# Make sure the cache is empty
-rm -rf "${TEXLIVE_CACHE:?}/"*
-
-build-step "Caching..."
-# Store a copy of it in the cache so it doesn't have to be fetched again
-cp -R "$TEXLIVE_HOME/"* "$TEXLIVE_CACHE/"
-
 # Check for an essential binary to make sure it's installed
-if [ ! "$(which pdflatex)" ]; then
+if [ ! "$(which latex)" ]; then
     build-warn "TeX Live installation failed"
     exit 1
 fi
@@ -102,3 +110,21 @@ fi
 echo 'export PATH=$HOME/.texlive/bin/x86_64-linux:$PATH' > "$PROFILE_D"
 
 build-step "TeX Live installation successful!"
+
+########################################################
+# EDC: install cam's Tikz files in the texmf hierarchy #
+########################################################
+
+build-step "Adding sty files to TeX path"
+
+TIKZ_STY_FILE=$BIN_DIR/../conf/Tikz-IM.sty
+TEXMF_LOCAL=$TEXLIVE_HOME/texmf-local/tex/latex/local/
+mkdir -p $TEXMF_LOCAL
+
+echo "Copying $TIKZ_STY_FILE to $TEXMF_LOCAL"
+cp $TIKZ_STY_FILE $TEXMF_LOCAL
+
+build-step "Running texhash..."
+texhash
+
+build-step "Done adding sty files to TeX path"

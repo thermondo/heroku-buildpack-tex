@@ -1,0 +1,341 @@
+\ProvidesPackage{Tikz-IM}
+
+% Cam was here.
+
+\usepackage{sfmath,sansmath}
+\usepackage[default,scale=0.95]{opensans}
+\usepackage[T1]{fontenc}
+\usepackage{tikz,pgfplots,amsmath,xcolor}
+\usepackage{pgfplotstable}
+\usepackage{ifthen}
+
+\usetikzlibrary{calc,intersections,positioning,arrows,arrows.meta,shapes.geometric,shapes,matrix,shapes.symbols,backgrounds}
+\pgfplotsset{compat=1.15}
+
+%%% IM PAGE SIZES %%%
+
+\newdimen\FP
+\newdimen\FullPage
+\FullPage=6.5in
+\FP=6.5in
+
+\newdimen\TFP
+\newdimen\ThreeFourthsPage
+\ThreeFourthsPage=4.875in
+\TFP=4.875in
+
+\newdimen\HP
+\newdimen\HalfPage
+\HalfPage=3.25in
+\HP=3.25in
+
+\newdimen\THP
+\newdimen\ThirdPage
+\ThirdPage=2.1in
+\THP=2.1in
+
+\newdimen\QP
+\newdimen\QuarterPage
+\QuarterPage=1.625in
+\QP=1.625in
+
+
+% COLORS AS OF AUGUST 2016
+%Standard Colors
+\definecolor{Yellow}{RGB}{255,184,28}
+\definecolor{Green}{RGB}{67,176,42}
+\definecolor{Blue}{RGB}{0,149,200}
+\definecolor{Red}{RGB}{224,60,49}
+
+%Light Colors
+\definecolor{LYellow}{RGB}{255,215,145}
+\definecolor{LGreen}{RGB}{170,215,165}
+\definecolor{LBlue}{RGB}{125,206,235}
+\definecolor{LRed}{RGB}{249,172,147}
+
+%Pattern Block Colors
+\definecolor{PBlue}{RGB}{0,0,255}
+\definecolor{PGreen}{RGB}{22,170,4}
+\definecolor{PYellow}{RGB}{255,255,12}
+\definecolor{PRed}{RGB}{251,0,6}
+\definecolor{POrange}{RGB}{253,134,9}
+
+
+
+% UNIVERSAL SETTINGS
+
+
+\tikzset{every node/.append style={font=\sansmath\sffamily}}
+\tikzset{every label/.append style={font=\sansmath\sffamily,label distance=-.1cm}}
+\tikzset{every picture/.append style={line width=1pt}}
+\tikzset{every picture/.append style={>={Stealth[length=3mm,width=2mm]}}}
+
+\pgfplotsset{tick label style = {font=\sansmath\sffamily\footnotesize}}
+\pgfplotsset{every axis/.append style = {x axis line style=-{Stealth[length=3mm,width=2mm]}}}
+\pgfplotsset{every axis/.append style = {y axis line style=-{Stealth[length=3mm,width=2mm]}}}
+
+\tikzstyle{vertex}=[circle, fill, inner sep=0pt,minimum size=4pt]
+\tikzstyle{bigvertex}=[circle, fill, inner sep=0pt,minimum size=5.5pt]
+\tikzstyle{openvertex}=[circle, draw,fill=white, inner sep=0pt,minimum size=4pt]
+\tikzstyle{smallvertex}=[circle, fill, inner sep=0pt,minimum size=3pt]
+
+
+\pgfplotsset{
+  /pgfplots/xlabel near ticks/.style={
+     /pgfplots/every axis x label/.style={
+        at={(ticklabel cs:0.5)},anchor=near ticklabel}
+},
+  /pgfplots/ylabel near ticks/.style={
+     /pgfplots/every axis y label/.style={
+        at={(ticklabel cs:0.5)},rotate=90,anchor=near ticklabel}
+},
+  /pgfplots/xlabel near end/.style={
+     /pgfplots/every axis x label/.style={
+        at={($(ticklabel cs:1)+(0,0)$)},anchor=north east}
+},
+  /pgfplots/ylabel near end/.style={
+     /pgfplots/every axis y label/.style={
+        at={($(ticklabel cs:1)+(.05in,0in)$)},rotate=90,anchor=south east}
+  },
+}
+
+
+%%% VARIOUS TEMPLATES
+
+
+\pgfplotsset{
+    FourQuadrant/.style={
+      width=6.5in,
+      height=4in,
+      grid=both,
+      axis lines=middle,
+      minor tick num=0,
+      grid style={line width=.5pt,black!50},
+      xtick align=inside,
+      ytick align=inside,
+      x axis line style=-{Stealth[length=3mm,width=2mm]},
+      y axis line style=-{Stealth[length=3mm,width=2mm]},
+      xmin=-10,
+      xmax=10,
+      ymin=-10,
+      ymax=10,
+      clip=false,
+      xlabel={$x$ label goes here},
+      ylabel={$y$ label gets here},
+      xlabel near end,
+      ylabel near end,
+      xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,}},
+      yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.02in,yshift=-.01in},
+}
+
+
+\pgfplotsset{
+    Histogram/.style={
+    width=6.5in,
+    height=4in,
+    ymin=0, ymax=55,
+    minor y tick num = 3,
+    area style,
+    xtick=data,
+    xtick style={draw=none},
+    axis x line*=bottom,
+    axis y line*=left,
+    x axis line style=-,
+    y axis line style=-,
+}}
+
+
+\pgfplotsset{FourQuadrant/.append style={      after end axis/.code=
+      {
+        \path ($(current axis.origin)+(-.09in,-.09in)$) node {$\mathcal{O}$};
+        \draw ($(current axis.origin)+(0,-.1in)$) -- (current axis.origin);
+        \draw ($(current axis.origin)+(-.1in,0)$) -- (current axis.origin);
+      }
+}
+}
+
+\pgfplotsset{
+  ScatterPlot/.style={
+    width=6.5in,
+    height=4in,
+    grid=both,
+    minor tick num=4,
+    grid style={line width=.5pt,black!50},
+    axis line style={line width=.5pt,black!50},
+    xmin=0,
+    xmax=10,
+    ymin=0,
+    ymax=10,
+    xtick align=inside,
+    ytick align=inside,
+    clip=false,
+    xlabel={$x$ label},
+    ylabel={$y$ label},
+}
+}
+
+
+\pgfplotsset{
+    TwoQuadrant/.style={
+      width=6.5in,
+      height=4in,
+      grid=both,
+      axis lines=middle,
+      minor tick num=0,
+      grid style={line width=.5pt,black!50},
+      xtick align=inside,
+      ytick align=inside,
+      x axis line style=-{Stealth[length=3mm,width=2mm]},
+      y axis line style=-{Stealth[length=3mm,width=2mm]},
+      xmin=-10,
+      xmax=10,
+      ymin=0,
+      ymax=10,
+      clip=false,
+      xlabel={$x$ label goes here},
+      ylabel={$y$ label gets here},
+      xlabel near end,
+      ylabel near end,
+      xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
+      yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=.02in,yshift=-.01in},
+}}
+
+\pgfplotsset{TwoQuadrant/.append style={      after end axis/.code=
+      {
+        \path ($(current axis.origin)+(-.09in,-.09in)$) node {$\mathcal{O}$};
+        \draw ($(current axis.origin)+(0,-.1in)$) -- (current axis.origin);
+        \draw ($(current axis.origin)+(-.1in,0)$) -- (current axis.origin);
+      }
+}
+}
+
+\pgfplotsset{
+    FirstQuadrantLabeled/.style={
+      width=6.5in,
+      height=4in,
+      grid=both,
+      xmin=0,
+      xmax=20,
+      ymin=0,
+      ymax=10,
+      axis lines=middle,
+      minor tick num=0,
+      grid style={line width=.5pt,black!50},
+      xtick align=inside,
+      ytick align=inside,
+      xlabel={$x$ label goes here},
+      ylabel={$y$ label gets here},
+      clip=false,
+      xlabel near ticks,
+      ylabel near ticks,
+      yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.02in,yshift=-.00in},
+      xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=0in,yshift=.02in,},
+      x axis line style=-{Stealth[length=3mm,width=2mm]},
+      y axis line style=-{Stealth[length=3mm,width=2mm]}
+}}
+
+\pgfplotsset{FirstQuadrantLabeled/.append style={      x axis line style=-{Stealth[length=3mm,width=2mm]},
+      y axis line style=-{Stealth[length=3mm,width=2mm]}
+}}
+
+
+\pgfplotsset{FirstQuadrantLabeled/.append style={      after end axis/.code=
+    {
+        \path ($(current axis.origin)+(-.09in,-.09in)$) node {$\mathcal{O}$};
+        \draw ($(current axis.origin)+(0,-.1in)$) -- (current axis.origin);
+        \draw ($(current axis.origin)+(-.1in,0)$) -- (current axis.origin);
+      }
+  }
+}
+
+\pgfplotsset{
+    FirstQuadrantXY/.style={
+      width=6.5in,
+      height=4in,
+      grid=both,
+      xmin=0,
+      xmax=30,
+      ymin=0,
+      ymax=10,
+      axis lines=middle,
+      minor tick num=0,
+      x axis line style=-{Stealth[length=3mm,width=2mm]},
+      y axis line style=-{Stealth[length=3mm,width=2mm]},
+      grid style={line width=.5pt,black!50},
+      xtick align=inside,
+      ytick align=inside,
+      clip=false,
+      xlabel={$x$},
+      ylabel={$y$},
+      xlabel style={yshift=-.35cm,inner sep=0pt,outer sep=0pt},
+      ylabel style={xshift=-.12cm,yshift=-.03cm,anchor=north east,inner sep=0pt,outer sep=0pt},
+      yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=0in,yshift=-.01in},
+      xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,}},
+}
+
+\pgfplotsset{FirstQuadrantXY/.append style={      after end axis/.code=
+    {
+        \path ($(current axis.origin)+(-.09in,-.09in)$) node {$\mathcal{O}$};
+        \draw ($(current axis.origin)+(0,-.1in)$) -- (current axis.origin);
+        \draw ($(current axis.origin)+(-.1in,0)$) -- (current axis.origin);
+      }
+  }
+}
+
+
+\pgfplotsset{
+    FourQuadrantXY/.style={
+      width=6.5in,
+      height=4in,
+      grid=both,
+      axis lines=middle,
+      minor tick num=0,
+      grid style={line width=.5pt,black!50},
+      xtick align=inside,
+      ytick align=inside,
+      x axis line style=-{Stealth[length=3mm,width=2mm]},
+      y axis line style=-{Stealth[length=3mm,width=2mm]},
+      xmin=-10,
+      xmax=10,
+      ymin=-10,
+      ymax=10,
+      clip=false,
+      xlabel={$x$},
+      ylabel={$y$},
+      xlabel style={yshift=-.35cm,inner sep=0pt,outer sep=0pt},
+      ylabel style={xshift=-.12cm,yshift=-.03cm,anchor=north east,inner sep=0pt,outer sep=0pt},
+      xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
+      yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=.02in,yshift=-.01in},
+}}
+
+\pgfplotsset{FourQuadrantXY/.append style={      after end axis/.code=
+      {
+        \path ($(current axis.origin)+(-.09in,-.09in)$) node {$\mathcal{O}$};
+        \draw ($(current axis.origin)+(0,-.1in)$) -- (current axis.origin);
+        \draw ($(current axis.origin)+(-.1in,0)$) -- (current axis.origin);
+      }
+}
+}
+\newcommand{\TriSSS}[3]{
+\coordinate (AAA) at (0,0);
+\coordinate (BBB) at (#1,0);
+\path[name path=arc1] ($(AAA)-(0,#2)$) arc (-90:90:#2);
+\path[name path=arc2] ($(BBB)+(0,#3)$) arc (90:180:#3);
+\path [name intersections={of=arc1 and arc2,by=CCC}];
+\draw (AAA) -- (BBB) -- (CCC) -- (AAA);
+}
+
+\newcommand{\TriSSSLabeled}[7]{
+\coordinate (AAA) at (0,0);
+\coordinate (BBB) at (#1,0);
+\path[name path=arc1] ($(AAA)-(0,#2)$) arc (-90:90:#2);
+\path[name path=arc2] ($(BBB)+(0,#3)$) arc (90:180:#3);
+\path [name intersections={of=arc1 and arc2,by=CCC}];
+\path (CCC) -- node {\Large #7} (CCC |- AAA);
+\draw (AAA) -- node[below] {#4} (BBB) -- node[above right] {#5} (CCC) -- node[above left] {#6} (AAA);
+
+}
+
+
+
+\endinput
