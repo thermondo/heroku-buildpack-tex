@@ -1,7 +1,5 @@
 \ProvidesPackage{Tikz-IM}
 
-% Cam was here.
-
 \usepackage{sfmath,sansmath}
 \usepackage[default,scale=0.95]{opensans}
 \usepackage[T1]{fontenc}
@@ -79,6 +77,7 @@
 \tikzstyle{openvertex}=[circle, draw,fill=white, inner sep=0pt,minimum size=4pt]
 \tikzstyle{smallvertex}=[circle, fill, inner sep=0pt,minimum size=3pt]
 
+\pgfplotsset{samples=200}
 
 \pgfplotsset{
   /pgfplots/xlabel near ticks/.style={
@@ -130,7 +129,7 @@
 
 
 \pgfplotsset{
-    Histogram/.style={
+    Histogram/.style={ 
     width=6.5in,
     height=4in,
     ymin=0, ymax=55,
