@@ -1,5 +1,7 @@
 \ProvidesPackage{Tikz-IM}
 
+% Last revised 1/27/2018
+
 \usepackage{sfmath}
 \usepackage[default,scale=0.95]{opensans}
 \usepackage[T1]{fontenc}
@@ -7,6 +9,7 @@
 \usepackage{pgfplotstable}
 \usepackage{ifthen}
 \usepackage{sansmath}
+
 
 \usetikzlibrary{calc,intersections,positioning,arrows,arrows.meta,shapes.geometric,shapes,matrix,shapes.symbols,backgrounds}
 \pgfplotsset{compat=1.15}
@@ -119,7 +122,7 @@
       xmax=10,
       ymin=-10,
       ymax=10,
-      clip=false,
+      clip=true,
       xlabel={$x$ label goes here},
       ylabel={$y$ label gets here},
       xlabel near end,
@@ -191,7 +194,7 @@
       xmax=10,
       ymin=0,
       ymax=10,
-      clip=false,
+      clip=true,
       xlabel={$x$ label goes here},
       ylabel={$y$ label gets here},
       xlabel near end,
@@ -225,7 +228,7 @@
       ytick align=inside,
       xlabel={$x$ label goes here},
       ylabel={$y$ label gets here},
-      clip=false,
+      clip=true,
       xlabel near ticks,
       ylabel near ticks,
       yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.02in,yshift=-.00in},
@@ -264,7 +267,7 @@
       grid style={line width=.5pt,black!50},
       xtick align=inside,
       ytick align=inside,
-      clip=false,
+      clip=true,
       xlabel={$x$},
       ylabel={$y$},
       xlabel style={yshift=-.35cm,inner sep=0pt,outer sep=0pt},
@@ -299,7 +302,7 @@
       xmax=10,
       ymin=-10,
       ymax=10,
-      clip=false,
+      clip=true,
       xlabel={$x$},
       ylabel={$y$},
       xlabel style={yshift=-.35cm,inner sep=0pt,outer sep=0pt},
@@ -339,3 +342,5 @@
 
 
 \endinput
+
+
