@@ -115,14 +115,19 @@ build-step "TeX Live installation successful!"
 # EDC: install cam's Tikz files in the texmf hierarchy #
 ########################################################
 
-build-step "Adding sty files to TeX path"
+build-step "Adding custom sty and cls files to TeX path"
 
 TIKZ_STY_FILE=$BIN_DIR/../conf/Tikz-IM.sty
+TIKZ_CLS_FILE=$BIN_DIR/../conf/IM.cls
+
 TEXMF_LOCAL=$TEXLIVE_HOME/texmf-local/tex/latex/local/
 mkdir -p $TEXMF_LOCAL
 
 echo "Copying $TIKZ_STY_FILE to $TEXMF_LOCAL"
 cp $TIKZ_STY_FILE $TEXMF_LOCAL
+
+echo "Copying $TIKZ_CLS_FILE to $TEXMF_LOCAL"
+cp $TIKZ_CLS_FILE $TEXMF_LOCAL
 
 build-step "Running texhash..."
 texhash
