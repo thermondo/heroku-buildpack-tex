@@ -1,5 +1,7 @@
 \ProvidesPackage{Tikz-IM}
 
+% Last updated 2/1/2018
+
 \usepackage{sfmath}
 \usepackage[default,scale=0.95]{opensans}
 \usepackage[T1]{fontenc}
@@ -11,35 +13,8 @@
 \usepackage{sansmath}
 
 
+
 %%% IM STYLE SETINGS %%%
-
-\newdimen\FP
-\newdimen\FullPage
-\FullPage=6.5in
-\FP=6.5in
-
-\newdimen\TFP
-\newdimen\ThreeFourthsPage
-\ThreeFourthsPage=4.875in
-\TFP=4.875in
-
-\newdimen\HP
-\newdimen\HalfPage
-\HalfPage=3.25in
-\HP=3.25in
-
-\newdimen\THP
-\newdimen\ThirdPage
-\ThirdPage=2.1in
-\THP=2.1in
-
-\newdimen\QP
-\newdimen\QuarterPage
-\QuarterPage=1.625in
-\QP=1.625in
-
-
-
 
 
 \tikzset{every node/.append style={font=\sansmath\sffamily}}
@@ -83,7 +58,7 @@
   },
 }
 
-
+%%% PREMADE TEMPLATES
 
 \pgfplotsset{
     Histogram/.style={ 
@@ -253,6 +228,8 @@
 }
 
 
+\def\drawarc[#1](#2)(#3:#4:#5){ \draw[#1] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) }
+\def\drawarcwarrow[#1](#2)(#3:#4:#5){ \draw[#1,-latex'] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) }
 
 
 \newcommand{\TriSSS}[3]{
@@ -305,6 +282,7 @@
 
 
 % COLORS AS OF AUGUST 2016
+
 %Standard Colors
 \definecolor{Yellow}{RGB}{255,184,28}
 \definecolor{Green}{RGB}{67,176,42}
@@ -324,6 +302,33 @@
 \definecolor{PRed}{RGB}{251,0,6}
 \definecolor{POrange}{RGB}{253,134,9}
 
-\endinput
 
+% POSSIBLE IMAGE WIDTHS
+
+\newdimen\FP
+\newdimen\FullPage
+\FullPage=6.5in
+\FP=6.5in
+
+\newdimen\TFP
+\newdimen\ThreeFourthsPage
+\ThreeFourthsPage=4.875in
+\TFP=4.875in
+
+\newdimen\HP
+\newdimen\HalfPage
+\HalfPage=3.25in
+\HP=3.25in
+
+\newdimen\THP
+\newdimen\ThirdPage
+\ThirdPage=2.1in
+\THP=2.1in
+
+\newdimen\QP
+\newdimen\QuarterPage
+\QuarterPage=1.625in
+\QP=1.625in
+
+\endinput
 
