@@ -1,6 +1,6 @@
 \ProvidesPackage{Tikz-IM}
 
-% Last updated 2/1/2018
+% Last updated 2/9/2018
 
 \usepackage{sfmath}
 \usepackage[default,scale=0.95]{opensans}
@@ -13,6 +13,19 @@
 \usepackage{sansmath}
 
 
+\usepackage{xparse}% http://ctan.org/pkg/xparse
+\usepackage{etoolbox}% http://ctan.org/pkg/etoolbox
+\newcounter{listtotal}\newcounter{listcntr}%
+\NewDocumentCommand{\names}{o}{%
+  \setcounter{listtotal}{0}\setcounter{listcntr}{-1}%
+  \renewcommand*{\do}[1]{\stepcounter{listtotal}}%
+  \expandafter\docsvlist\expandafter{\namesarray}%
+  \IfNoValueTF{#1}
+    {\namesarray}% \names
+    {% \names[<index>]
+     \renewcommand*{\do}[1]{\stepcounter{listcntr}\ifnum\value{listcntr}=#1\relax##1\fi}%
+     \expandafter\docsvlist\expandafter{\namesarray}}%
+}
 
 %%% IM STYLE SETINGS %%%
 
@@ -29,6 +42,8 @@
 \pgfplotsset{every axis/.append style={ytick align=center}}
 
 \pgfplotsset{every tick/.append style={black,thin,tickwidth=.1in,subtickwidth=.1in}}
+\pgfplotsset{scaled y ticks=false}
+\pgfplotsset{scaled x ticks=false}
 
 
 \pgfplotsset{samples=200}
@@ -73,6 +88,18 @@
     axis y line*=left,
     x axis line style=-,
     y axis line style=-,
+}}
+
+\pgfplotsset{
+    BoxPlot/.style={ 
+    width=6.5in,
+    height=4in,
+    ymin=0, ymax=55,
+    axis y line=none,
+    area style,
+    xtick align=center,
+    axis x line*=bottom,
+    x axis line style=-,
 }}
 
 
@@ -331,4 +358,3 @@
 \QP=1.625in
 
 \endinput
-
