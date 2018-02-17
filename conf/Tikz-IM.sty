@@ -7,6 +7,8 @@
 \usepackage[T1]{fontenc}
 \usepackage{tikz,pgfplots,amsmath,xcolor}
 \usetikzlibrary{calc,positioning,arrows,arrows.meta,shapes.geometric,shapes,matrix,shapes.symbols,backgrounds}
+\usetikzlibrary{decorations.pathreplacing,decorations.markings,arrows}
+
 \pgfplotsset{compat=1.15}
 \usepackage{pgfplotstable}
 \usepackage{ifthen}
@@ -71,6 +73,18 @@
      /pgfplots/every axis y label/.style={
         at={(ticklabel cs:1)},rotate=90,anchor=south east}
   },
+}
+
+\tikzset{
+onetick/.style={postaction={decorate,
+   decoration={markings,mark=at position .5 with {\arrow{|};}}}
+   },
+twotick/.style={postaction={decorate,
+   decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-1.5pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength+1.5pt with {\arrow{|};}}}
+   },
+threetick/.style={postaction={decorate,
+   decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-2pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength-0pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength+2pt with {\arrow{|};}}}
+   },
 }
 
 %%% PREMADE TEMPLATES
