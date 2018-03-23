@@ -80,6 +80,17 @@ threetick/.style={postaction={decorate,
    },
 }
 
+\tikzset{
+onearrow/.style={postaction={decorate,
+   decoration={markings,mark=at position .5 with {\arrow{>};}}}
+   },
+twoarrow/.style={postaction={decorate,
+   decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-1.5pt with {\arrow{>};},mark=at position 0.5*\pgfdecoratedpathlength+1.5pt with {\arrow{>};}}}
+   },
+threearrow/.style={postaction={decorate,
+   decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-2pt with {\arrow{>};},mark=at position 0.5*\pgfdecoratedpathlength-0pt with {\arrow{>};},mark=at position 0.5*\pgfdecoratedpathlength+2pt with {\arrow{>};}}}
+   },
+}
 
 %%% PREMADE TEMPLATES
 
@@ -387,6 +398,25 @@ threetick/.style={postaction={decorate,
 \definecolor{PYellow}{RGB}{255,255,12}
 \definecolor{PRed}{RGB}{251,0,6}
 \definecolor{POrange}{RGB}{253,134,9}
+
+\newcommand{\FunctionMachine}[3]{
+\clip (-\THP/2,-.5) rectangle (\THP/2,.5);
+
+\node (a) at (0,0) [draw,very thick,inner sep=3pt,minimum height=.7in,text width=2cm,text centered] {#2};
+
+\begin{scope}[shift=(a.east)]
+\draw (0,.05) -- (.15,.05) -- (.15,.125) -- (.35,0) -- (.15,-.125) -- (.15,-.05) -- (0,-.05) -- cycle;
+\node at (.5,0) {#3};
+\end{scope}
+
+\begin{scope}[shift=(a.west)]
+\begin{scope}[xshift=-.35in]
+\draw (0,.05) -- (.15,.05) -- (.15,.125) -- (.35,0) -- (.15,-.125) -- (.15,-.05) -- (0,-.05) -- cycle;
+\node at (-.1,0) {#1};
+\end{scope}
+\end{scope}
+}
+
 
 \def\centerarc[#1](#2)(#3:#4:#5){ \draw[#1] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) }
 \def\centerarcwarrow[#1](#2)(#3:#4:#5){ \draw[#1,-latex'] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) }
