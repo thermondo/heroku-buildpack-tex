@@ -1,6 +1,6 @@
 \ProvidesPackage{Tikz-IM}
 
-% Last updated 2/9/2018
+% Last updated 3/23/2018
 
 \usepackage{sfmath}
 \usepackage[default,scale=0.95]{opensans}
@@ -48,6 +48,17 @@
 \tikzstyle{openvertex}=[circle, draw,fill=white, inner sep=0pt,minimum size=4pt]
 \tikzstyle{smallvertex}=[circle, fill, inner sep=0pt,minimum size=3pt]
 
+
+\pgfplotsset{
+/pgfplots/dark ticks/.style={
+/pgfplots/every x tick/.append style={black!100},
+/pgfplots/every y tick/.append style={black!100}
+},
+/pgfplots/light ticks/.style={
+/pgfplots/every x tick/.append style={black!50},
+/pgfplots/every y tick/.append style={black!50}
+},
+}
 
 \pgfplotsset{
   /pgfplots/xlabel near ticks/.style={
@@ -148,8 +159,8 @@ threearrow/.style={postaction={decorate,
       width=6.5in,
       height=4in,
       grid=both,
-    every x tick/.style={black!50},
-    every y tick/.style={black!50},
+      every x tick/.style={black!50},
+      every y tick/.style={black!50},
       axis lines=middle,
       minor tick num=0,
       grid style={line width=.5pt,black!50},
@@ -180,8 +191,8 @@ threearrow/.style={postaction={decorate,
       width=6.5in,
       height=4in,
       grid=both,
-    every x tick/.style={black!50},
-    every y tick/.style={black!50},
+      every x tick/.style={black!50},
+      every y tick/.style={black!50},
       axis lines=middle,
       minor tick num=0,
       grid style={line width=.5pt,black!50},
@@ -314,8 +325,6 @@ threearrow/.style={postaction={decorate,
       width=6.5in,
       height=4in,
       grid=both,
-%    every x tick/.style={black!50},
-%    every y tick/.style={black!50},
       axis lines=middle,
       minor tick num=0,
       grid style={line width=.5pt,black!50},
@@ -330,10 +339,6 @@ threearrow/.style={postaction={decorate,
       ylabel={$y$},
       xlabel style={yshift=-.35cm,inner sep=0pt,outer sep=0pt},
       ylabel style={xshift=-.12cm,yshift=-.03cm,anchor=north east,inner sep=0pt,outer sep=0pt},
-%      xlabel near end,
-%      ylabel near end,
-      xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
-      yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=.02in,yshift=-.01in},
 }}
 
 \pgfplotsset{FourQuadrantXY/.append style={      after end axis/.code=
@@ -400,19 +405,18 @@ threearrow/.style={postaction={decorate,
 \definecolor{POrange}{RGB}{253,134,9}
 
 \newcommand{\FunctionMachine}[3]{
-\clip (-\THP/2,-.5) rectangle (\THP/2,.5);
 
 \node (a) at (0,0) [draw,very thick,inner sep=3pt,minimum height=.7in,text width=2cm,text centered] {#2};
 
 \begin{scope}[shift=(a.east)]
 \draw (0,.05) -- (.15,.05) -- (.15,.125) -- (.35,0) -- (.15,-.125) -- (.15,-.05) -- (0,-.05) -- cycle;
-\node at (.5,0) {#3};
+\node[anchor=west] at (.4,0) {#3};
 \end{scope}
 
 \begin{scope}[shift=(a.west)]
 \begin{scope}[xshift=-.35in]
 \draw (0,.05) -- (.15,.05) -- (.15,.125) -- (.35,0) -- (.15,-.125) -- (.15,-.05) -- (0,-.05) -- cycle;
-\node at (-.1,0) {#1};
+\node[anchor=east] at (-.1,0) {#1};
 \end{scope}
 \end{scope}
 }
