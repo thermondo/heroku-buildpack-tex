@@ -1,5 +1,6 @@
 \ProvidesPackage{Tikz-IM}
-\typeout{Version 2018-04-09 of HS-IM sty file}
+
+% Last updated 3/23/2018
 
 \usepackage{sfmath}
 \usepackage[default,scale=0.95]{opensans}
@@ -470,6 +471,114 @@ threearrow/.style={postaction={decorate,
 \newdimen\QuarterPage
 \QuarterPage=1.625in
 \QP=1.625in
+
+
+% Long Division Command
+\newcount\gpten % (global) power-of-ten -- tells which digit we are doing
+\countdef\rtot2 % running total -- remainder so far
+\countdef\LDscratch4 % scratch
+
+\def\longdiv#1#2{%
+ \vtop{\normalbaselines \offinterlineskip
+   \setbox\strutbox\hbox{\vrule height 2.1ex depth .5ex width0ex}%
+   \def\showdig{$\underline{\the\LDscratch\strut}$\cr\the\rtot\strut\cr
+       \noalign{\kern-.2ex}}%
+   \global\rtot=#1\relax
+   \count0=\rtot\divide\count0by#2\edef\quotient{\the\count0}%\show\quotient
+   % make list macro out of digits in quotient:
+   \def\temp##1{\ifx##1\temp\else \noexpand\dodig ##1\expandafter\temp\fi}%
+   \edef\routine{\expandafter\temp\quotient\temp}%
+   % process list to give power-of-ten:
+   \def\dodig##1{\global\multiply\gpten by10 }\global\gpten=1 \routine
+   % to display effect of one digit in quotient (zero ignored):
+   \def\dodig##1{\global\divide\gpten by10
+      \LDscratch =\gpten
+      \multiply\LDscratch  by##1%
+      \multiply\LDscratch  by#2%
+      \global\advance\rtot-\LDscratch \relax
+      \ifnum\LDscratch>0 \showdig \fi % must hide \cr in a macro to skip it
+   }%
+   \tabskip=0pt
+   \halign{\hfil##\cr % \halign for entire division problem
+     $\quotient$\strut\cr
+     #2$\,\overline{\vphantom{\big)}%
+     \hbox{\smash{\raise3.5\fontdimen8\textfont3\hbox{$\big)$}}}%
+     \mkern2mu \the\rtot}$\cr\noalign{\kern-.2ex}
+     \routine \cr % do each digit in quotient
+}}}
+
+
+\def\HBlock#1
+{
+\begin{scope}[shift={#1}]
+    \fill[draw,Green] (-0.001,-0.001) rectangle (1.001,1.001);
+    \draw (-0.001,-0.001) grid[step=.1] (1.001,1.001);
+\end{scope}
+}
+
+\def\TBlock#1
+{
+\begin{scope}[shift={#1}]
+    \fill[draw,Green] (-0.001,-0.001) rectangle (0.101,1.001);
+    \draw (-0.001,-0.001) grid[step=.1] (0.101,1.001);
+
+\end{scope}
+}
+
+\def\OBlock#1
+{
+\begin{scope}[shift={#1}]
+    \fill[draw,Green] (0,0) rectangle (.1,.1);
+    \draw[join=beveled] (-0.001,-0.001) grid[step=.1] (0.101,0.101);
+\end{scope}
+}
+
+\def\MakeBlocks#1#2#3
+{
+
+\foreach\x in {1,...,#1}
+{
+\begin{scope}[shift={(1.1*\x,0)}]
+\HBlock{(0,0)}
+\end{scope}
+}
+
+\foreach\x in {1,...,#2}
+{
+\begin{scope}[shift={(.2*\x+#1*1.1+.9,0)}]
+\TBlock{(0,0)}
+\end{scope}
+}
+
+
+
+\ifthenelse{#3>5}
+{
+\foreach\x in {1,...,5}
+{
+\begin{scope}[shift={(.2*#2+#1*1.1+1.1,.15*\x-.15)}]
+\OBlock{(0,0)}
+\end{scope}
+}
+\foreach\x in {6,...,#3}
+{
+\begin{scope}[shift={(.2*#2+#1*1.1+1.3,.15*\x-.15-.75)}]
+\OBlock{(0,0)}
+\end{scope}
+}
+
+}
+{
+\foreach\x in {1,...,#3}
+{
+\begin{scope}[shift={(.2*#2+#1*1.1+1.1,.15*\x-.15)}]
+\OBlock{(0,0)}
+\end{scope}
+}
+}  
+
+}
+
 
 \endinput
 
