@@ -9,7 +9,6 @@ CACHE_DIR=$2
 BIN_DIR=$(cd "$(dirname "$0")"; pwd) # absolute path
 CONF_DIR="$BIN_DIR/../conf"
 
-
 TEXLIVE_REPOSITORY="http://mirror.ctan.org/systems/texlive/tlnet"
 
 # TODO: remove this in future versions.
@@ -29,6 +28,9 @@ TEXLIVE_HOME=$BUILD_DIR/.texlive
 TEXLIVE_CACHE=$CACHE_DIR/.texlive
 PATH=$TEXLIVE_HOME/bin/x86_64-linux:$PATH
 PROFILE_D=$BUILD_DIR/.profile.d/texlive.sh
+
+TEXMF_LOCAL=$TEXLIVE_HOME/texmf-local/tex/latex/local
+mkdir -p $TEXMF_LOCAL
 
 # Output helpers
 # shellcheck source=bin/utils
