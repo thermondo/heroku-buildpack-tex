@@ -7,6 +7,7 @@ set -e
 BUILD_DIR=$1
 CACHE_DIR=$2
 BIN_DIR=$(cd "$(dirname "$0")"; pwd) # absolute path
+CONF_DIR="$BIN_DIR/../conf"
 
 
 TEXLIVE_REPOSITORY="http://mirror.ctan.org/systems/texlive/tlnet"
@@ -116,18 +117,10 @@ build-step "TeX Live installation successful!"
 ########################################################
 
 build-step "Adding custom sty and cls files to TeX path"
-
-TIKZ_STY_FILE=$BIN_DIR/../conf/Tikz-IM.sty
-TIKZ_CLS_FILE=$BIN_DIR/../conf/IM.cls
-
-TEXMF_LOCAL=$TEXLIVE_HOME/texmf-local/tex/latex/local/
-mkdir -p $TEXMF_LOCAL
-
-echo "Copying $TIKZ_STY_FILE to $TEXMF_LOCAL"
-cp $TIKZ_STY_FILE $TEXMF_LOCAL
-
-echo "Copying $TIKZ_CLS_FILE to $TEXMF_LOCAL"
-cp $TIKZ_CLS_FILE $TEXMF_LOCAL
+for file in $CONF_DIR/*.{sty,cls}; do
+    echo "Copying $file to $TEXMF_LOCAL"
+    cp $file $TEXMF_LOCAL
+done
 
 build-step "Running texhash..."
 texhash
