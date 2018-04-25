@@ -20,7 +20,7 @@
 \usepackage{ifthen}
 \usepackage{sansmath}
 
-
+\usepackage{IMlongdivision}
 
 %%% IM STYLE SETINGS %%%
 
@@ -106,7 +106,7 @@ threearrow/.style={postaction={decorate,
 %%% PREMADE TEMPLATES
 
 \pgfplotsset{
-    Histogram/.style={ 
+    Histogram/.style={
     width=6.5in,
     height=4in,
     ymin=0, ymax=55,
@@ -122,7 +122,7 @@ threearrow/.style={postaction={decorate,
 
 
 \pgfplotsset{
-    BoxPlot/.style={ 
+    BoxPlot/.style={
     width=6.5in,
     height=4in,
     ymin=0, ymax=55,
@@ -575,10 +575,9 @@ threearrow/.style={postaction={decorate,
 \OBlock{(0,0)}
 \end{scope}
 }
-}  
+}
 
 }
 
 
 \endinput
-
