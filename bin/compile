@@ -51,17 +51,17 @@ if [ "$(ls -A "$TEXLIVE_CACHE")" ]; then
     cp -R "$TEXLIVE_CACHE/"* "$TEXLIVE_HOME"
 fi
 
-if [ ! -f "$TEXLIVE_HOME/install-tl" ]; then
-    build-step "Downloading install-tl from $TEXLIVE_INSTALLER_URL"
-    curl "$TEXLIVE_INSTALLER_URL" -L -s -o - | tar --strip-components=1 -xzf - -C "$TEXLIVE_HOME"
-    if [ ! "$(which ./install-tl)" ]; then
-        build-warn "Unable to download TeX installer!"
-        exit 0
-    fi
-fi
-
 if [ ! "$(which pdflatex)" ]; then
     build-step "Installing TeX Live..."
+
+    if [ ! -f "$TEXLIVE_HOME/install-tl" ]; then
+        build-step "Downloading install-tl from $TEXLIVE_INSTALLER_URL"
+        curl "$TEXLIVE_INSTALLER_URL" -L -s -o - | tar --strip-components=1 -xzf - -C "$TEXLIVE_HOME"
+        if [ ! -f "$(which $TEXLIVE_HOME/install-tl)" ]; then
+            build-warn "Unable to download TeX installer!"
+            exit 0
+        fi
+    fi
 
     PROF=$BIN_DIR/../conf/texlive.profile
     {
@@ -113,7 +113,8 @@ fi
 # Check for an essential binary to make sure it's installed
 if [ ! "$(which latex)" ]; then
     build-warn "TeX Live installation failed"
-    exit 1
+    build-warn "TeX will be unavailable until this is addressed"
+    exit 0
 fi
 
 # Set up the environment for runtimes now that compilation has finished
@@ -135,4 +136,4 @@ done
 build-step "Running texhash..."
 texhash
 
-build-step "Done adding sty files to TeX path"
+build-step "Done adding sty files to TeX path!"
