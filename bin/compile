@@ -65,49 +65,18 @@ if [ ! "$(which pdflatex)" ]; then
 
     PROF=$BIN_DIR/../conf/texlive.profile
     {
-      echo "TEXDIR $TEXLIVE_HOME";
-      echo "TEXMFCONFIG $TEXLIVE_HOME/var/texmf-config";
-      echo "TEXMFHOME $TEXLIVE_HOME/var/texmf";
-      echo "TEXMFLOCAL $TEXLIVE_HOME/texmf-local";
-      echo "TEXMFSYSCONFIG $TEXLIVE_HOME/texmf-config";
-      echo "TEXMFSYSVAR $TEXLIVE_HOME/texmf-var";
-      echo "TEXMFVAR $TEXLIVE_HOME/var/texmf-var";
+        echo "TEXDIR $TEXLIVE_HOME";
+        echo "TEXMFCONFIG $TEXLIVE_HOME/var/texmf-config";
+        echo "TEXMFHOME $TEXLIVE_HOME/var/texmf";
+        echo "TEXMFLOCAL $TEXLIVE_HOME/texmf-local";
+        echo "TEXMFSYSCONFIG $TEXLIVE_HOME/texmf-config";
+        echo "TEXMFSYSVAR $TEXLIVE_HOME/texmf-var";
+        echo "TEXMFVAR $TEXLIVE_HOME/var/texmf-var";
     } >> "$PROF"
 
     cd "$TEXLIVE_HOME"
 
     ./install-tl --repository="$TEXLIVE_REPOSITORY" --profile="$PROF"
-fi
-
-if wget -q $TEXLIVE_REPOSITORY
-then
-  build-step "Updating TeX Live..."
-
-  tlmgr option repository "$TEXLIVE_REPOSITORY"
-
-  build-step "TeX Live repository set to $TEXLIVE_REPOSITORY"
-
-  tlmgr update --self
-
-  # install user-provided-packages
-  if [ -f "$BUILD_DIR/texlive.packages" ]; then
-      build-step "Installing custom packages..."
-      # shellcheck disable=SC2046
-      tlmgr install $(cat "$BUILD_DIR/texlive.packages")
-  fi
-
-  build-step "Updating installed packages..."
-  tlmgr update --all
-
-  build-step "Cleaning up temporary files..."
-  # Make sure the cache is empty
-  rm -rf "${TEXLIVE_CACHE:?}/"*
-
-  build-step "Caching..."
-  # Store a copy of it in the cache so it doesn't have to be fetched again
-  cp -R "$TEXLIVE_HOME/"* "$TEXLIVE_CACHE/"
-else
-  build-warn "Unable to access $TEXLIVE_REPOSITORY; falling back on cached installation"
 fi
 
 # Check for an essential binary to make sure it's installed
@@ -117,11 +86,18 @@ if [ ! "$(which latex)" ]; then
     exit 0
 fi
 
+build-step "TeX Live installation successful!"
+build-step "Cleaning up temporary files..."
+# Make sure the cache is empty
+rm -rf "${TEXLIVE_CACHE:?}/"*
+
+build-step "Caching..."
+# Store a copy of it in the cache so it doesn't have to be fetched again
+cp -R "$TEXLIVE_HOME/"* "$TEXLIVE_CACHE/"
+
 # Set up the environment for runtimes now that compilation has finished
 # shellcheck disable=SC2016
 echo 'export PATH=$HOME/.texlive/bin/x86_64-linux:$PATH' > "$PROFILE_D"
-
-build-step "TeX Live installation successful!"
 
 ########################################################
 # EDC: install cam's Tikz files in the texmf hierarchy #
