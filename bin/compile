@@ -41,6 +41,11 @@ mkdir -p "$TEXLIVE_HOME"
 mkdir -p "$TEXLIVE_CACHE"
 mkdir -p "$(dirname "$PROFILE_D")"
 
+build-step "TEXLIVE_INATALLER_URL: $TEXLIVE_INSTALLER_URL"
+build-step "TEXLIVE_HOME: $TEXLIVE_HOME"
+build-step "TEXLIVE_CACHE: $TEXLIVE_CACHE"
+build-step "TEXMF_LOCAL: $TEXMF_LOCAL"
+
 if [ "$(ls -A "$TEXLIVE_CACHE")" ]; then
     build-step "Setting up build cache..."
     cp -R "$TEXLIVE_CACHE/"* "$TEXLIVE_HOME"
@@ -50,7 +55,7 @@ if [ ! -f "$TEXLIVE_HOME/install-tl" ]; then
     build-step "Downloading install-tl from $TEXLIVE_INSTALLER_URL"
     curl "$TEXLIVE_INSTALLER_URL" -L -s -o - | tar --strip-components=1 -xzf - -C "$TEXLIVE_HOME"
     if [ ! "$(which ./install-tl)" ]; then
-        build-step "Unable to download TeX installer!"
+        build-warn "Unable to download TeX installer!"
         exit 0
     fi
 fi
@@ -102,7 +107,7 @@ then
   # Store a copy of it in the cache so it doesn't have to be fetched again
   cp -R "$TEXLIVE_HOME/"* "$TEXLIVE_CACHE/"
 else
-  build-step "Unable to access $TEXLIVE_REPOSITORY; falling back on cached installation"
+  build-warn "Unable to access $TEXLIVE_REPOSITORY; falling back on cached installation"
 fi
 
 # Check for an essential binary to make sure it's installed
