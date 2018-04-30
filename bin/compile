@@ -4,23 +4,18 @@
 # fail fast
 set -e
 
+if [ "$(pdflatex latex)" ]; then
+    build-step "TeX Live installation already present"
+    exit 0
+fi
+
 BUILD_DIR=$1
 CACHE_DIR=$2
 BIN_DIR=$(cd "$(dirname "$0")"; pwd) # absolute path
 CONF_DIR="$BIN_DIR/../conf"
 
-TEXLIVE_REPOSITORY="http://mirror.ctan.org/systems/texlive/tlnet"
-
-# TODO: remove this in future versions.
-# This is only kept for backwards support
-if [ -f "$BUILD_DIR/.texlive-repository" ]; then
-    TEXLIVE_REPOSITORY=$(cat "$BUILD_DIR/.texlive-repository")
-fi
-
-# Optional: use custom path to texlive installer
-if [ -f "$BUILD_DIR/texlive.repository" ]; then
-    TEXLIVE_REPOSITORY=$(cat "$BUILD_DIR/texlive.repository")
-fi
+# TEXLIVE_REPOSITORY="http://mirror.ctan.org/systems/texlive/tlnet"
+TEXLIVE_REPOSITORY="ftp://tug.org/historic/systems/texlive/2017/tlnet-final"
 
 TEXLIVE_INSTALLER_URL="$TEXLIVE_REPOSITORY/install-tl-unx.tar.gz"
 
@@ -52,60 +47,59 @@ if [ ! -f "$TEXLIVE_HOME/install-tl" ]; then
     curl "$TEXLIVE_INSTALLER_URL" -L -s -o - | tar --strip-components=1 -xzf - -C "$TEXLIVE_HOME"
 fi
 
-if [ ! "$(which pdflatex)" ]; then
-    build-step "Installing TeX Live..."
+build-step "Installing TeX Live..."
 
-    PROF=$BIN_DIR/../conf/texlive.profile
-    {
-      echo "TEXDIR $TEXLIVE_HOME";
-      echo "TEXMFCONFIG $TEXLIVE_HOME/var/texmf-config";
-      echo "TEXMFHOME $TEXLIVE_HOME/var/texmf";
-      echo "TEXMFLOCAL $TEXLIVE_HOME/texmf-local";
-      echo "TEXMFSYSCONFIG $TEXLIVE_HOME/texmf-config";
-      echo "TEXMFSYSVAR $TEXLIVE_HOME/texmf-var";
-      echo "TEXMFVAR $TEXLIVE_HOME/var/texmf-var";
-    } >> "$PROF"
+PROF=$BIN_DIR/../conf/texlive.profile
+{
+    echo "TEXDIR $TEXLIVE_HOME";
+    echo "TEXMFCONFIG $TEXLIVE_HOME/var/texmf-config";
+    echo "TEXMFHOME $TEXLIVE_HOME/var/texmf";
+    echo "TEXMFLOCAL $TEXLIVE_HOME/texmf-local";
+    echo "TEXMFSYSCONFIG $TEXLIVE_HOME/texmf-config";
+    echo "TEXMFSYSVAR $TEXLIVE_HOME/texmf-var";
+    echo "TEXMFVAR $TEXLIVE_HOME/var/texmf-var";
+} >> "$PROF"
 
-    cd "$TEXLIVE_HOME"
+cd "$TEXLIVE_HOME"
 
-    ./install-tl --repository="$TEXLIVE_REPOSITORY" --profile="$PROF"
-fi
+./install-tl --repository="$TEXLIVE_REPOSITORY" --profile="$PROF"
 
 if wget -q $TEXLIVE_REPOSITORY
 then
-  build-step "Updating TeX Live..."
+    build-step "Updating TeX Live..."
 
-  tlmgr option repository "$TEXLIVE_REPOSITORY"
+    tlmgr option repository "$TEXLIVE_REPOSITORY"
 
-  build-step "TeX Live repository set to $TEXLIVE_REPOSITORY"
+    build-step "TeX Live repository set to $TEXLIVE_REPOSITORY"
 
-  tlmgr update --self
+    tlmgr update --self
 
-  # install user-provided-packages
-  if [ -f "$BUILD_DIR/texlive.packages" ]; then
-      build-step "Installing custom packages..."
-      # shellcheck disable=SC2046
-      tlmgr install $(cat "$BUILD_DIR/texlive.packages")
-  fi
+    # install user-provided-packages
+    if [ -f "$BUILD_DIR/texlive.packages" ]; then
+        build-step "Installing custom packages..."
+        # shellcheck disable=SC2046
+        tlmgr install $(cat "$BUILD_DIR/texlive.packages")
+    fi
 
-  build-step "Updating installed packages..."
-  tlmgr update --all
+    build-step "Updating installed packages..."
+    tlmgr update --all
 
-  build-step "Cleaning up temporary files..."
-  # Make sure the cache is empty
-  rm -rf "${TEXLIVE_CACHE:?}/"*
+    build-step "Cleaning up temporary files..."
+    # Make sure the cache is empty
+    rm -rf "${TEXLIVE_CACHE:?}/"*
 
-  build-step "Caching..."
-  # Store a copy of it in the cache so it doesn't have to be fetched again
-  cp -R "$TEXLIVE_HOME/"* "$TEXLIVE_CACHE/"
+    build-step "Caching..."
+    # Store a copy of it in the cache so it doesn't have to be fetched again
+    cp -R "$TEXLIVE_HOME/"* "$TEXLIVE_CACHE/"
 else
-  build-step "Unable to access $TEXLIVE_REPOSITORY; falling back on cached installation"
+    build-step "Unable to access $TEXLIVE_REPOSITORY; falling back on cached installation"
 fi
 
 # Check for an essential binary to make sure it's installed
 if [ ! "$(which latex)" ]; then
     build-warn "TeX Live installation failed"
-    exit 1
+    build-warn "TeX will be unavailable until this failure is addressed"
+    exit 0
 fi
 
 # Set up the environment for runtimes now that compilation has finished
