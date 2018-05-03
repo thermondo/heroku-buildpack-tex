@@ -33,6 +33,8 @@ PROFILE_D=$BUILD_DIR/.profile.d/texlive.sh
 # shellcheck source=bin/utils
 source "$BIN_DIR/utils"
 
+rm -rf "${TEXLIVE_CACHE:?}/"*
+
 # Prepare the various paths
 mkdir -p "$TEXLIVE_HOME"
 mkdir -p "$TEXLIVE_CACHE"
