@@ -2,6 +2,7 @@
 
 \typeout{Tikz-IM Version 04/11/2018}
 
+\RequirePackage{xparse}
 
 \usepackage{sfmath}
 \usepackage[default,scale=0.95]{opensans}
@@ -21,10 +22,11 @@
 \usepackage{ifthen}
 \usepackage{sansmath}
 
-\usepackage{IMlongdivision}
+
 
 %%% IM STYLE SETINGS %%%
 
+\tikzset{every picture/.append style={line join=round}}
 
 \tikzset{every node/.append style={font=\sansmath\sffamily}}
 \tikzset{every label/.append style={font=\sansmath\sffamily,label distance=-.1cm}}
@@ -44,7 +46,6 @@
 
 \pgfplotsset{samples=200}
 
-\tikzset{every picture/.append style={line join=round}}
 \tikzstyle{vertex}=[circle, fill, inner sep=0pt,minimum size=4pt]
 \tikzstyle{bigvertex}=[circle, fill, inner sep=0pt,minimum size=5.5pt]
 \tikzstyle{openvertex}=[circle, draw,fill=white, inner sep=0pt,minimum size=4pt]
@@ -91,6 +92,9 @@ twotick/.style={postaction={decorate,
 threetick/.style={postaction={decorate,
    decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-2pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength-0pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength+2pt with {\arrow{|};}}}
    },
+fourtick/.style={postaction={decorate,
+   decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-3pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength-1pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength+1pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength+3pt with {\arrow{|};}}}
+   },
 }
 
 \tikzset{
@@ -108,7 +112,7 @@ threearrow/.style={postaction={decorate,
 %%% PREMADE TEMPLATES
 
 \pgfplotsset{
-    Histogram/.style={
+    Histogram/.style={ 
     width=6.5in,
     height=4in,
     ymin=0, ymax=55,
@@ -124,7 +128,7 @@ threearrow/.style={postaction={decorate,
 
 
 \pgfplotsset{
-    BoxPlot/.style={
+    BoxPlot/.style={ 
     width=6.5in,
     height=4in,
     ymin=0, ymax=55,
@@ -510,6 +514,7 @@ threearrow/.style={postaction={decorate,
 }}}
 
 
+
 \def\HBlock#1
 {
 \begin{scope}[shift={#1}]
@@ -531,7 +536,7 @@ threearrow/.style={postaction={decorate,
 {
 \begin{scope}[shift={#1}]
     \fill[draw,Green] (0,0) rectangle (.1,.1);
-    \draw[join=beveled] (-0.001,-0.001) grid[step=.1] (0.101,0.101);
+    \draw[line join=round] (-0.001,-0.001) grid[step=.1] (0.101,0.101);
 \end{scope}
 }
 
@@ -577,9 +582,12 @@ threearrow/.style={postaction={decorate,
 \OBlock{(0,0)}
 \end{scope}
 }
-}
+}  
 
 }
+
+
 
 
 \endinput
+
