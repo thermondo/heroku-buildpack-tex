@@ -86,6 +86,31 @@ if [ ! "$(which latex)" ]; then
     exit 0
 fi
 
+if wget -q $TEXLIVE_REPOSITORY/README.md
+then
+  # the repository is responsive
+  build-step "Updating TeX Live..."
+
+  tlmgr option repository "$TEXLIVE_REPOSITORY"
+
+  build-step "TeX Live repository set to $TEXLIVE_REPOSITORY"
+
+  tlmgr update --self
+
+  # install user-provided-packages
+  if [ -f "$BUILD_DIR/texlive.packages" ]; then
+      build-step "Installing custom packages..."
+      # shellcheck disable=SC2046
+      tlmgr install $(cat "$BUILD_DIR/texlive.packages")
+  fi
+
+  build-step "Updating installed packages..."
+  tlmgr update --all
+else
+  build-warn "Unable to access $TEXLIVE_REPOSITORY; falling back on cached installation"
+  exit 0
+fi
+
 build-step "TeX Live installation successful!"
 build-step "Cleaning up temporary files..."
 # Make sure the cache is empty
