@@ -6,20 +6,13 @@
 
 BUILD_DIR=$1
 CACHE_DIR=$2
+ENV_DIR=$3
 BIN_DIR=$(cd "$(dirname "$0")"; pwd) # absolute path
 CONF_DIR="$BIN_DIR/../conf"
 
 TEXLIVE_REPOSITORY="ftp://tug.org/historic/systems/texlive/2017/tlnet-final"
-
-# TODO: remove this in future versions.
-# This is only kept for backwards support
-if [ -f "$BUILD_DIR/.texlive-repository" ]; then
-    TEXLIVE_REPOSITORY=$(cat "$BUILD_DIR/.texlive-repository")
-fi
-
-# Optional: use custom path to texlive installer
-if [ -f "$BUILD_DIR/texlive.repository" ]; then
-    TEXLIVE_REPOSITORY=$(cat "$BUILD_DIR/texlive.repository")
+if [ -f $ENV_DIR/TEXLIVE_REPOSITORY ]; then
+    TEXLIVE_REPOSITORY=$(cat $ENV_DIR/TEXLIVE_REPOSITORY)
 fi
 
 TEXLIVE_INSTALLER_URL="$TEXLIVE_REPOSITORY/install-tl-unx.tar.gz"
@@ -41,7 +34,10 @@ mkdir -p "$TEXLIVE_HOME"
 mkdir -p "$TEXLIVE_CACHE"
 mkdir -p "$(dirname "$PROFILE_D")"
 
-build-step "TEXLIVE_INATALLER_URL: $TEXLIVE_INSTALLER_URL"
+build-step "BIN_DIR: $BIN_DIR"
+build-step "BUILD_DIR: $BUILD_DIR"
+build-step "TEXLIVE_REPOSITORY: $TEXLIVE_REPOSITORY"
+build-step "TEXLIVE_INSTALLER_URL: $TEXLIVE_INSTALLER_URL"
 build-step "TEXLIVE_HOME: $TEXLIVE_HOME"
 build-step "TEXLIVE_CACHE: $TEXLIVE_CACHE"
 build-step "TEXMF_LOCAL: $TEXMF_LOCAL"
