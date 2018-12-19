@@ -1,592 +1,593 @@
-\ProvidesPackage{Tikz-IM}
-
-\typeout{Tikz-IM Version 04/11/2018}
-
-\RequirePackage{xparse}
-
-\usepackage{sfmath}
-\usepackage[default,scale=0.95]{opensans}
-\usepackage[T1]{fontenc}
-\usepackage{tikz,pgfplots,amsmath,xcolor}
-\usetikzlibrary{calc,positioning,arrows,arrows.meta,shapes.geometric,shapes,matrix,shapes.symbols,backgrounds}
-\usetikzlibrary{decorations.pathreplacing,decorations.markings,arrows,patterns,intersections}
-\usepgfplotslibrary{fillbetween}
-
-\usetikzlibrary{decorations}
-\usetikzlibrary{decorations.pathmorphing}
-\usetikzlibrary{decorations.pathreplacing}
-
-
-\pgfplotsset{compat=1.15}
-\usepackage{pgfplotstable}
-\usepackage{ifthen}
-\usepackage{sansmath}
-
-\usepackage{IMlongdivision}
-
-%%% IM STYLE SETINGS %%%
-
-\tikzset{every picture/.append style={line join=round}}
-
-\tikzset{every node/.append style={font=\sansmath\sffamily}}
-\tikzset{every label/.append style={font=\sansmath\sffamily,label distance=-.1cm}}
-\tikzset{every picture/.append style={line width=1pt}}
-\tikzset{every picture/.append style={>={Stealth[length=3mm,width=2mm]}}}
-
-\pgfplotsset{tick label style = {font=\sansmath\sffamily\footnotesize}}
-\pgfplotsset{x axis line style=-{Stealth[length=3mm,width=2mm]}}
-\pgfplotsset{y axis line style=-{Stealth[length=3mm,width=8mm]}}
-\pgfplotsset{every axis/.append style={xtick align=center}}
-\pgfplotsset{every axis/.append style={ytick align=center}}
-
-\pgfplotsset{every tick/.append style={black,thin,tickwidth=.1in,subtickwidth=.1in}}
-\pgfplotsset{scaled y ticks=false}
-\pgfplotsset{scaled x ticks=false}
-
-
-\pgfplotsset{samples=200}
-
-\tikzstyle{vertex}=[circle, fill, inner sep=0pt,minimum size=4pt]
-\tikzstyle{bigvertex}=[circle, fill, inner sep=0pt,minimum size=5.5pt]
-\tikzstyle{openvertex}=[circle, draw,fill=white, inner sep=0pt,minimum size=4pt]
-\tikzstyle{smallvertex}=[circle, fill, inner sep=0pt,minimum size=3pt]
-
-
-\pgfplotsset{
-/pgfplots/dark ticks/.style={
-/pgfplots/every x tick/.append style={black!100},
-/pgfplots/every y tick/.append style={black!100}
-},
-/pgfplots/light ticks/.style={
-/pgfplots/every x tick/.append style={black!50},
-/pgfplots/every y tick/.append style={black!50}
-},
-}
-
-\pgfplotsset{
-  /pgfplots/xlabel near ticks/.style={
-     /pgfplots/every axis x label/.style={
-        at={(ticklabel cs:0.5)},anchor=near ticklabel}
-},
-  /pgfplots/ylabel near ticks/.style={
-     /pgfplots/every axis y label/.style={
-        at={(ticklabel cs:0.5)},rotate=90,anchor=near ticklabel}
-},
-  /pgfplots/xlabel near end/.style={
-     /pgfplots/every axis x label/.style={
-        at={(ticklabel cs:1)},anchor=north east}
-},
-  /pgfplots/ylabel near end/.style={
-     /pgfplots/every axis y label/.style={
-        at={(ticklabel cs:1)},rotate=90,anchor=south east}
-  },
-}
-
-\tikzset{
-onetick/.style={postaction={decorate,
-   decoration={markings,mark=at position .5 with {\arrow{|};}}}
-   },
-twotick/.style={postaction={decorate,
-   decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-1.5pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength+1.5pt with {\arrow{|};}}}
-   },
-threetick/.style={postaction={decorate,
-   decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-2pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength-0pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength+2pt with {\arrow{|};}}}
-   },
-fourtick/.style={postaction={decorate,
-   decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-3pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength-1pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength+1pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength+3pt with {\arrow{|};}}}
-   },
-}
-
-\tikzset{
-onearrow/.style={postaction={decorate,
-   decoration={markings,mark=at position .5 with {\arrow{>};}}}
-   },
-twoarrow/.style={postaction={decorate,
-   decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-1.5pt with {\arrow{>};},mark=at position 0.5*\pgfdecoratedpathlength+1.5pt with {\arrow{>};}}}
-   },
-threearrow/.style={postaction={decorate,
-   decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-2pt with {\arrow{>};},mark=at position 0.5*\pgfdecoratedpathlength-0pt with {\arrow{>};},mark=at position 0.5*\pgfdecoratedpathlength+2pt with {\arrow{>};}}}
-   },
-}
-
-%%% PREMADE TEMPLATES
-
-\pgfplotsset{
-    Histogram/.style={
-    width=6.5in,
-    height=4in,
-    ymin=0, ymax=55,
-    minor y tick num = 3,
-    area style,
-    xtick=data,
-    xtick style={draw=none},
-    axis x line*=bottom,
-    axis y line*=left,
-    x axis line style=-,
-    y axis line style=-,
-}}
-
-
-\pgfplotsset{
-    BoxPlot/.style={
-    width=6.5in,
-    height=4in,
-    ymin=0, ymax=55,
-    axis y line=none,
-    area style,
-    xtick align=center,
-    axis x line*=bottom,
-    x axis line style=-,
-}}
-
-
-\pgfplotsset{
-  ScatterPlot/.style={
-    width=6.5in,
-    height=4in,
-    grid=both,
-    every x tick/.style={black!50},
-    every y tick/.style={black!50},
-    minor tick num=4,
-    grid style={line width=.5pt,black!50},
-    axis line style={line width=.5pt,black!50},
-    xmin=0,
-    xmax=10,
-    ymin=0,
-    ymax=10,
-    clip=true,
-    xlabel={$x$ label},
-    ylabel={$y$ label},
-}
-}
-
-\pgfplotsset{
-    FourQuadrant/.style={
-      width=6.5in,
-      height=4in,
-      grid=both,
-      every x tick/.style={black!50},
-      every y tick/.style={black!50},
-      axis lines=middle,
-      minor tick num=0,
-      grid style={line width=.5pt,black!50},
-      x axis line style=-{Stealth[length=3mm,width=2mm]},
-      y axis line style=-{Stealth[length=3mm,width=2mm]},
-      xmin=-10,
-      xmax=10,
-      ymin=-10,
-      ymax=10,
-      clip=true,
-      xlabel={$x$ label goes here},
-      ylabel={$y$ label gets here},
-      xlabel near end,
-      ylabel near end,
-      xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
-      yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=.02in,yshift=-.01in},
-}}
-
-\pgfplotsset{FourQuadrant/.append style={      after end axis/.code=
-      {
-        \path ($(current axis.origin)+(-.09in,-.09in)$) node {$\mathcal{O}$};
-      }
-}
-}
-
-\pgfplotsset{
-    TwoQuadrant/.style={
-      width=6.5in,
-      height=4in,
-      grid=both,
-      every x tick/.style={black!50},
-      every y tick/.style={black!50},
-      axis lines=middle,
-      minor tick num=0,
-      grid style={line width=.5pt,black!50},
-      x axis line style=-{Stealth[length=3mm,width=2mm]},
-      y axis line style=-{Stealth[length=3mm,width=2mm]},
-      xmin=-10,
-      xmax=10,
-      ymin=0,
-      ymax=10,
-      clip=true,
-      xlabel={$x$ label goes here},
-      ylabel={$y$ label gets here},
-      xlabel near end,
-      ylabel near end,
-      xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
-      yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=.02in,yshift=-.01in},
-}
-}
-
-\pgfplotsset{TwoQuadrant/.append style={      after end axis/.code=
-      {
-        \path ($(current axis.origin)+(-.09in,-.09in)$) node {$\mathcal{O}$};
-        \draw ($(current axis.origin)+(0,-.1in)$) -- (current axis.origin);
-        \draw ($(current axis.origin)+(-.1in,0)$) -- (current axis.origin);
-      }
-}
-}
-
-\pgfplotsset{
-    FirstQuadrantLabeled/.style={
-      width=6.5in,
-      height=4in,
-      grid=both,
-    every x tick/.style={black!50},
-    every y tick/.style={black!50},
-      xmin=0,
-      xmax=20,
-      ymin=0,
-      ymax=10,
-      axis lines=middle,
-      minor tick num=0,
-      grid style={line width=.5pt,black!50},
-      xlabel={$x$ label goes here},
-      ylabel={$y$ label gets here},
-      clip=true,
-      xlabel near ticks,
-      ylabel near ticks,
-      yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=.02in,yshift=-.01in},
-      xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
-      x axis line style=-{Stealth[length=3mm,width=2mm]},
-      y axis line style=-{Stealth[length=3mm,width=2mm]}
-}}
-
-\pgfplotsset{FirstQuadrantLabeled/.append style={      x axis line style=-{Stealth[length=3mm,width=2mm]},
-      y axis line style=-{Stealth[length=3mm,width=2mm]}
-}}
-
-
-\pgfplotsset{FirstQuadrantLabeled/.append style={      after end axis/.code=
-    {
-        \path ($(current axis.origin)+(-.09in,-.09in)$) node {$\mathcal{O}$};
-        \draw ($(current axis.origin)+(0,-.1in)$) -- (current axis.origin);
-        \draw ($(current axis.origin)+(-.1in,0)$) -- (current axis.origin);
-      }
-  }
-}
-
-\pgfplotsset{
-    FirstQuadrantXY/.style={
-      width=6.5in,
-      height=4in,
-      grid=both,
-    every x tick/.style={black!50},
-    every y tick/.style={black!50},
-      xmin=0,
-      xmax=30,
-      ymin=0,
-      ymax=10,
-      axis lines=middle,
-      minor tick num=0,
-%      x axis line style=-{Stealth[length=3mm,width=2mm]},
-%      y axis line style=-{Stealth[length=3mm,width=2mm]},
-      grid style={line width=.5pt,black!50},
-      clip=true,
-      xlabel={$x$},
-      ylabel={$y$},
-      xlabel style={yshift=-.35cm,inner sep=0pt,outer sep=0pt},
-      ylabel style={xshift=-.12cm,yshift=-.03cm,anchor=north east,inner sep=0pt,outer sep=0pt},
-      yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=0in,yshift=-.01in},
-      xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
-}}
-
-\pgfplotsset{FirstQuadrantXY/.append style={      after end axis/.code=
-    {
-        \path ($(current axis.origin)+(-.09in,-.09in)$) node {$\mathcal{O}$};
-        \draw ($(current axis.origin)+(0,-.1in)$) -- (current axis.origin);
-        \draw ($(current axis.origin)+(-.1in,0)$) -- (current axis.origin);
-      }
-  }
-}
-
-
-\def\drawarc[#1](#2)(#3:#4:#5){ \draw[#1] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) }
-\def\drawarcwarrow[#1](#2)(#3:#4:#5){ \draw[#1,-latex'] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) }
-
-
-\newcommand{\TriSSS}[3]{
-\coordinate (AAA) at (0,0);
-\coordinate (BBB) at (#1,0);
-\path[name path=arc1] ($(AAA)-(0,#2)$) arc (-90:90:#2);
-\path[name path=arc2] ($(BBB)+(0,#3)$) arc (90:180:#3);
-\path [name intersections={of=arc1 and arc2,by=CCC}];
-\draw (AAA) -- (BBB) -- (CCC) -- (AAA);
-}
-
-\newcommand{\TriSSSLabeled}[7]{
-\coordinate (AAA) at (0,0);
-\coordinate (BBB) at (#1,0);
-\path[name path=arc1] ($(AAA)-(0,#2)$) arc (-90:90:#2);
-\path[name path=arc2] ($(BBB)+(0,#3)$) arc (90:180:#3);
-\path [name intersections={of=arc1 and arc2,by=CCC}];
-\path (CCC) -- node {\Large #7} (CCC |- AAA);
-\draw (AAA) -- node[below] {#4} (BBB) -- node[above right] {#5} (CCC) -- node[above left] {#6} (AAA);
-
-}
-
-
-\pgfplotsset{
-    FourQuadrantXY/.style={
-      width=6.5in,
-      height=4in,
-      grid=both,
-      axis lines=middle,
-      minor tick num=0,
-      grid style={line width=.5pt,black!50},
-      x axis line style=-{Stealth[length=3mm,width=2mm]},
-      y axis line style=-{Stealth[length=3mm,width=2mm]},
-      xmin=-10,
-      xmax=10,
-      ymin=-10,
-      ymax=10,
-      clip=true,
-      xlabel={$x$},
-      ylabel={$y$},
-      xlabel style={yshift=-.35cm,inner sep=0pt,outer sep=0pt},
-      ylabel style={xshift=-.12cm,yshift=-.03cm,anchor=north east,inner sep=0pt,outer sep=0pt},
-}}
-
-\pgfplotsset{FourQuadrantXY/.append style={      after end axis/.code=
-      {
-        \path ($(current axis.origin)+(-.11in,-.11in)$) node {$\mathcal{O}$};
-      }
-}
-}
-
-\pgfplotsset{
-    FourQuadrantGrid/.style={
-      width=6.5in,
-      height=4in,
-      grid=both,
-    every x tick/.style={black!50},
-    every y tick/.style={black!50},
-      axis lines=middle,
-      minor tick num=0,
-      grid style={line width=.5pt,black!50},
-      x axis line style=-{Stealth[length=3mm,width=2mm]},
-      y axis line style=-{Stealth[length=3mm,width=2mm]},
-      xmin=-10,
-      xmax=10,
-      ymin=-10,
-      ymax=10,
-      clip=true,
-      xlabel={$x$},
-      ylabel={$y$},
-      xlabel style={yshift=-.35cm,inner sep=0pt,outer sep=0pt},
-      ylabel style={xshift=-.12cm,yshift=-.03cm,anchor=north east,inner sep=0pt,outer sep=0pt},
-%      xlabel near end,
-%      ylabel near end,
-      xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
-      yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=.02in,yshift=-.01in},
-}}
-
-\pgfplotsset{FourQuadrantGrid/.append style={      after end axis/.code=
-      {
-        \path ($(current axis.origin)+(-.11in,-.11in)$) node {$\mathcal{O}$};
-      }
-}
-}
-
-
-% COLORS AS OF AUGUST 2016
-
-%Standard Colors
-\definecolor{Yellow}{RGB}{255,184,28}
-\definecolor{Green}{RGB}{67,176,42}
-\definecolor{Blue}{RGB}{0,149,200}
-\definecolor{Red}{RGB}{224,60,49}
-
-%Light Colors
-\definecolor{LYellow}{RGB}{255,215,145}
-\definecolor{LGreen}{RGB}{170,215,165}
-\definecolor{LBlue}{RGB}{125,206,235}
-\definecolor{LRed}{RGB}{249,172,147}
-
-%Pattern Block Colors
-\definecolor{PBlue}{RGB}{0,0,255}
-\definecolor{PGreen}{RGB}{22,170,4}
-\definecolor{PYellow}{RGB}{255,255,12}
-\definecolor{PRed}{RGB}{251,0,6}
-\definecolor{POrange}{RGB}{253,134,9}
-
-\newcommand{\FunctionMachine}[3]{
-
-\node (a) at (0,0) [draw,very thick,inner sep=3pt,minimum height=.7in,text width=2cm,text centered] {#2};
-
-\begin{scope}[shift=(a.east)]
-\draw (0,.05) -- (.15,.05) -- (.15,.125) -- (.35,0) -- (.15,-.125) -- (.15,-.05) -- (0,-.05) -- cycle;
-\node[anchor=west] at (.4,0) {#3};
-\end{scope}
-
-\begin{scope}[shift=(a.west)]
-\begin{scope}[xshift=-.35in]
-\draw (0,.05) -- (.15,.05) -- (.15,.125) -- (.35,0) -- (.15,-.125) -- (.15,-.05) -- (0,-.05) -- cycle;
-\node[anchor=east] at (-.1,0) {#1};
-\end{scope}
-\end{scope}
-}
-
-
-\def\centerarc[#1](#2)(#3:#4:#5){ \draw[#1] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) }
-\def\centerarcwarrow[#1](#2)(#3:#4:#5){ \draw[#1,-latex'] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) }
-
-\tikzset{
-    right angle quadrant/.code={
-        \pgfmathsetmacro\quadranta{{1,1,-1,-1}[#1-1]}     % Arrays for selecting quadrant
-        \pgfmathsetmacro\quadrantb{{1,-1,-1,1}[#1-1]}},
-    right angle quadrant=1, % Make sure it is set, even if not called explicitly
-    right angle length/.code={\def\rightanglelength{#1}},   % Length of symbol
-    right angle length=.15in, % Make sure it is set...
-    right angle symbol/.style n args={3}{
-        insert path={
-            let \p0 = ($(#1)!(#3)!(#2)$) in     % Intersection
-                let \p1 = ($(\p0)!\quadranta*\rightanglelength!(#3)$), % Point on base line
-                \p2 = ($(\p0)!\quadrantb*\rightanglelength!(#2)$) in % Point on perpendicular line
-                let \p3 = ($(\p1)+(\p2)-(\p0)$) in  % Corner point of symbol
-            (\p1) -- (\p3) -- (\p2)
-        }
+    \ProvidesPackage{Tikz-IM}
+    
+    \typeout{Tikz-IM Version 04/11/2018}
+    
+    \RequirePackage{xparse}
+    
+    \usepackage{sfmath}
+    \usepackage[default,scale=0.95]{opensans}
+    \usepackage[T1]{fontenc}
+    \usepackage{tikz,pgfplots,amsmath,xcolor}
+    \usetikzlibrary{calc,positioning,arrows,arrows.meta,shapes.geometric,shapes,matrix,shapes.symbols,backgrounds}
+    \usetikzlibrary{decorations.pathreplacing,decorations.markings,arrows,patterns,intersections}
+    \usepgfplotslibrary{fillbetween}
+    
+    \usetikzlibrary{decorations}
+    \usetikzlibrary{decorations.pathmorphing}
+    \usetikzlibrary{decorations.pathreplacing}
+    
+    
+    \pgfplotsset{compat=1.15}
+    \usepackage{pgfplotstable}
+    \usepackage{ifthen}
+    \usepackage{sansmath}
+    
+    
+    
+    %%% IM STYLE SETINGS %%%
+    
+    \tikzset{every picture/.append style={line join=round}}
+    
+    \tikzset{every node/.append style={font=\sansmath\sffamily}}
+    \tikzset{every label/.append style={font=\sansmath\sffamily,label distance=-.1cm}}
+    \tikzset{every picture/.append style={line width=1pt}}
+    \tikzset{every picture/.append style={>={Stealth[length=3mm,width=2mm]}}}
+    
+    \pgfplotsset{tick label style = {font=\sansmath\sffamily\footnotesize}}
+    \pgfplotsset{x axis line style=-{Stealth[length=3mm,width=2mm]}}
+    \pgfplotsset{y axis line style=-{Stealth[length=3mm,width=8mm]}}
+    \pgfplotsset{every axis/.append style={xtick align=center}}
+    \pgfplotsset{every axis/.append style={ytick align=center}}
+    
+    \pgfplotsset{every tick/.append style={black,thin,tickwidth=.1in,subtickwidth=.1in}}
+    \pgfplotsset{scaled y ticks=false}
+    \pgfplotsset{scaled x ticks=false}
+    
+    
+    \pgfplotsset{samples=200}
+    
+    \tikzstyle{vertex}=[circle, fill, inner sep=0pt,minimum size=4pt]
+    \tikzstyle{bigvertex}=[circle, fill, inner sep=0pt,minimum size=5.5pt]
+    \tikzstyle{openvertex}=[circle, draw,fill=white, inner sep=0pt,minimum size=4pt]
+    \tikzstyle{smallvertex}=[circle, fill, inner sep=0pt,minimum size=3pt]
+    
+    
+    \pgfplotsset{
+    /pgfplots/dark ticks/.style={
+    /pgfplots/every x tick/.append style={black!100},
+    /pgfplots/every y tick/.append style={black!100}
     },
-    right angle symbol/.append style={line width=.5pt},
-}
-
-
-% POSSIBLE IMAGE WIDTHS
-
-\newdimen\FP
-\newdimen\FullPage
-\FullPage=6.5in
-\FP=6.5in
-
-\newdimen\TFP
-\newdimen\ThreeFourthsPage
-\ThreeFourthsPage=4.875in
-\TFP=4.875in
-
-\newdimen\HP
-\newdimen\HalfPage
-\HalfPage=3.25in
-\HP=3.25in
-
-\newdimen\THP
-\newdimen\ThirdPage
-\ThirdPage=2.1in
-\THP=2.1in
-
-\newdimen\QP
-\newdimen\QuarterPage
-\QuarterPage=1.625in
-\QP=1.625in
-
-
-% Long Division Command
-\newcount\gpten % (global) power-of-ten -- tells which digit we are doing
-\countdef\rtot2 % running total -- remainder so far
-\countdef\LDscratch4 % scratch
-
-\def\longdiv#1#2{%
- \vtop{\normalbaselines \offinterlineskip
-   \setbox\strutbox\hbox{\vrule height 2.1ex depth .5ex width0ex}%
-   \def\showdig{$\underline{\the\LDscratch\strut}$\cr\the\rtot\strut\cr
-       \noalign{\kern-.2ex}}%
-   \global\rtot=#1\relax
-   \count0=\rtot\divide\count0by#2\edef\quotient{\the\count0}%\show\quotient
-   % make list macro out of digits in quotient:
-   \def\temp##1{\ifx##1\temp\else \noexpand\dodig ##1\expandafter\temp\fi}%
-   \edef\routine{\expandafter\temp\quotient\temp}%
-   % process list to give power-of-ten:
-   \def\dodig##1{\global\multiply\gpten by10 }\global\gpten=1 \routine
-   % to display effect of one digit in quotient (zero ignored):
-   \def\dodig##1{\global\divide\gpten by10
-      \LDscratch =\gpten
-      \multiply\LDscratch  by##1%
-      \multiply\LDscratch  by#2%
-      \global\advance\rtot-\LDscratch \relax
-      \ifnum\LDscratch>0 \showdig \fi % must hide \cr in a macro to skip it
-   }%
-   \tabskip=0pt
-   \halign{\hfil##\cr % \halign for entire division problem
-     $\quotient$\strut\cr
-     #2$\,\overline{\vphantom{\big)}%
-     \hbox{\smash{\raise3.5\fontdimen8\textfont3\hbox{$\big)$}}}%
-     \mkern2mu \the\rtot}$\cr\noalign{\kern-.2ex}
-     \routine \cr % do each digit in quotient
-}}}
-
-
-
-\def\HBlock#1
-{
-\begin{scope}[shift={#1}]
-    \fill[draw,Green] (-0.001,-0.001) rectangle (1.001,1.001);
-    \draw (-0.001,-0.001) grid[step=.1] (1.001,1.001);
-\end{scope}
-}
-
-\def\TBlock#1
-{
-\begin{scope}[shift={#1}]
-    \fill[draw,Green] (-0.001,-0.001) rectangle (0.101,1.001);
-    \draw (-0.001,-0.001) grid[step=.1] (0.101,1.001);
-
-\end{scope}
-}
-
-\def\OBlock#1
-{
-\begin{scope}[shift={#1}]
-    \fill[draw,Green] (0,0) rectangle (.1,.1);
-    \draw[line join=round] (-0.001,-0.001) grid[step=.1] (0.101,0.101);
-\end{scope}
-}
-
-\def\MakeBlocks#1#2#3
-{
-
-\foreach\x in {1,...,#1}
-{
-\begin{scope}[shift={(1.1*\x,0)}]
-\HBlock{(0,0)}
-\end{scope}
-}
-
-\foreach\x in {1,...,#2}
-{
-\begin{scope}[shift={(.2*\x+#1*1.1+.9,0)}]
-\TBlock{(0,0)}
-\end{scope}
-}
-
-
-
-\ifthenelse{#3>5}
-{
-\foreach\x in {1,...,5}
-{
-\begin{scope}[shift={(.2*#2+#1*1.1+1.1,.15*\x-.15)}]
-\OBlock{(0,0)}
-\end{scope}
-}
-\foreach\x in {6,...,#3}
-{
-\begin{scope}[shift={(.2*#2+#1*1.1+1.3,.15*\x-.15-.75)}]
-\OBlock{(0,0)}
-\end{scope}
-}
-
-}
-{
-\foreach\x in {1,...,#3}
-{
-\begin{scope}[shift={(.2*#2+#1*1.1+1.1,.15*\x-.15)}]
-\OBlock{(0,0)}
-\end{scope}
-}
-}
-
-}
-
-
-
-
-\endinput
+    /pgfplots/light ticks/.style={
+    /pgfplots/every x tick/.append style={black!50},
+    /pgfplots/every y tick/.append style={black!50}
+    },
+    }
+    
+    \pgfplotsset{
+      /pgfplots/xlabel near ticks/.style={
+         /pgfplots/every axis x label/.style={
+            at={(ticklabel cs:0.5)},anchor=near ticklabel}
+    },
+      /pgfplots/ylabel near ticks/.style={
+         /pgfplots/every axis y label/.style={
+            at={(ticklabel cs:0.5)},rotate=90,anchor=near ticklabel}
+    },
+      /pgfplots/xlabel near end/.style={
+         /pgfplots/every axis x label/.style={
+            at={(ticklabel cs:1)},anchor=north east}
+    },
+      /pgfplots/ylabel near end/.style={
+         /pgfplots/every axis y label/.style={
+            at={(ticklabel cs:1)},rotate=90,anchor=south east}
+      },
+    }
+    
+    \tikzset{
+    onetick/.style={postaction={decorate,
+       decoration={markings,mark=at position .5 with {\arrow{|};}}}
+       },
+    twotick/.style={postaction={decorate,
+       decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-1.5pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength+1.5pt with {\arrow{|};}}}
+       },
+    threetick/.style={postaction={decorate,
+       decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-2pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength-0pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength+2pt with {\arrow{|};}}}
+       },
+    fourtick/.style={postaction={decorate,
+       decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-3pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength-1pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength+1pt with {\arrow{|}l},mark=at position 0.5*\pgfdecoratedpathlength+3pt with {\arrow{|};}}}
+       },
+    }
+    
+    \tikzset{
+    onearrow/.style={postaction={decorate,
+       decoration={markings,mark=at position .5 with {\arrow{>};}}}
+       },
+    twoarrow/.style={postaction={decorate,
+       decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-1.5pt with {\arrow{>};},mark=at position 0.5*\pgfdecoratedpathlength+1.5pt with {\arrow{>};}}}
+       },
+    threearrow/.style={postaction={decorate,
+       decoration={markings,mark=at position 0.5*\pgfdecoratedpathlength-2pt with {\arrow{>};},mark=at position 0.5*\pgfdecoratedpathlength-0pt with {\arrow{>};},mark=at position 0.5*\pgfdecoratedpathlength+2pt with {\arrow{>};}}}
+       },
+    }
+    
+    %%% PREMADE TEMPLATES
+    
+    \pgfplotsset{
+        Histogram/.style={ 
+        width=6.5in,
+        height=4in,
+        ymin=0, ymax=55,
+        minor y tick num = 3,
+        area style,
+        xtick=data,
+        xtick style={draw=none},
+        axis x line*=bottom,
+        axis y line*=left,
+        x axis line style=-,
+        y axis line style=-,
+    }}
+    
+    
+    \pgfplotsset{
+        BoxPlot/.style={ 
+        width=6.5in,
+        height=4in,
+        ymin=0, ymax=55,
+        axis y line=none,
+        area style,
+        xtick align=center,
+        axis x line*=bottom,
+        x axis line style=-,
+    }}
+    
+    
+    \pgfplotsset{
+      ScatterPlot/.style={
+        width=6.5in,
+        height=4in,
+        grid=both,
+        every x tick/.style={black!50},
+        every y tick/.style={black!50},
+        minor tick num=4,
+        grid style={line width=.5pt,black!50},
+        axis line style={line width=.5pt,black!50},
+        xmin=0,
+        xmax=10,
+        ymin=0,
+        ymax=10,
+        clip=true,
+        xlabel={$x$ label},
+        ylabel={$y$ label},
+    }
+    }
+    
+    \pgfplotsset{
+        FourQuadrant/.style={
+          width=6.5in,
+          height=4in,
+          grid=both,
+          every x tick/.style={black!50},
+          every y tick/.style={black!50},
+          axis lines=middle,
+          minor tick num=0,
+          grid style={line width=.5pt,black!50},
+          x axis line style=-{Stealth[length=3mm,width=2mm]},
+          y axis line style=-{Stealth[length=3mm,width=2mm]},
+          xmin=-10,
+          xmax=10,
+          ymin=-10,
+          ymax=10,
+          clip=true,
+          xlabel={$x$ label goes here},
+          ylabel={$y$ label gets here},
+          xlabel near end,
+          ylabel near end,
+          xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
+          yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=.02in,yshift=-.01in},
+    }}
+    
+    \pgfplotsset{FourQuadrant/.append style={      after end axis/.code=
+          {
+            \path ($(current axis.origin)+(-.09in,-.09in)$) node {$\mathcal{O}$};
+          }
+    }
+    }
+    
+    \pgfplotsset{
+        TwoQuadrant/.style={
+          width=6.5in,
+          height=4in,
+          grid=both,
+          every x tick/.style={black!50},
+          every y tick/.style={black!50},
+          axis lines=middle,
+          minor tick num=0,
+          grid style={line width=.5pt,black!50},
+          x axis line style=-{Stealth[length=3mm,width=2mm]},
+          y axis line style=-{Stealth[length=3mm,width=2mm]},
+          xmin=-10,
+          xmax=10,
+          ymin=0,
+          ymax=10,
+          clip=true,
+          xlabel={$x$ label goes here},
+          ylabel={$y$ label gets here},
+          xlabel near end,
+          ylabel near end,
+          xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
+          yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=.02in,yshift=-.01in},
+    }
+    }
+    
+    \pgfplotsset{TwoQuadrant/.append style={      after end axis/.code=
+          {
+            \path ($(current axis.origin)+(-.09in,-.09in)$) node {$\mathcal{O}$};
+            \draw ($(current axis.origin)+(0,-.1in)$) -- (current axis.origin);
+            \draw ($(current axis.origin)+(-.1in,0)$) -- (current axis.origin);
+          }
+    }
+    }
+    
+    \pgfplotsset{
+        FirstQuadrantLabeled/.style={
+          width=6.5in,
+          height=4in,
+          grid=both,
+        every x tick/.style={black!50},
+        every y tick/.style={black!50},
+          xmin=0,
+          xmax=20,
+          ymin=0,
+          ymax=10,
+          axis lines=middle,
+          minor tick num=0,
+          grid style={line width=.5pt,black!50},
+          xlabel={$x$ label goes here},
+          ylabel={$y$ label gets here},
+          clip=true,
+          xlabel near ticks,
+          ylabel near ticks,
+          yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=.02in,yshift=-.01in},
+          xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
+          x axis line style=-{Stealth[length=3mm,width=2mm]},
+          y axis line style=-{Stealth[length=3mm,width=2mm]}
+    }}
+    
+    \pgfplotsset{FirstQuadrantLabeled/.append style={      x axis line style=-{Stealth[length=3mm,width=2mm]},
+          y axis line style=-{Stealth[length=3mm,width=2mm]}
+    }}
+    
+    
+    \pgfplotsset{FirstQuadrantLabeled/.append style={      after end axis/.code=
+        {
+            \path ($(current axis.origin)+(-.09in,-.09in)$) node {$\mathcal{O}$};
+            \draw ($(current axis.origin)+(0,-.1in)$) -- (current axis.origin);
+            \draw ($(current axis.origin)+(-.1in,0)$) -- (current axis.origin);
+          }
+      }
+    }
+    
+    \pgfplotsset{
+        FirstQuadrantXY/.style={
+          width=6.5in,
+          height=4in,
+          grid=both,
+        every x tick/.style={black!50},
+        every y tick/.style={black!50},
+          xmin=0,
+          xmax=30,
+          ymin=0,
+          ymax=10,
+          axis lines=middle,
+          minor tick num=0,
+    %      x axis line style=-{Stealth[length=3mm,width=2mm]},
+    %      y axis line style=-{Stealth[length=3mm,width=2mm]},
+          grid style={line width=.5pt,black!50},
+          clip=true,
+          xlabel={$x$},
+          ylabel={$y$},
+          xlabel style={yshift=-.35cm,inner sep=0pt,outer sep=0pt},
+          ylabel style={xshift=-.12cm,yshift=-.03cm,anchor=north east,inner sep=0pt,outer sep=0pt},
+          yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=0in,yshift=-.01in},
+          xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
+    }}
+    
+    \pgfplotsset{FirstQuadrantXY/.append style={      after end axis/.code=
+        {
+            \path ($(current axis.origin)+(-.09in,-.09in)$) node {$\mathcal{O}$};
+            \draw ($(current axis.origin)+(0,-.1in)$) -- (current axis.origin);
+            \draw ($(current axis.origin)+(-.1in,0)$) -- (current axis.origin);
+          }
+      }
+    }
+    
+    
+    \def\drawarc[#1](#2)(#3:#4:#5){ \draw[#1,thin] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) }
+    \def\drawarcwarrow[#1](#2)(#3:#4:#5){ \draw[#1,-latex'] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) }
+    
+    
+    \newcommand{\TriSSS}[3]{
+    \coordinate (AAA) at (0,0);
+    \coordinate (BBB) at (#1,0);
+    \path[name path=arc1] ($(AAA)-(0,#2)$) arc (-90:90:#2);
+    \path[name path=arc2] ($(BBB)+(0,#3)$) arc (90:180:#3);
+    \path [name intersections={of=arc1 and arc2,by=CCC}];
+    \draw (AAA) -- (BBB) -- (CCC) -- (AAA);
+    }
+    
+    \newcommand{\TriSSSLabeled}[7]{
+    \coordinate (AAA) at (0,0);
+    \coordinate (BBB) at (#1,0);
+    \path[name path=arc1] ($(AAA)-(0,#2)$) arc (-90:90:#2);
+    \path[name path=arc2] ($(BBB)+(0,#3)$) arc (90:180:#3);
+    \path [name intersections={of=arc1 and arc2,by=CCC}];
+    \path (CCC) -- node {\Large #7} (CCC |- AAA);
+    \draw (AAA) -- node[below] {#4} (BBB) -- node[above right] {#5} (CCC) -- node[above left] {#6} (AAA);
+    
+    }
+    
+    
+    \pgfplotsset{
+        FourQuadrantXY/.style={
+          width=6.5in,
+          height=4in,
+          grid=both,
+          axis lines=middle,
+          minor tick num=0,
+          grid style={line width=.5pt,black!50},
+          x axis line style=-{Stealth[length=3mm,width=2mm]},
+          y axis line style=-{Stealth[length=3mm,width=2mm]},
+          xmin=-10,
+          xmax=10,
+          ymin=-10,
+          ymax=10,
+          clip=true,
+          xlabel={$x$},
+          ylabel={$y$},
+          xlabel style={yshift=-.35cm,inner sep=0pt,outer sep=0pt},
+          ylabel style={xshift=-.12cm,yshift=-.03cm,anchor=north east,inner sep=0pt,outer sep=0pt},
+    }}
+    
+    \pgfplotsset{FourQuadrantXY/.append style={      after end axis/.code=
+          {
+            \path ($(current axis.origin)+(-.11in,-.11in)$) node {$\mathcal{O}$};
+          }
+    }
+    }
+    
+    \pgfplotsset{
+        FourQuadrantGrid/.style={
+          width=6.5in,
+          height=4in,
+          grid=both,
+        every x tick/.style={black!50},
+        every y tick/.style={black!50},
+          axis lines=middle,
+          minor tick num=0,
+          grid style={line width=.5pt,black!50},
+          x axis line style=-{Stealth[length=3mm,width=2mm]},
+          y axis line style=-{Stealth[length=3mm,width=2mm]},
+          xmin=-10,
+          xmax=10,
+          ymin=-10,
+          ymax=10,
+          clip=true,
+          xlabel={$x$},
+          ylabel={$y$},
+          xlabel style={yshift=-.35cm,inner sep=0pt,outer sep=0pt},
+          ylabel style={xshift=-.12cm,yshift=-.03cm,anchor=north east,inner sep=0pt,outer sep=0pt},
+    %      xlabel near end,
+    %      ylabel near end,
+          xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
+          yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=.02in,yshift=-.01in},
+    }}
+    
+    \pgfplotsset{FourQuadrantGrid/.append style={      after end axis/.code=
+          {
+            \path ($(current axis.origin)+(-.11in,-.11in)$) node {$\mathcal{O}$};
+          }
+    }
+    }
+    
+    
+    % COLORS AS OF AUGUST 2016
+    
+    %Standard Colors
+    \definecolor{Yellow}{RGB}{255,184,28}
+    \definecolor{Green}{RGB}{67,176,42}
+    \definecolor{Blue}{RGB}{0,149,200}
+    \definecolor{Red}{RGB}{224,60,49}
+    
+    %Light Colors
+    \definecolor{LYellow}{RGB}{255,215,145}
+    \definecolor{LGreen}{RGB}{170,215,165}
+    \definecolor{LBlue}{RGB}{125,206,235}
+    \definecolor{LRed}{RGB}{249,172,147}
+    
+    %Pattern Block Colors
+    \definecolor{PBlue}{RGB}{0,0,255}
+    \definecolor{PGreen}{RGB}{22,170,4}
+    \definecolor{PYellow}{RGB}{255,255,12}
+    \definecolor{PRed}{RGB}{251,0,6}
+    \definecolor{POrange}{RGB}{253,134,9}
+    
+    \newcommand{\FunctionMachine}[3]{
+    
+    \node (a) at (0,0) [draw,very thick,inner sep=3pt,minimum height=.7in,text width=2cm,text centered] {#2};
+    
+    \begin{scope}[shift=(a.east)]
+    \draw (0,.05) -- (.15,.05) -- (.15,.125) -- (.35,0) -- (.15,-.125) -- (.15,-.05) -- (0,-.05) -- cycle;
+    \node[anchor=west] at (.4,0) {#3};
+    \end{scope}
+    
+    \begin{scope}[shift=(a.west)]
+    \begin{scope}[xshift=-.35in]
+    \draw (0,.05) -- (.15,.05) -- (.15,.125) -- (.35,0) -- (.15,-.125) -- (.15,-.05) -- (0,-.05) -- cycle;
+    \node[anchor=east] at (-.1,0) {#1};
+    \end{scope}
+    \end{scope}
+    }
+    
+    
+    \def\centerarc[#1](#2)(#3:#4:#5){ \draw[#1] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) }
+    \def\centerarcwarrow[#1](#2)(#3:#4:#5){ \draw[#1,-latex'] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) }
+    
+    \tikzset{
+        right angle quadrant/.code={
+            \pgfmathsetmacro\quadranta{{1,1,-1,-1}[#1-1]}     % Arrays for selecting quadrant
+            \pgfmathsetmacro\quadrantb{{1,-1,-1,1}[#1-1]}},
+        right angle quadrant=1, % Make sure it is set, even if not called explicitly
+        right angle length/.code={\def\rightanglelength{#1}},   % Length of symbol
+        right angle length=.15in, % Make sure it is set...
+        right angle symbol/.style n args={3}{
+            insert path={
+                let \p0 = ($(#1)!(#3)!(#2)$) in     % Intersection
+                    let \p1 = ($(\p0)!\quadranta*\rightanglelength!(#3)$), % Point on base line
+                    \p2 = ($(\p0)!\quadrantb*\rightanglelength!(#2)$) in % Point on perpendicular line
+                    let \p3 = ($(\p1)+(\p2)-(\p0)$) in  % Corner point of symbol
+                (\p1) -- (\p3) -- (\p2)
+            }
+        },
+        right angle symbol/.append style={line width=.5pt},
+    }
+    
+    
+    % POSSIBLE IMAGE WIDTHS
+    
+    \newdimen\FP
+    \newdimen\FullPage
+    \FullPage=6.5in
+    \FP=6.5in
+    
+    \newdimen\TFP
+    \newdimen\ThreeFourthsPage
+    \ThreeFourthsPage=4.875in
+    \TFP=4.875in
+    
+    \newdimen\HP
+    \newdimen\HalfPage
+    \HalfPage=3.25in
+    \HP=3.25in
+    
+    \newdimen\THP
+    \newdimen\ThirdPage
+    \ThirdPage=2.1in
+    \THP=2.1in
+    
+    \newdimen\QP
+    \newdimen\QuarterPage
+    \QuarterPage=1.625in
+    \QP=1.625in
+    
+    
+    % Long Division Command
+    \newcount\gpten % (global) power-of-ten -- tells which digit we are doing
+    \countdef\rtot2 % running total -- remainder so far
+    \countdef\LDscratch4 % scratch
+    
+    \def\longdiv#1#2{%
+     \vtop{\normalbaselines \offinterlineskip
+       \setbox\strutbox\hbox{\vrule height 2.1ex depth .5ex width0ex}%
+       \def\showdig{$\underline{\the\LDscratch\strut}$\cr\the\rtot\strut\cr
+           \noalign{\kern-.2ex}}%
+       \global\rtot=#1\relax
+       \count0=\rtot\divide\count0by#2\edef\quotient{\the\count0}%\show\quotient
+       % make list macro out of digits in quotient:
+       \def\temp##1{\ifx##1\temp\else \noexpand\dodig ##1\expandafter\temp\fi}%
+       \edef\routine{\expandafter\temp\quotient\temp}%
+       % process list to give power-of-ten:
+       \def\dodig##1{\global\multiply\gpten by10 }\global\gpten=1 \routine
+       % to display effect of one digit in quotient (zero ignored):
+       \def\dodig##1{\global\divide\gpten by10
+          \LDscratch =\gpten
+          \multiply\LDscratch  by##1%
+          \multiply\LDscratch  by#2%
+          \global\advance\rtot-\LDscratch \relax
+          \ifnum\LDscratch>0 \showdig \fi % must hide \cr in a macro to skip it
+       }%
+       \tabskip=0pt
+       \halign{\hfil##\cr % \halign for entire division problem
+         $\quotient$\strut\cr
+         #2$\,\overline{\vphantom{\big)}%
+         \hbox{\smash{\raise3.5\fontdimen8\textfont3\hbox{$\big)$}}}%
+         \mkern2mu \the\rtot}$\cr\noalign{\kern-.2ex}
+         \routine \cr % do each digit in quotient
+    }}}
+    
+    
+    
+    \def\HBlock#1
+    {
+    \begin{scope}[shift={#1}]
+        \fill[draw,Green] (-0.001,-0.001) rectangle (1.001,1.001);
+        \draw (-0.001,-0.001) grid[step=.1] (1.001,1.001);
+    \end{scope}
+    }
+    
+    \def\TBlock#1
+    {
+    \begin{scope}[shift={#1}]
+        \fill[draw,Green] (-0.001,-0.001) rectangle (0.101,1.001);
+        \draw (-0.001,-0.001) grid[step=.1] (0.101,1.001);
+    
+    \end{scope}
+    }
+    
+    \def\OBlock#1
+    {
+    \begin{scope}[shift={#1}]
+        \fill[draw,Green] (0,0) rectangle (.1,.1);
+        \draw[line join=round] (-0.001,-0.001) grid[step=.1] (0.101,0.101);
+    \end{scope}
+    }
+    
+    \def\MakeBlocks#1#2#3
+    {
+    
+    \foreach\x in {1,...,#1}
+    {
+    \begin{scope}[shift={(1.1*\x,0)}]
+    \HBlock{(0,0)}
+    \end{scope}
+    }
+    
+    \foreach\x in {1,...,#2}
+    {
+    \begin{scope}[shift={(.2*\x+#1*1.1+.9,0)}]
+    \TBlock{(0,0)}
+    \end{scope}
+    }
+    
+    
+    
+    \ifthenelse{#3>5}
+    {
+    \foreach\x in {1,...,5}
+    {
+    \begin{scope}[shift={(.2*#2+#1*1.1+1.1,.15*\x-.15)}]
+    \OBlock{(0,0)}
+    \end{scope}
+    }
+    \foreach\x in {6,...,#3}
+    {
+    \begin{scope}[shift={(.2*#2+#1*1.1+1.3,.15*\x-.15-.75)}]
+    \OBlock{(0,0)}
+    \end{scope}
+    }
+    
+    }
+    {
+    \foreach\x in {1,...,#3}
+    {
+    \begin{scope}[shift={(.2*#2+#1*1.1+1.1,.15*\x-.15)}]
+    \OBlock{(0,0)}
+    \end{scope}
+    }
+    }  
+    
+    }
+    
+    
+    
+    
+    \endinput
+    
