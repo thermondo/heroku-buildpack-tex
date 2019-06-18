@@ -1,6 +1,6 @@
     \ProvidesPackage{Tikz-IM}
     
-    \typeout{Tikz-IM Version 03/20/2019}
+    \typeout{Tikz-IM Version 06/18/2019}
     
     \RequirePackage{xparse}
     
@@ -74,7 +74,7 @@
     },
       /pgfplots/xlabel near end/.style={
          /pgfplots/every axis x label/.style={
-            at={(ticklabel cs:1)},anchor=north east}
+            at={(ticklabel cs:1)},below=.3in, anchor=north east}
     },
       /pgfplots/ylabel near end/.style={
          /pgfplots/every axis y label/.style={
@@ -285,8 +285,8 @@
           clip=true,
           xlabel={$x$},
           ylabel={$y$},
-          xlabel style={yshift=-.35cm,inner sep=0pt,outer sep=0pt},
-          ylabel style={xshift=-.12cm,yshift=-.03cm,anchor=north east,inner sep=0pt,outer sep=0pt},
+          xlabel style={anchor=north east,yshift=-.1in,xshift=0in,inner sep=0pt,outer sep=0pt},
+          ylabel style={anchor=north east,yshift=0,xshift=-.1in,inner sep=0pt,outer sep=0pt},
           yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=0in,yshift=-.01in},
           xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
     }}
@@ -303,6 +303,7 @@
     
     \def\drawarc[#1](#2)(#3:#4:#5){ \draw[#1,thin] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) }
     \def\drawthickarc[#1](#2)(#3:#4:#5){ \draw[#1] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) }
+
     \def\drawarcwarrow[#1](#2)(#3:#4:#5){ \draw[#1,-latex'] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) }
     
     
@@ -333,6 +334,8 @@
           height=4in,
           grid=both,
           axis lines=middle,
+          xlabel style={anchor=north east,yshift=-.1in,xshift=0in,inner sep=0pt,outer sep=0pt},
+          ylabel style={anchor=north east,yshift=0,xshift=-.1in,inner sep=0pt,outer sep=0pt},
           minor tick num=0,
           grid style={line width=.5pt,black!50},
           x axis line style=-{Stealth[length=3mm,width=2mm]},
@@ -344,8 +347,6 @@
           clip=true,
           xlabel={$x$},
           ylabel={$y$},
-          xlabel style={yshift=-.35cm,inner sep=0pt,outer sep=0pt},
-          ylabel style={xshift=-.12cm,yshift=-.03cm,anchor=north east,inner sep=0pt,outer sep=0pt},
     }}
     
     \pgfplotsset{FourQuadrantXY/.append style={      after end axis/.code=
@@ -374,8 +375,8 @@
           clip=true,
           xlabel={$x$},
           ylabel={$y$},
-          xlabel style={yshift=-.35cm,inner sep=0pt,outer sep=0pt},
-          ylabel style={xshift=-.12cm,yshift=-.03cm,anchor=north east,inner sep=0pt,outer sep=0pt},
+          xlabel style={anchor=north east,yshift=-.1in,xshift=0in,inner sep=0pt,outer sep=0pt},
+          ylabel style={anchor=north east,yshift=0,xshift=-.1in,inner sep=0pt,outer sep=0pt},
     %      xlabel near end,
     %      ylabel near end,
           xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
@@ -438,7 +439,7 @@
             \pgfmathsetmacro\quadrantb{{1,-1,-1,1}[#1-1]}},
         right angle quadrant=1, % Make sure it is set, even if not called explicitly
         right angle length/.code={\def\rightanglelength{#1}},   % Length of symbol
-        right angle length=.15in, % Make sure it is set...
+        right angle length=.125in, % Make sure it is set...
         right angle symbol/.style n args={3}{
             insert path={
                 let \p0 = ($(#1)!(#3)!(#2)$) in     % Intersection
@@ -587,7 +588,7 @@
     
     }
     
-    \def\TRI#1{
+\def\TRI#1{
 \begin{scope}[shift={#1}]
     \draw [fill=Green] (90:.35) -- (210:.35) -- (330:.35) -- (90:.35);
 \end{scope}
@@ -611,11 +612,6 @@
 \end{scope}
 }
 
-\def\PEN#1{
-\begin{scope}[shift={#1}]
-    \draw [fill=Yellow] (90:.34) -- (162:.34) -- (234:.34) -- (306:.34) -- (18:.34) -- cycle;
-\end{scope}
-}
 
 \newcommand{\wTRI}[2]{
 \begin{scope}[shift={#1}]
@@ -644,6 +640,8 @@
     \node at (0,0) {#2};
 \end{scope}
 }
+
+
 
 \newcommand{\MakeHanger}[3][1]{
 
@@ -756,6 +754,6 @@
 \end{scope}
 
 }
-
+  
 \endinput
     
