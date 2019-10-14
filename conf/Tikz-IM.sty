@@ -1,12 +1,16 @@
     \ProvidesPackage{Tikz-IM}
 
-    \typeout{Tikz-IM Version 06/18/2019}
+    \typeout{Tikz-IM Version 2019-10-14}
 
     \RequirePackage{xparse}
 
-    \usepackage{sfmath}
+    \IM@LoadTextFonts
 
-    \IM@LoadFonts
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % this should happen *before* amsmath is loaded %
+    % see stix2 documents for details               %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \IM@LoadMathFonts
 
     \usepackage{tikz,pgfplots,amsmath,xcolor}
     \usetikzlibrary{calc,positioning,arrows,arrows.meta,shapes.geometric,shapes,matrix,shapes.symbols,backgrounds}
@@ -21,20 +25,18 @@
     \pgfplotsset{compat=1.15}
     \usepackage{pgfplotstable}
     \usepackage{ifthen}
-    \usepackage{sansmath}
-
 
 
     %%% IM STYLE SETINGS %%%
 
     \tikzset{every picture/.append style={line join=round}}
 
-    \tikzset{every node/.append style={font=\sansmath\sffamily}}
-    \tikzset{every label/.append style={font=\sansmath\sffamily,label distance=-.1cm}}
+    \tikzset{every node/.append style={font=\IM@TikzFontDeclaration}}
+    \tikzset{every label/.append style={font=\IM@TikzFontDeclaration,label distance=-.1cm}}
     \tikzset{every picture/.append style={line width=1pt}}
     \tikzset{every picture/.append style={>={Stealth[length=3mm,width=2mm]}}}
 
-    \pgfplotsset{tick label style = {font=\sansmath\sffamily\footnotesize}}
+    \pgfplotsset{tick label style = {font=\IM@TikzFontDeclaration\footnotesize}}
     \pgfplotsset{x axis line style=-{Stealth[length=3mm,width=2mm]}}
     \pgfplotsset{y axis line style=-{Stealth[length=3mm,width=8mm]}}
     \pgfplotsset{every axis/.append style={xtick align=center}}
@@ -182,8 +184,8 @@
           ylabel={$y$ label gets here},
           xlabel near end,
           ylabel near end,
-          xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
-          yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=.02in,yshift=-.01in},
+          xticklabel style={font=\IM@TikzFontDeclaration\footnotesize,xshift=-.00in,yshift=.02in,},
+          yticklabel style={font=\IM@TikzFontDeclaration\footnotesize,xshift=.02in,yshift=-.01in},
     }}
 
     \pgfplotsset{FourQuadrant/.append style={      after end axis/.code=
@@ -214,8 +216,8 @@
           ylabel={$y$ label gets here},
           xlabel near end,
           ylabel near end,
-          xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
-          yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=.02in,yshift=-.01in},
+          xticklabel style={font=\IM@TikzFontDeclaration\footnotesize,xshift=-.00in,yshift=.02in,},
+          yticklabel style={font=\IM@TikzFontDeclaration\footnotesize,xshift=.02in,yshift=-.01in},
     }
     }
 
@@ -247,8 +249,8 @@
           clip=true,
           xlabel near ticks,
           ylabel near ticks,
-          yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=.02in,yshift=-.01in},
-          xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
+          yticklabel style={font=\IM@TikzFontDeclaration\footnotesize,xshift=.02in,yshift=-.01in},
+          xticklabel style={font=\IM@TikzFontDeclaration\footnotesize,xshift=-.00in,yshift=.02in,},
           x axis line style=-{Stealth[length=3mm,width=2mm]},
           y axis line style=-{Stealth[length=3mm,width=2mm]}
     }}
@@ -288,8 +290,8 @@
           ylabel={$y$},
           xlabel style={anchor=north east,yshift=-.1in,xshift=0in,inner sep=0pt,outer sep=0pt},
           ylabel style={anchor=north east,yshift=0,xshift=-.1in,inner sep=0pt,outer sep=0pt},
-          yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=0in,yshift=-.01in},
-          xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
+          yticklabel style={font=\IM@TikzFontDeclaration\footnotesize,xshift=0in,yshift=-.01in},
+          xticklabel style={font=\IM@TikzFontDeclaration\footnotesize,xshift=-.00in,yshift=.02in,},
     }}
 
     \pgfplotsset{FirstQuadrantXY/.append style={      after end axis/.code=
@@ -380,8 +382,8 @@
           ylabel style={anchor=north east,yshift=0,xshift=-.1in,inner sep=0pt,outer sep=0pt},
     %      xlabel near end,
     %      ylabel near end,
-          xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
-          yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=.02in,yshift=-.01in},
+          xticklabel style={font=\IM@TikzFontDeclaration\footnotesize,xshift=-.00in,yshift=.02in,},
+          yticklabel style={font=\IM@TikzFontDeclaration\footnotesize,xshift=.02in,yshift=-.01in},
     }}
 
     \pgfplotsset{FourQuadrantGrid/.append style={      after end axis/.code=
