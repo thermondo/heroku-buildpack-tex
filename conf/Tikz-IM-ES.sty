@@ -1,1 +1,77 @@
-\newcommand{\blarglefargle}{This is a test}
+% this is no longer a placeholder for ES sty definitions as they are now here
+
+
+\newcommand\MakeAnUnitCube[5]{
+\begin{scope}[scale=.25,shift={(#1,#2,#3)},xshift=#4 in ,yshift=#5 in]
+\draw[rounded corners=.1mm,fill=LBlue] (0,0,1)--(1,0,1)--(1,1,1)--(0,1,1)--cycle;
+\draw[rounded corners=.1mm,fill=LBlue] (0,1,0)--(1,1,0)--(1,1,1)--(0,1,1)--cycle;
+\draw[rounded corners=.1mm,fill=LBlue] (1,0,0)--(1,1,0)--(1,1,1)--(1,0,1)--cycle;
+\end{scope}
+}
+
+\newcommand\MakeAnOutline[5]{
+\begin{scope}[scale=.25,xshift=#4 in ,yshift=#5 in]
+\draw[very thick,rounded corners=.1mm] (0,0,#3)--(#1,0,#3)--(#1,#2,#3)--(0,#2,#3)--cycle;
+\draw[very thick,rounded corners=.1mm] (0,#2,0)--(#1,#2,0)--(#1,#2,#3)--(0,#2,#3)--cycle;
+\draw[very thick,rounded corners=.1mm] (#1,0,0)--(#1,#2,0)--(#1,#2,#3)--(#1,0,#3)--cycle;
+\end{scope}
+}
+
+\newcommand\MakeABlockProfile[4]{
+\begin{scope}[shift={(#1,#2)},scale=.75,shift={(-.5,-.5)}]
+\def\offset{.04}
+\draw[rounded corners=.1mm,fill=#3] (0,0)--(1,0)--(1,1)--(0,1)--cycle;
+\draw[rounded corners=.1mm,fill=#4] (.33,.33)--(.66,.33)--(.66,.66)--(.33,.66)--cycle;
+\draw[rounded corners=.1mm,fill=#4] (.33+\offset,.33+\offset)--(.66-\offset,.33+\offset)--(.66-\offset,.66-\offset)--(.33+\offset,.66-\offset)--cycle;
+\draw (.33,.33)--(.33+\offset,.33+\offset);
+\draw (.33,.66)--(.33+\offset,.66-\offset);
+\draw (.66,.33)--(.66-\offset,.33+\offset);
+\draw (.66,.66)--(.66-\offset,.66-\offset);
+\end{scope}
+}
+
+
+\newcommand\MakeAConnectingCube[5]{
+\begin{scope}[xshift=#1 in,yshift=#2 in,shift={(-.375,-.375)},scale=1.33]
+\draw[rounded corners=.5mm,fill=#3] (0,0,.75)--(.75,0,.75)--(.75,.75,.75)--(0,.75,.75)--cycle;
+\draw[rounded corners=.5mm,fill=#3] (0,.75,0)--(.75,.75,0)--(.75,.75,.75)--(0,.75,.75)--cycle;
+\draw[rounded corners=.5mm,fill=#3] (.75,0,0)--(.75,.75,0)--(.75,.75,.75)--(.75,0,.75)--cycle;
+\draw[rounded corners=.5mm,fill=#4] (.25,.25,.75)--(.50,.25,.75)--(.50,.50,.75)--(.25,.50,.75)--cycle;
+\draw[rounded corners=.5mm,fill=#4] (.75,.25,.25)--(.75,.50,.25)--(.75,.50,.50)--(.75,.25,.50)--cycle;
+\begin{scope}\clip (.25,.25,.75)--(.50,.25,.75)--(.50,.50,.75)--(.25,.50,.75)--cycle;\draw (.25,.25,.75)--(.25,.25,.50) (.25,.50,.50)--(.25,.25,.50) (.50,.25,.50)--(.25,.25,.50);\end{scope}
+\begin{scope}\clip (.75,.25,.25)--(.75,.50,.25)--(.75,.50,.50)--(.75,.25,.50)--cycle;\draw (.50,.25,.25)--(.75,.25,.25);\end{scope}
+\draw[rounded corners=.5mm,fill=#4] (.25,.75,.25)--(.50,.75,.25)--(.50,.75,.50)--(.25,.75,.50)--cycle;\begin{scope}\clip (.25,.75,.25)--(.50,.75,.25)--(.50,.75,.50)--(.25,.75,.50)--cycle;\draw (.25,.75,.25)--(.25,.50,.25);\end{scope}
+\end{scope}
+}
+
+\newcommand\MakeAConnectingCubeMetric[5]{
+\begin{scope}[xshift=#1 cm,yshift=#2cm ,shift={(-.5,-.5)}]
+\draw[rounded corners=.1mm,fill=#3] (0,0,1)--(1,0,1)--(1,1,1)--(0,1,1)--cycle;
+\draw[rounded corners=.1mm,fill=#3] (0,1,0)--(1,1,0)--(1,1,1)--(0,1,1)--cycle;
+\draw[rounded corners=.1mm,fill=#3] (1,0,0)--(1,1,0)--(1,1,1)--(1,0,1)--cycle;
+\draw[rounded corners=.1mm,fill=#4] (.33,.33,1)--(.66,.33,1)--(.66,.66,1)--(.33,.66,1)--cycle;
+\draw[rounded corners=.1mm,fill=#4] (1,.33,.33)--(1,.66,.33)--(1,.66,.66)--(1,.33,.66)--cycle;
+\begin{scope}\clip (.33,.33,1)--(.66,.33,1)--(.66,.66,1)--(.33,.66,1)--cycle;\draw (.33,.33,1)--(.33,.33,.66) (.33,.66,.66)--(.33,.33,.66) (.66,.33,.66)--(.33,.33,.66);\end{scope}
+\begin{scope}\clip (1,.33,.33)--(1,.66,.33)--(1,.66,.66)--(1,.33,.66)--cycle;\draw (.66,.33,.33)--(1,.33,.33);\end{scope}
+\draw[rounded corners=.1mm,fill=#4] (.33,1,.33)--(.66,1,.33)--(.66,1,.66)--(.33,1,.66)--cycle;\begin{scope}\clip (.33,1,.33)--(.66,1,.33)--(.66,1,.66)--(.33,1,.66)--cycle;\draw (.33,1,.33)--(.33,.66,.33);\end{scope}
+\ifthenelse{#5=1}{
+\draw[rounded corners=.1mm,fill=#3] (.33,1,.66)--(.66,1,.66)--(.66,1.33,.66)--(.33,1.33,.66)--cycle;
+\draw[rounded corners=.1mm,fill=#3] (.66,1,.33)--(.66,1,.66)--(.66,1.33,.66)--(.66,1.33,.33)--cycle;
+\draw[rounded corners=.1mm,fill=#3] (.33,1.33,.33)--(.66,1.33,.33)--(.66,1.33,.66)--(.33,1.33,.66)--cycle;
+}{
+\ifthenelse{#5=2}{
+\draw[rounded corners=.1mm,fill=#3] (1,.33,.66)--(1,.66,.66)--(1.33,.66,.66)--(1.33,.33,.66)--cycle;
+\draw[rounded corners=.1mm,fill=#3] (1,.66,.33)--(1,.66,.66)--(1.33,.66,.66)--(1.33,.66,.33)--cycle;
+\draw[rounded corners=.1mm,fill=#3] (1.33,.33,.33)--(1.33,.66,.33)--(1.33,.66,.66)--(1.33,.33,.66)--cycle;
+}{}}
+\end{scope}
+}
+
+
+\definecolor{PBeige}{RGB}{220,182,109}
+\newcommand\PSquare[3]{\draw[fill=POrange,xshift=#1in,yshift=#2in,rotate=#3](0,0)rectangle(1,1);}
+\newcommand\PTriangle[3]{\draw[fill=PGreen,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(120:1)--cycle;}
+\newcommand\PHexagon[3]{\draw[fill=PYellow,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(60:1)--++(120:1)--++(180:1)--++(240:1)--cycle;}
+\newcommand\PRhombusFat[3]{\draw[fill=PBlue,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(60:1)--++(180:1)--cycle;}
+\newcommand\PRhombusThin[3]{\draw[fill=PBeige,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(30:1)--++(180:1)--cycle;}
+\newcommand\PTrapezoid[3]{\draw[fill=PRed,xshift=#1in,yshift=#2in,rotate=#3](0,0)--++(60:1)--++(0:1)--++(-60:1)--cycle;}
