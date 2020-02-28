@@ -75,3 +75,47 @@
 \newcommand\PRhombusFat[3]{\draw[line width=.5 pt,fill=PBlue,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(60:1)--++(180:1)--cycle;}
 \newcommand\PRhombusThin[3]{\draw[line width=.5 pt,fill=PBeige,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(30:1)--++(180:1)--cycle;}
 \newcommand\PTrapizoid[3]{\draw[line width=.5 pt,fill=PRed,xshift=#1in,yshift=#2in,rotate=#3](0,0)--++(60:1)--++(0:1)--++(-60:1)--cycle;}
+
+\pgfplotsset{
+      NumberlineES/.style={
+        width=3.05in,
+        major tick length=.1in,
+        minor tick length=.075in,
+        axis x line=bottom,
+        x axis line style=-,
+        hide y axis,
+        scale only axis=true,
+        minor x tick style={color=black},
+        clip=false,
+        xmin=0,
+        xmax=1,
+        ymin=0,
+        ymax=10,
+        xtick={0,1},
+        minor tick num=0,
+        xlabel={},
+        ylabel={},
+    }
+    }
+    
+\pgfplotsset{
+      NumberlineEScolored/.style={
+        width=3.05in,
+        major tick length=.1in,
+        minor tick length=.075in,
+        axis x line=bottom,
+        x axis line style=-,
+        hide y axis,
+        scale only axis=true,
+        minor x tick style={color=Blue},
+        clip=false,
+        xmin=0,
+        xmax=1,
+        ymin=0,
+        ymax=10,
+        xtick={0,1},
+        minor tick num=0,
+        xlabel={},
+        ylabel={},
+    }
+    }
