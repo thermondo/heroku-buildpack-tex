@@ -119,3 +119,57 @@
         ylabel={},
     }
     }
+
+\def\TBlockB#1
+{
+\begin{scope}[shift={#1}]
+    \fill[draw,LBlue] (-0.001,-0.001) rectangle (0.101,1.001);
+    \draw (-0.001,-0.001) grid[step=.1] (0.101,1.001);
+
+\end{scope}
+}
+
+\def\OBlockB#1
+{
+\begin{scope}[shift={#1}]
+    \fill[draw,LBlue] (0,0) rectangle (.1,.1);
+    \draw[line join=round] (-0.001,-0.001) grid[step=.1] (0.101,0.101);
+\end{scope}
+}
+
+    
+    
+\def\MakeBlocksNoHun#1#2
+{
+\begin{scope}[xshift=-.1in]
+    \foreach\x in {1,...,#1}
+        {
+        \begin{scope}[shift={(.2*\x,0)}]
+        \TBlockB{(0,0)}
+        \end{scope}
+        }
+\ifthenelse{#2>5}
+    {
+    \foreach\x in {1,...,5}
+        {
+        \begin{scope}[shift={(.2*#1+.2,.15*\x-.15)}]
+        \OBlockB{(0,0)}
+        \end{scope}
+        }
+    \foreach\x in {6,...,#2}
+        {
+        \begin{scope}[shift={(.2*#1+.4,.15*\x-.15-.75)}]
+        \OBlockB{(0,0)}
+        \end{scope}
+        }
+    }
+    {
+    \foreach\x in {1,...,#2}
+        {
+        \begin{scope}[shift={(.2*#1+.2,.15*\x-.15)}]
+        \OBlockB{(0,0)}
+        \end{scope}
+        }
+    }  
+\end{scope}
+}
