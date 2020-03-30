@@ -1,73 +1,79 @@
-% this is no longer a placeholder for ES sty definitions as they are now here
+%%%
+%Function to draw a rectangle given it's center
+%%%
+\def\drawrectangle(#1,#2)(#3,#4){
+    \draw (#1-#3/2,#2-#4/2)rectangle(#1+#3/2,#2+#4/2);
+}
 
-
+%%%
+%Unit Cube and Outline
+%%%
 \newcommand\MakeAnUnitCube[5]{
-\begin{scope}[scale=.25,shift={(#1,#2,#3)},xshift=#4 in ,yshift=#5 in]
-\draw[rounded corners=.1mm,fill=LBlue] (0,0,1)--(1,0,1)--(1,1,1)--(0,1,1)--cycle;
-\draw[rounded corners=.1mm,fill=LBlue] (0,1,0)--(1,1,0)--(1,1,1)--(0,1,1)--cycle;
-\draw[rounded corners=.1mm,fill=LBlue] (1,0,0)--(1,1,0)--(1,1,1)--(1,0,1)--cycle;
-\end{scope}
+    \begin{scope}[scale=.25,shift={(#1,#2,#3)},xshift=#4 in ,yshift=#5 in]
+        \draw[rounded corners=.1mm,fill=LBlue] (0,0,1)--(1,0,1)--(1,1,1)--(0,1,1)--cycle;
+        \draw[rounded corners=.1mm,fill=LBlue] (0,1,0)--(1,1,0)--(1,1,1)--(0,1,1)--cycle;
+        \draw[rounded corners=.1mm,fill=LBlue] (1,0,0)--(1,1,0)--(1,1,1)--(1,0,1)--cycle;
+    \end{scope}
 }
-
 \newcommand\MakeAnOutline[5]{
-\begin{scope}[scale=.25,xshift=#4 in ,yshift=#5 in]
-\draw[very thick,rounded corners=.1mm] (0,0,#3)--(#1,0,#3)--(#1,#2,#3)--(0,#2,#3)--cycle;
-\draw[very thick,rounded corners=.1mm] (0,#2,0)--(#1,#2,0)--(#1,#2,#3)--(0,#2,#3)--cycle;
-\draw[very thick,rounded corners=.1mm] (#1,0,0)--(#1,#2,0)--(#1,#2,#3)--(#1,0,#3)--cycle;
-\end{scope}
+    \begin{scope}[scale=.25,xshift=#4 in ,yshift=#5 in]
+        \draw[very thick,rounded corners=.1mm] (0,0,#3)--(#1,0,#3)--(#1,#2,#3)--(0,#2,#3)--cycle;
+        \draw[very thick,rounded corners=.1mm] (0,#2,0)--(#1,#2,0)--(#1,#2,#3)--(0,#2,#3)--cycle;
+        \draw[very thick,rounded corners=.1mm] (#1,0,0)--(#1,#2,0)--(#1,#2,#3)--(#1,0,#3)--cycle;
+    \end{scope}
 }
 
+%%%
+%Connecting Cube Info
+%%%
 \newcommand\MakeABlockProfile[4]{
-\begin{scope}[shift={(#1,#2)},scale=.75,shift={(-.5,-.5)}]
-\def\offset{.04}
-\draw[rounded corners=.1mm,fill=#3] (0,0)--(1,0)--(1,1)--(0,1)--cycle;
-\draw[rounded corners=.1mm,fill=#4] (.33,.33)--(.66,.33)--(.66,.66)--(.33,.66)--cycle;
-\draw[rounded corners=.1mm,fill=#4] (.33+\offset,.33+\offset)--(.66-\offset,.33+\offset)--(.66-\offset,.66-\offset)--(.33+\offset,.66-\offset)--cycle;
-\draw (.33,.33)--(.33+\offset,.33+\offset);
-\draw (.33,.66)--(.33+\offset,.66-\offset);
-\draw (.66,.33)--(.66-\offset,.33+\offset);
-\draw (.66,.66)--(.66-\offset,.66-\offset);
-\end{scope}
+    \begin{scope}[shift={(#1,#2)},scale=.75,shift={(-.5,-.5)}]
+    \def\offset{.04}
+        \draw[rounded corners=.1mm,fill=#3] (0,0)--(1,0)--(1,1)--(0,1)--cycle;
+        \draw[rounded corners=.1mm,fill=#4] (.33,.33)--(.66,.33)--(.66,.66)--(.33,.66)--cycle;
+        \draw[rounded corners=.1mm,fill=#4] (.33+\offset,.33+\offset)--(.66-\offset,.33+\offset)--(.66-\offset,.66-\offset)--(.33+\offset,.66-\offset)--cycle;
+        \draw (.33,.33)--(.33+\offset,.33+\offset);
+        \draw (.33,.66)--(.33+\offset,.66-\offset);
+        \draw (.66,.33)--(.66-\offset,.33+\offset);
+        \draw (.66,.66)--(.66-\offset,.66-\offset);
+    \end{scope}
 }
-
-
 \newcommand\MakeAConnectingCube[5]{
-\begin{scope}[xshift=#1 in,yshift=#2 in,shift={(-.375,-.375)},scale=1.33]
-\draw[rounded corners=.5mm,fill=#3] (0,0,.75)--(.75,0,.75)--(.75,.75,.75)--(0,.75,.75)--cycle;
-\draw[rounded corners=.5mm,fill=#3] (0,.75,0)--(.75,.75,0)--(.75,.75,.75)--(0,.75,.75)--cycle;
-\draw[rounded corners=.5mm,fill=#3] (.75,0,0)--(.75,.75,0)--(.75,.75,.75)--(.75,0,.75)--cycle;
-\draw[rounded corners=.5mm,fill=#4] (.25,.25,.75)--(.50,.25,.75)--(.50,.50,.75)--(.25,.50,.75)--cycle;
-\draw[rounded corners=.5mm,fill=#4] (.75,.25,.25)--(.75,.50,.25)--(.75,.50,.50)--(.75,.25,.50)--cycle;
-\begin{scope}\clip (.25,.25,.75)--(.50,.25,.75)--(.50,.50,.75)--(.25,.50,.75)--cycle;\draw (.25,.25,.75)--(.25,.25,.50) (.25,.50,.50)--(.25,.25,.50) (.50,.25,.50)--(.25,.25,.50);\end{scope}
-\begin{scope}\clip (.75,.25,.25)--(.75,.50,.25)--(.75,.50,.50)--(.75,.25,.50)--cycle;\draw (.50,.25,.25)--(.75,.25,.25);\end{scope}
-\draw[rounded corners=.5mm,fill=#4] (.25,.75,.25)--(.50,.75,.25)--(.50,.75,.50)--(.25,.75,.50)--cycle;\begin{scope}\clip (.25,.75,.25)--(.50,.75,.25)--(.50,.75,.50)--(.25,.75,.50)--cycle;\draw (.25,.75,.25)--(.25,.50,.25);\end{scope}
-\end{scope}
+    \begin{scope}[xshift=#1 in,yshift=#2 in,shift={(-.375,-.375)},scale=1.33]
+        \draw[rounded corners=.5mm,fill=#3] (0,0,.75)--(.75,0,.75)--(.75,.75,.75)--(0,.75,.75)--cycle;
+        \draw[rounded corners=.5mm,fill=#3] (0,.75,0)--(.75,.75,0)--(.75,.75,.75)--(0,.75,.75)--cycle;
+        \draw[rounded corners=.5mm,fill=#3] (.75,0,0)--(.75,.75,0)--(.75,.75,.75)--(.75,0,.75)--cycle;
+        \draw[rounded corners=.5mm,fill=#4] (.25,.25,.75)--(.50,.25,.75)--(.50,.50,.75)--(.25,.50,.75)--cycle;
+        \draw[rounded corners=.5mm,fill=#4] (.75,.25,.25)--(.75,.50,.25)--(.75,.50,.50)--(.75,.25,.50)--cycle;
+        \begin{scope}
+            \clip (.25,.25,.75)--(.50,.25,.75)--(.50,.50,.75)--(.25,.50,.75)--cycle;
+            \draw (.25,.25,.75)--(.25,.25,.50) (.25,.50,.50)--(.25,.25,.50) (.50,.25,.50)--(.25,.25,.50);
+        \end{scope}
+        \begin{scope}
+            \clip (.75,.25,.25)--(.75,.50,.25)--(.75,.50,.50)--(.75,.25,.50)--cycle;
+            \draw (.50,.25,.25)--(.75,.25,.25);
+        \end{scope}
+        \draw[rounded corners=.5mm,fill=#4] (.25,.75,.25)--(.50,.75,.25)--(.50,.75,.50)--(.25,.75,.50)--cycle;
+        \begin{scope}
+            \clip (.25,.75,.25)--(.50,.75,.25)--(.50,.75,.50)--(.25,.75,.50)--cycle;
+            \draw (.25,.75,.25)--(.25,.50,.25);
+        \end{scope}
+        \ifthenelse{#5=1}{
+            \draw[rounded corners=.1mm,fill=#3] (.25,.75,.5)--(.5,.75,.5)--(.5,1.0,.5)--(.25,1.0,.5)--cycle;
+            \draw[rounded corners=.1mm,fill=#3] (.5,.75,.25)--(.5,.75,.5)--(.5,1.0,.5)--(.5,1.0,.25)--cycle;
+            \draw[rounded corners=.1mm,fill=#3] (.25,1.0,.25)--(.5,1.0,.25)--(.5,1.0,.5)--(.25,1.0,.5)--cycle;
+        }{
+        \ifthenelse{#5=2}{
+            \draw[rounded corners=.1mm,fill=#3] (.75,.25,.5)--(.75,.5,.5)--(1.0,.5,.5)--(1.0,.25,.5)--cycle;
+            \draw[rounded corners=.1mm,fill=#3] (.75,.5,.25)--(.75,.5,.5)--(1.0,.5,.5)--(1.0,.5,.25)--cycle;
+            \draw[rounded corners=.1mm,fill=#3] (1.0,.25,.25)--(1.0,.5,.25)--(1.0,.5,.5)--(1.0,.25,.5)--cycle;
+        }{}}
+    \end{scope}
 }
 
-\newcommand\MakeAConnectingCubeMetric[5]{
-\begin{scope}[xshift=#1 cm,yshift=#2cm ,shift={(-.5,-.5)}]
-\draw[rounded corners=.1mm,fill=#3] (0,0,1)--(1,0,1)--(1,1,1)--(0,1,1)--cycle;
-\draw[rounded corners=.1mm,fill=#3] (0,1,0)--(1,1,0)--(1,1,1)--(0,1,1)--cycle;
-\draw[rounded corners=.1mm,fill=#3] (1,0,0)--(1,1,0)--(1,1,1)--(1,0,1)--cycle;
-\draw[rounded corners=.1mm,fill=#4] (.33,.33,1)--(.66,.33,1)--(.66,.66,1)--(.33,.66,1)--cycle;
-\draw[rounded corners=.1mm,fill=#4] (1,.33,.33)--(1,.66,.33)--(1,.66,.66)--(1,.33,.66)--cycle;
-\begin{scope}\clip (.33,.33,1)--(.66,.33,1)--(.66,.66,1)--(.33,.66,1)--cycle;\draw (.33,.33,1)--(.33,.33,.66) (.33,.66,.66)--(.33,.33,.66) (.66,.33,.66)--(.33,.33,.66);\end{scope}
-\begin{scope}\clip (1,.33,.33)--(1,.66,.33)--(1,.66,.66)--(1,.33,.66)--cycle;\draw (.66,.33,.33)--(1,.33,.33);\end{scope}
-\draw[rounded corners=.1mm,fill=#4] (.33,1,.33)--(.66,1,.33)--(.66,1,.66)--(.33,1,.66)--cycle;\begin{scope}\clip (.33,1,.33)--(.66,1,.33)--(.66,1,.66)--(.33,1,.66)--cycle;\draw (.33,1,.33)--(.33,.66,.33);\end{scope}
-\ifthenelse{#5=1}{
-\draw[rounded corners=.1mm,fill=#3] (.33,1,.66)--(.66,1,.66)--(.66,1.33,.66)--(.33,1.33,.66)--cycle;
-\draw[rounded corners=.1mm,fill=#3] (.66,1,.33)--(.66,1,.66)--(.66,1.33,.66)--(.66,1.33,.33)--cycle;
-\draw[rounded corners=.1mm,fill=#3] (.33,1.33,.33)--(.66,1.33,.33)--(.66,1.33,.66)--(.33,1.33,.66)--cycle;
-}{
-\ifthenelse{#5=2}{
-\draw[rounded corners=.1mm,fill=#3] (1,.33,.66)--(1,.66,.66)--(1.33,.66,.66)--(1.33,.33,.66)--cycle;
-\draw[rounded corners=.1mm,fill=#3] (1,.66,.33)--(1,.66,.66)--(1.33,.66,.66)--(1.33,.66,.33)--cycle;
-\draw[rounded corners=.1mm,fill=#3] (1.33,.33,.33)--(1.33,.66,.33)--(1.33,.66,.66)--(1.33,.33,.66)--cycle;
-}{}}
-\end{scope}
-}
-
-
+%%%
+%PatternBlockColorAndShapes
+%%%
 \definecolor{PBeige}{RGB}{220,182,109}
 \newcommand\PSquare[3]{\draw[line width=.5 pt,fill=POrange,xshift=#1in,yshift=#2in,rotate=#3](0,0)rectangle(1,1);}
 \newcommand\PTriangle[3]{\draw[line width=.5 pt,fill=PGreen,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(120:1)--cycle;}
@@ -75,101 +81,189 @@
 \newcommand\PRhombusFat[3]{\draw[line width=.5 pt,fill=PBlue,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(60:1)--++(180:1)--cycle;}
 \newcommand\PRhombusThin[3]{\draw[line width=.5 pt,fill=PBeige,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(30:1)--++(180:1)--cycle;}
 \newcommand\PTrapizoid[3]{\draw[line width=.5 pt,fill=PRed,xshift=#1in,yshift=#2in,rotate=#3](0,0)--++(60:1)--++(0:1)--++(-60:1)--cycle;}
+\newcommand\FlippingCoin[3]{\draw[line width=.5 pt,fill=#3,xshift=#1in,yshift=#2in](0,0)circle (.5);}
 
+
+
+%%%
+%ES Numberlines with large assumptions and extra
+%%%
 \pgfplotsset{
       NumberlineES/.style={
-        width=3.05in,
-        major tick length=.1in,
-        minor tick length=.075in,
-        axis x line=bottom,
-        x axis line style=-,
-        hide y axis,
-        scale only axis=true,
-        minor x tick style={color=black},
-        clip=false,
-        xmin=0,
-        xmax=1,
-        ymin=0,
-        ymax=10,
-        xtick={0,1},
-        minor tick num=0,
-        xlabel={},
-        ylabel={},
+            width=3.05in,
+            major tick length=.1in,
+            minor tick length=.075in,
+            axis x line=bottom,
+            x axis line style=-,
+            hide y axis,
+            scale only axis=true,
+            minor x tick style={color=black},
+            clip=false,
+            xmin=0,
+            xmax=1,
+            ymin=0,
+            ymax=10,
+            xtick={0,1},
+            minor tick num=0,
+            xlabel={},
+            ylabel={},
+            extra x tick style={draw=none,xticklabel shift=-.35in.tick label style={anchor=south}},
+        }
     }
-    }
-    
 \pgfplotsset{
       NumberlineEScolored/.style={
-        width=3.05in,
-        major tick length=.1in,
-        minor tick length=.075in,
-        axis x line=bottom,
-        x axis line style=-,
-        hide y axis,
-        scale only axis=true,
-        minor x tick style={color=Blue},
-        clip=false,
-        xmin=0,
-        xmax=1,
-        ymin=0,
-        ymax=10,
-        xtick={0,1},
-        minor tick num=0,
-        xlabel={},
-        ylabel={},
+            width=3.05in,
+            major tick length=.1in,
+            minor tick length=.075in,
+            axis x line=bottom,
+            x axis line style=-,
+            hide y axis,
+            scale only axis=true,
+            minor x tick style={color=Blue},
+            clip=false,
+            xmin=0,
+            xmax=1,
+            ymin=0,
+            ymax=10,
+            xtick={0,1},
+            minor tick num=0,
+            xlabel={},
+            ylabel={},
+            extra x tick style={draw=none,xticklabel shift=-.35in.tick label style={anchor=south}},
+        }
     }
-    }
+    
 
+%%%
+%New Base-10 Block Structures
+%%%
 \def\TBlockB#1
 {
-\begin{scope}[shift={#1}]
-    \fill[draw,LBlue] (-0.001,-0.001) rectangle (0.101,1.001);
-    \draw (-0.001,-0.001) grid[step=.1] (0.101,1.001);
-
-\end{scope}
+    \begin{scope}[shift={#1}]
+        \fill[draw,LBlue] (-0.001,-0.001) rectangle (0.101,1.001);
+        \draw (-0.001,-0.001) grid[step=.1] (0.101,1.001);
+    \end{scope}
 }
-
 \def\OBlockB#1
 {
-\begin{scope}[shift={#1}]
-    \fill[draw,LBlue] (0,0) rectangle (.1,.1);
-    \draw[line join=round] (-0.001,-0.001) grid[step=.1] (0.101,0.101);
-\end{scope}
+    \begin{scope}[shift={#1}]
+        \fill[draw,LBlue] (0,0) rectangle (.1,.1);
+        \draw[line join=round] (-0.001,-0.001) grid[step=.1] (0.101,0.101);
+    \end{scope}
 }
-
-    
-    
 \def\MakeBlocksNoHun#1#2
 {
-\begin{scope}[xshift=-.1in]
-    \foreach\x in {1,...,#1}
+    \begin{scope}[xshift=-.1in]
+        \foreach\x in {1,...,#1}
+            {
+            \begin{scope}[shift={(.2*\x,0)}]
+            \TBlockB{(0,0)}
+            \end{scope}
+            }
+    \ifthenelse{#2>5}
         {
-        \begin{scope}[shift={(.2*\x,0)}]
-        \TBlockB{(0,0)}
-        \end{scope}
+        \foreach\x in {1,...,5}
+            {
+            \begin{scope}[shift={(.2*#1+.2,.18*\x-.18)}]
+            \OBlockB{(0,0)}
+            \end{scope}
+            }
+        \foreach\x in {6,...,#2}
+            {
+            \begin{scope}[shift={(.2*#1+.4,.18*\x-.18-.90)}]
+            \OBlockB{(0,0)}
+            \end{scope}
+            }
         }
-\ifthenelse{#2>5}
-    {
-    \foreach\x in {1,...,5}
         {
-        \begin{scope}[shift={(.2*#1+.2,.15*\x-.15)}]
-        \OBlockB{(0,0)}
+        \foreach\x in {1,...,#2}
+            {
+            \begin{scope}[shift={(.2*#1+.2,.18*\x-.18)}]
+            \OBlockB{(0,0)}
+            \end{scope}
+            }
+        }  
+    \end{scope}
+}
+
+%%%
+%Kindergarden Handwriting Text
+%%%
+\def\IMone#1#2{
+\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (0,-.45)--(0,.45);
+}
+\def\IMtwo#1#2{
+\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (.25,-.45)--(-.25,-.45)--(.2,.05) arc (-40:180:.25);
+}
+\def\IMthree#1#2{
+\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (0,0) arc (-90:180:.225)(0,0) arc (90:-180:.225);
+}
+\def\IMfour#1#2{
+\draw[#2,line width=2pt,line cap=round,xshift=#1 in](-.25,.45)--(-.25,0)--(.25,0)(.15,.45)--(.15,-.45);
+}
+\def\IMfive#1#2{
+\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (.225,.45)--(-.225,.45)--(-.225,0) arc(135:-150:.275);
+}
+\def\IMsix#1#2{
+\draw[#2,line width=2pt,line cap=round,xshift=#1 in](-.25,-.24) arc(180:-180:.22)(-.25,-.22) arc(180:140:1);
+}
+\def\IMseven#1#2{
+\draw[#2,line width=2pt,line cap=round,xshift=#1 in](-.25,.45)--(.25,.45)--(0,-.45);
+}
+\def\IMeight#1#2{
+\draw[#2,line width=2pt,line cap=round,xshift=#1 in] 
+(0,0) to[out=165,in=-90]
+(-.2,.225)to[out=90,in=180]
+(0,.45) to[out=0, in=90]
+(.2,.225) to[out=-90,in=15]
+(0,0)to[out=-165,in=90]
+(-.2,-.225)to[out=-90,in=180] 
+(0,-.45) to[out=0, in=-90]
+(.2,-.225) to[out=90,in=-15](0,0);
+}
+\def\IMnine#1#2{
+\draw[#2,line width=2pt,line cap=round,xshift=#1 in](.25,.24) arc(0:360:.22)(.25,.46)--(.25,-.45);
+}
+\def\IMzero#1#2{
+\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (0,0) circle ( .25 and .45);
+}
+
+
+
+
+
+%%%
+%Potentially Depricated Old code that needs to be cast into the fires of mordor when validated
+%%%
+\newcommand\MakeAConnectingCubeMetric[5]{
+    \begin{scope}[xshift=#1 cm,yshift=#2cm ,shift={(-.5,-.5)}]
+        \draw[rounded corners=.1mm,fill=#3] (0,0,1)--(1,0,1)--(1,1,1)--(0,1,1)--cycle;
+        \draw[rounded corners=.1mm,fill=#3] (0,1,0)--(1,1,0)--(1,1,1)--(0,1,1)--cycle;
+        \draw[rounded corners=.1mm,fill=#3] (1,0,0)--(1,1,0)--(1,1,1)--(1,0,1)--cycle;
+        \draw[rounded corners=.1mm,fill=#4] (.33,.33,1)--(.66,.33,1)--(.66,.66,1)--(.33,.66,1)--cycle;
+        \draw[rounded corners=.1mm,fill=#4] (1,.33,.33)--(1,.66,.33)--(1,.66,.66)--(1,.33,.66)--cycle;
+        \begin{scope}
+            \clip (.33,.33,1)--(.66,.33,1)--(.66,.66,1)--(.33,.66,1)--cycle;
+            \draw (.33,.33,1)--(.33,.33,.66) (.33,.66,.66)--(.33,.33,.66) (.66,.33,.66)--(.33,.33,.66);
         \end{scope}
-        }
-    \foreach\x in {6,...,#2}
-        {
-        \begin{scope}[shift={(.2*#1+.4,.15*\x-.15-.75)}]
-        \OBlockB{(0,0)}
+        \begin{scope}
+            \clip (1,.33,.33)--(1,.66,.33)--(1,.66,.66)--(1,.33,.66)--cycle;
+            \draw (.66,.33,.33)--(1,.33,.33);
         \end{scope}
-        }
-    }
-    {
-    \foreach\x in {1,...,#2}
-        {
-        \begin{scope}[shift={(.2*#1+.2,.15*\x-.15)}]
-        \OBlockB{(0,0)}
+        \draw[rounded corners=.1mm,fill=#4] (.33,1,.33)--(.66,1,.33)--(.66,1,.66)--(.33,1,.66)--cycle;
+        \begin{scope}
+            \clip (.33,1,.33)--(.66,1,.33)--(.66,1,.66)--(.33,1,.66)--cycle;
+            \draw (.33,1,.33)--(.33,.66,.33);
         \end{scope}
-        }
-    }  
-\end{scope}
+        \ifthenelse{#5=1}{
+            \draw[rounded corners=.1mm,fill=#3] (.33,1,.66)--(.66,1,.66)--(.66,1.33,.66)--(.33,1.33,.66)--cycle;
+            \draw[rounded corners=.1mm,fill=#3] (.66,1,.33)--(.66,1,.66)--(.66,1.33,.66)--(.66,1.33,.33)--cycle;
+            \draw[rounded corners=.1mm,fill=#3] (.33,1.33,.33)--(.66,1.33,.33)--(.66,1.33,.66)--(.33,1.33,.66)--cycle;
+            }{
+            \ifthenelse{#5=2}{
+                \draw[rounded corners=.1mm,fill=#3] (1,.33,.66)--(1,.66,.66)--(1.33,.66,.66)--(1.33,.33,.66)--cycle;
+                \draw[rounded corners=.1mm,fill=#3] (1,.66,.33)--(1,.66,.66)--(1.33,.66,.66)--(1.33,.66,.33)--cycle;
+                \draw[rounded corners=.1mm,fill=#3] (1.33,.33,.33)--(1.33,.66,.33)--(1.33,.66,.66)--(1.33,.33,.66)--cycle;
+            }{}}
+    \end{scope}
 }
