@@ -6,10 +6,12 @@
 %%%
 %Function to draw a rectangle given it's center
 %%%
-\def\drawrectangle(#1,#2)(#3,#4){
-    \draw (#1-#3/2,#2-#4/2)rectangle(#1+#3/2,#2+#4/2);
+\newcommand{\drawrectangle}[5][]{
+    \draw[#1](#2-#4/2,#3-#5/2)rectangle(#2+#4/2,#3+#5/2);
 }
-
+\newcommand\NumberlineLoop[4][]{
+    \draw[#1] (#2,0) to[out=90,in=180](.5*#2+.5*#3,#4 in)to[out=0,in=90](#3,0);
+}
 %%%
 %Unit Cube and Outline
 %%%
