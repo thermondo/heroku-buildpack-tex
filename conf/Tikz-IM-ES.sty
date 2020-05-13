@@ -11,6 +11,9 @@
 \newcommand{\drawrectangle}[5][]{
     \draw[#1](#2-#4/2,#3-#5/2)rectangle(#2+#4/2,#3+#5/2);
 }
+\newcommand{\drawRectangle}[5][]{
+    \draw[#1](#2-#4/2,#3-#5/2)rectangle(#2+#4/2,#3+#5/2);
+}
 \newcommand\NumberlineLoop[4][]{
     \draw[#1,thin] (#2,0) to[out=90,in=180,looseness=.85](.5*#2+.5*#3,#4 in)to[out=0,in=90,looseness=.8](#3,0);
     %\draw[#1,thin] (.5*#2+.5*#3,0)circle(.5*#3-.5*#2 and #4*5);
