@@ -8,7 +8,7 @@
 %%%
 %\def\drawrectangle(#1,#2)(#3,#4){
     %\draw (#1-#3/2,#2-#4/2)rectangle(#1+#3/2,#2+#4/2);}
-\newcommand{\drawRectangle}[5][]{
+\newcommand{\drawrectangle}[5][]{
     \draw[#1](#2-#4/2,#3-#5/2)rectangle(#2+#4/2,#3+#5/2);
 }
 \newcommand\NumberlineLoop[4][]{
@@ -99,6 +99,15 @@
 \newcommand\PRhombusThin[3]{\draw[line width=.5 pt,fill=PBeige,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(30:1)--++(180:1)--cycle;}
 \newcommand\PTrapizoid[3]{\draw[line width=.5 pt,fill=PRed,xshift=#1in,yshift=#2in,rotate=#3](0,0)--++(60:1)--++(0:1)--++(-60:1)--cycle;}
 \newcommand\FlippingCoin[3]{\draw[line width=.5 pt,fill=#3,xshift=#1in,yshift=#2in](0,0)circle (.5);}
+\newcommand\PSquareNC[3]{\draw[line width=.5 pt,xshift=#1in,yshift=#2in,rotate=#3](0,0)rectangle(1,1);}
+\newcommand\PTriangleNC[3]{\draw[line width=.5 pt,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(120:1)--cycle;}
+\newcommand\PHexagonNC[3]{\draw[line width=.5 pt,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(60:1)--++(120:1)--++(180:1)--++(240:1)--cycle;}
+\newcommand\PRhombusFatNC[3]{\draw[line width=.5 pt,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(60:1)--++(180:1)--cycle;}
+\newcommand\PRhombusThinNC[3]{\draw[line width=.5 pt,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(30:1)--++(180:1)--cycle;}
+\newcommand\PTrapizoidNC[3]{\draw[line width=.5 pt,xshift=#1in,yshift=#2in,rotate=#3](0,0)--++(60:1)--++(0:1)--++(-60:1)--cycle;}
+
+
+
 
 
 
