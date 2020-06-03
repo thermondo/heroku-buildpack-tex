@@ -22,6 +22,7 @@
 
 \newcommand\NumberlineLoop[4][]{
     \draw[#1,thin] (#2,0) to[out=90,in=180,looseness=.85](.5*#2+.5*#3,#4 in)to[out=0,in=90,looseness=.8](#3,0);
+    }
 
 \def\NumberlineLoopES(#1,#2){
     \draw (#1,0) to[out=90,in=180](.5*#1+.5*#2,.25in)to[out=0,in=90](#2,0);
