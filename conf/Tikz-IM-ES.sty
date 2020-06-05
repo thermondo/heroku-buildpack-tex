@@ -5,11 +5,6 @@
 \usepackage{mathtools}
 
 %%%
-%New Commands
-%%%
-\newcommand\showdiv[1]{\overbracket[.7pt][-1pt]{{\smash{\scalebox{1.00}{)}}#1}}}%%Scale by 1.2 in older TeX renders
-
-%%%
 %Function to draw a rectangle given it's center
 %%%
 \newcommand{\drawrectangle}[5][]{
@@ -651,3 +646,32 @@
             }{}}
     \end{scope}
 }
+
+%%%%%%%%%%%%%%%
+%ENTRY LOG 200604
+%% Added Chonky Numberline for Grade 2
+%% Edit for the scaling on the division symbol
+%% Added Chonky numberline jumps
+%% Added Normal Numberline Jumps
+%%%%%%%%%%%%%%
+\pgfplotsset{
+      NumberlineESChunk/.style={
+        x tick style={line width =2 pt},
+        major tick length=.25in,
+        minor tick length=.15in,
+        axis x line=bottom,
+        x axis line style=-,
+        hide y axis,
+        scale only axis=true,
+        width=3.05in,
+        clip=false,
+        ymin=0,
+        ymax=10,
+        ticklabel style = {font=\Huge}
+        }
+    }
+\newcommand\showdiv[1]{\overbracket[.7pt][-1pt]{{\smash{\scalebox{1.20}{)}}#1}}}
+\newcommand\ESNumberJump[4]{
+    \draw[thin,#3] (#1,.07in) parabola[parabola height=.25in] (#2,.07in);
+    \node[anchor=south] at (.5*#1+.5*#2,.32in){#4};
+    }
