@@ -675,3 +675,29 @@
     \draw[thin,#3] (#1,.07in) parabola[parabola height=.25in] (#2,.07in);
     \node[anchor=south] at (.5*#1+.5*#2,.32in){#4};
     }
+
+
+    
+%%%%%%%%%%%%%%%
+%ENTRY LOG 200712
+%% Made a smaller sized DeciSquare
+%%%%%%%%%%%%%%   
+
+\newcommand\DeciSquare[3]{%% {Tens}{Ones}{braces}
+    %%Variables
+    \def\scale{1.5}
+    %%Fills
+    \fill[LBlue,scale=\scale](0,0)rectangle(.1*#1,1)rectangle(.1*#1+.1,1-.1*#2);
+    %%Dashes
+    \foreach \z in{.1,.2,...,.9}{
+            \draw[dashed] (\scale*\z,0)--(\scale*\z,\scale);
+            \draw[dashed] (0,\scale*\z)--(\scale,\scale*\z);
+        }
+    %%Labels
+        \ifnum#3>0{
+            \draw[line width=1pt,decorate,decoration={brace,amplitude=5pt}] (-.03,0) -- node[left=5pt] {1} (-.03,\scale);
+            \draw[line width=1pt,decorate,decoration={brace,amplitude=5pt}] (0,\scale+.03) -- node[above=5pt] {1} (\scale,\scale+.03);
+        }\fi
+    %% Rectangle
+        \draw (0,0) rectangle(\scale,\scale);
+    }
