@@ -406,7 +406,7 @@
             \foreach\x in {1,...,#3}
             {
             \begin{scope}[shift={(.2*#2+#1*1.1+1.1,.15*\x-.15)}]
-            \OBlock{(0,0)}
+            \OBlockB{(0,0)}
         \end{scope}
         }
     }  
@@ -701,3 +701,32 @@
     %% Rectangle
         \draw (0,0) rectangle(\scale,\scale);
     }
+
+%%%%%%%%%%%%%%%%%%%
+%Entry Log 200715
+%Changed scale of Decisquare from 1.5 to 2
+%Added FractionBar Function
+%%%%%%%%%%%%%%%%%%
+\newcommand\FractionBar[6]{%{Whole}{Bits}{Fill}{Whole label}{bits label}{brace label}
+    %%%%Def
+    \def\numba{#1}
+    \def\numbaD{#2}
+    \def\NumbaFill{#3}
+    %%Clipping Mask
+    \clip(-\HP/2,-.4)rectangle(\HP/2,.3);
+    %%Image
+    \fill[LBlue] (-1.5,0) rectangle(\NumbaFill/\numbaD*3-1.5,.25);
+    \foreach \x in {1,...,\numba}{
+       \draw (\x/\numba*3-1.5,0)--(\x/\numba*3-1.5,.25);
+       \node at (3*\x/\numba-1.5-1.5/\numba,.125) {#4};
+    }
+    \foreach \x in {1,...,\numbaD}{
+        \draw[dashed] (\x/\numbaD*3-1.5,0)--(\x/\numbaD*3-1.5,.25);
+        \node at (3*\x/\numbaD-1.5-1.5/\numbaD,.125) {#5};
+    }
+    \draw (-1.5,0)rectangle(1.5,.25);
+    \ifnum#6>0{
+    \draw[line width=1pt,decorate,decoration={brace,amplitude=10pt}] (1.5,-.03) -- node[below=10pt] {#6} (-1.5,-.03);
+    }\fi
+    }
+    
