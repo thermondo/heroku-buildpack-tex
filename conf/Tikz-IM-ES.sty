@@ -1,12 +1,7 @@
-%%%%
-%Packages I need because writing a lot of code for a simple task is not cost effective
-%%%
 \usepackage{dashbox}
 \usepackage{mathtools}
 
-%%%
-%Function to draw a rectangle given it's center
-%%%
+
 \newcommand{\drawrectangle}[5][]{
     \draw[#1](#2-#4/2,#3-#5/2)rectangle(#2+#4/2,#3+#5/2);
 }
@@ -744,5 +739,23 @@
 %%%%%%%%%%%%%%%%%%%
 %Entry Log 200722
 %Added Clipping Mask for DeciSquares
+%Also added Labeled tape diagrams
 %%%%%%%%%%%%%%%%%%%
-
+\newcommand\TapeTwinLabeled[6]{%{fraction}{top left}{top right}{bottom value}{top label }{bottom label}
+        \clip (-\HP/2,-.65) rectangle (\HP/2,.65);
+    %%Top
+        \begin{scope}[yshift=.0625 in]
+        \ifnum#2>1{\draw[line width=1pt,decorate,decoration={brace,amplitude=10pt}] (-.5,.27) -- node[above=10pt] {\small{#2}} (#1*2-.5,.27);}\fi
+        \ifnum#3>1{\draw[line width=1pt,decorate,decoration={brace,amplitude=10pt}] (#1*2-.5,.27) -- node[above=10pt] {\small{#3}} (1.5,.27);}\fi
+        \draw[fill=LBlue] (-.5,0) rectangle (#1*2-.5,.25);
+        \draw[dashed] (#1*2-.5,0) rectangle (1.5,.25);
+        \node[anchor=east]at(-.5,.125){#5};
+        \end{scope}
+        
+    %%Bottom
+        \begin{scope}[yshift=-.0625 in]
+        \ifnum#4>1{\draw[line width=1pt,decorate,decoration={brace,amplitude=10pt}] (1.5,-.27) -- node[below=10pt] {\small{#4}} (-.5,-.27);}\fi
+        \draw[fill=LBlue] (-.5,0) rectangle (1.5,-.25);
+        \node[anchor=east]at(-.5,-.125){#6};
+        \end{scope}
+    }
