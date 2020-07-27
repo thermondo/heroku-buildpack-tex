@@ -677,7 +677,6 @@
 %ENTRY LOG 200712
 %% Made a smaller sized DeciSquare
 %%%%%%%%%%%%%%   
-
 \newcommand\DeciSquare[3]{%% {Tens}{Ones}{braces}
     %%Variables
     \def\scale{2}
@@ -758,4 +757,18 @@
         \draw[fill=LBlue] (-.5,0) rectangle (1.5,-.25);
         \node[anchor=east]at(-.5,-.125){#6};
         \end{scope}
+    }
+   
+%%%%%%%%%%%%%%%%%%%%%%%%
+%Entry Log 200727
+%Added Clock
+%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand\ClockES[3]{
+    \clip (-\THP/2,-\THP/2) rectangle (\THP/2,\THP/2);
+    \foreach \x in {1,...,12}{\draw (\x*30:1) -- (\x*30:.9);\node at (-\x*30+90:.8) {\x};}
+    \foreach \x in {1,...,60}{\draw (\x*6:1) -- (\x*6:.95);}
+    \ifthenelse{#3=0}{}{\draw[->] (0,0)--(90-30*#1:.5);}
+    \ifthenelse{#2=0}{}{\draw[->] (0,0)--(90-6*#2:.7);}
+    \draw[] (0,0) circle (1);
+    \fill (0,0) circle (2pt);
     }
