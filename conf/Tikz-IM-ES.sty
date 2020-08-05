@@ -785,6 +785,6 @@
 \draw (1.5,2)to[out=90,in=180](1.55,2.15);
 \node[anchor=east] at (1.5,2){#4};
 \foreach \x in {1,...,#1}{\draw (0,2*\x/#1)--++(0:.1);}
-\foreach \x in {0,#2,...,#1r}{\ifnum\x>0{\draw (0,2*\x/#1)--++(0:.25)node[anchor=west]{\x};}\fi}
+\foreach \x in {0,#2,...,#1}{\ifnum\x>0{\draw (0,2*\x/#1)--++(0:.25)node[anchor=west]{\x};}\fi}
 }
 
