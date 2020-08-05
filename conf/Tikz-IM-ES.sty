@@ -772,3 +772,19 @@
     \draw[] (0,0) circle (1);
     \fill (0,0) circle (2pt);
     }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Entry Log 200805
+%Added the Beaker
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand\BeakerES[4]{%\minor\major\fillamount\label
+\clip(-.075,-.05)rectangle(\QP-.075,2.2);
+\fill[LBlue] (0,0) rectangle(1.5,2*#3/#1);
+\draw (0,2)--(0,0)--(1.5,0)--(1.5,2);
+\draw (0,2)to[out=90,in=0](-.05,2.15);
+\draw (1.5,2)to[out=90,in=180](1.55,2.15);
+\node[anchor=east] at (1.5,2){#4};
+\foreach \x in {1,...,#1}{\draw (0,2*\x/#1)--++(0:.1);}
+\foreach \x in {0,#2,...,#1r}{\ifnum\x>0{\draw (0,2*\x/#1)--++(0:.25)node[anchor=west]{\x};}\fi}
+}
+
