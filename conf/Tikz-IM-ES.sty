@@ -777,7 +777,7 @@
 %Entry Log 200805
 %Added the Beaker
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand\BeakerES[4]{%\minor\major\fillamount\label
+\newcommand\BeakerES[5]{%\minor\major\fillamount\label
 \clip(-.075,-.05)rectangle(\QP-.075,2.2);
 \fill[LBlue] (0,0) rectangle(1.5,2*#3/#1);
 \draw (0,2)--(0,0)--(1.5,0)--(1.5,2);
@@ -786,5 +786,5 @@
 \node[anchor=east] at (1.5,2){#4};
 \foreach \x in {1,...,#1}{\draw (0,2*\x/#1)--++(0:.1);}
 \foreach \x in {0,#2,...,#1}{\ifnum\x>0{\draw (0,2*\x/#1)--++(0:.25)node[anchor=west]{\x};}\fi}
+\ifnum#5>0{\foreach \x in {1,...,#5}{\draw[Red] (0,2*\x/#5)--++(0:.1);}}\fi
 }
-
