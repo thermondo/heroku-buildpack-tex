@@ -788,3 +788,75 @@
 \foreach \x in {0,#2,...,#1}{\ifnum\x>0{\draw (0,2*\x/#1)--++(0:.25)node[anchor=west]{\x};}\fi}
 \ifnum#5>0{\foreach \x in {1,...,#5}{\draw[] (0,2*\x/#5)--++(0:.1);}}\fi
 }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Entry Log 200810
+%ES First Quadrant 
+%Base 10 Digits
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pgfplotsset{
+        FirstQuadES/.style={
+        width=3.25in,
+        height=3.25in,
+        grid=both,
+        every x tick/.style={black!50},
+        every y tick/.style={black!50},
+        xmin=0,
+        xmax=10,
+        ymin=0,
+        ymax=10,
+        axis lines=middle,
+        minor tick num=0,
+        grid style={line width=.5pt,black!50},
+        clip=true,
+        xlabel={ },
+        ylabel={ },
+        xlabel style={anchor=north east,yshift=-.1in,xshift=0in,inner sep=0pt,outer sep=0pt},
+        ylabel style={anchor=north east,yshift=0,xshift=-.1in,inner sep=0pt,outer sep=0pt},
+        yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=0in,yshift=-.01in},
+        xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
+        after end axis/.code={
+            \path ($(current axis.origin)+(-.125in,-.125in)$) node {\sffamily\footnotesize 0};
+            \draw ($(current axis.origin)+(0,-.1in)$) -- (current axis.origin);
+            \draw ($(current axis.origin)+(-.1in,0)$) -- (current axis.origin);
+          }
+       }
+    }
+
+
+\newcommand\MakeBlocksDigits[3]{
+    %%%%%%%%%%%
+        \pgfmathsetmacro\hunsL{#1-1}
+        \pgfmathsetmacro\tensL{#2-1}
+        \pgfmathsetmacro\onesL{#3-1}
+        \newcounter{ga}\setcounter{ga}{1}
+    %%%%%%%%%
+    \ifthenelse{#1=0}{}{
+        \foreach \x in {0,...,\hunsL}{
+            \begin{scope}[shift={(1.1*\x,0)}]
+                \HBlockB{(0,0)}
+            \end{scope}
+        }
+    }
+    \ifthenelse{#2=0}{}{
+        \foreach \x in {0,...,\tensL}{
+            \begin{scope}[shift={(.2*\x+.4+1.1*#1,0)}]
+                \TBlockB{(0,0)}
+            \end{scope}
+        }
+    }           
+    \ifthenelse{#3=0}{}{
+        \foreach \x in {0,...,15}{
+        \pgfmathparse{Mod(\x,5)==0?1:0}
+        \ifnum\pgfmathresult>0{\stepcounter{ga}}\fi
+        \begin{scope}[shift={(.4+1.1*#1+.2*#2+\thega*.2,1.8+.18*\x+\thega*-.9)}]
+            \OBlockB{(0,0)}
+        \end{scope}
+        }
+  }
+}
+
+
+
