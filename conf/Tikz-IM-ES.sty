@@ -850,7 +850,7 @@
         }
     }           
     \ifthenelse{#3=0}{}{
-        \foreach \x in {0,...,15}{
+        \foreach \x in {0,...,\onesL}{
         \pgfmathparse{Mod(\x,5)==0?1:0}
         \ifnum\pgfmathresult>0{\stepcounter{ga}}\fi
         \begin{scope}[shift={(.4+1.1*#1+.2*#2+\thega*.2,1.8+.18*\x+\thega*-.9)}]
