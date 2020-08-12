@@ -2,30 +2,21 @@
 \usepackage{mathtools}
 
 
-\newcommand{\drawrectangle}[5][]{
-    \draw[#1](#2-#4/2,#3-#5/2)rectangle(#2+#4/2,#3+#5/2);
-}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\drawrectangle}[5][]{\draw[#1](#2-#4/2,#3-#5/2)rectangle(#2+#4/2,#3+#5/2);}
 
-\newcommand{\drawRectangle}[5][]{
-    \draw[#1](#2-#4/2,#3-#5/2)rectangle(#2+#4/2,#3+#5/2);
-}
+\newcommand{\drawRectangle}[5][]{\draw[#1](#2-#4/2,#3-#5/2)rectangle(#2+#4/2,#3+#5/2);}
 
-\newcommand\NumberlineLoop[4][]{
-    \draw[#1,thin] (#2,0) to[out=90,in=180,looseness=.85](.5*#2+.5*#3,#4 in)to[out=0,in=90,looseness=.8](#3,0);
-    }
+\newcommand\NumberlineLoop[4][]{\draw[#1,thin] (#2,0) to[out=90,in=180,looseness=.85](.5*#2+.5*#3,#4 in)to[out=0,in=90,looseness=.8](#3,0);}
 
-\def\NumberlineLoopES(#1,#2){
-    \draw (#1,0) to[out=90,in=180](.5*#1+.5*#2,.25in)to[out=0,in=90](#2,0);
-}
+\def\NumberlineLoopES(#1,#2){\draw (#1,0) to[out=90,in=180](.5*#1+.5*#2,.25in)to[out=0,in=90](#2,0);}
 
-%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %TikzStyles
-%%%
 \tikzstyle{ESvertex}=[circle, fill, inner sep=0pt,minimum size=8pt]
 
-%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Unit Cube and Outline
-%%%
 \newcommand\MakeAnUnitCube[5]{
     \begin{scope}[scale=.25,shift={(#1,#2,#3)},xshift=#4 in ,yshift=#5 in]
         \draw[rounded corners=.1mm,fill=LBlue] (0,0,1)--(1,0,1)--(1,1,1)--(0,1,1)--cycle;
@@ -41,9 +32,8 @@
     \end{scope}
 }
 
-%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Connecting Cube Info
-%%%
 \newcommand\MakeABlockProfile[4]{
     \begin{scope}[shift={(#1,#2)},scale=.75,shift={(-.5,-.5)}]
     \def\offset{.04}
@@ -89,28 +79,60 @@
     \end{scope}
 }
 
-%%%
+\newcommand\MakeAConnectingCubeMetric[5]{
+    \begin{scope}[xshift=#1 cm,yshift=#2cm ,shift={(-.5,-.5)}]
+        \draw[rounded corners=.1mm,fill=#3] (0,0,1)--(1,0,1)--(1,1,1)--(0,1,1)--cycle;
+        \draw[rounded corners=.1mm,fill=#3] (0,1,0)--(1,1,0)--(1,1,1)--(0,1,1)--cycle;
+        \draw[rounded corners=.1mm,fill=#3] (1,0,0)--(1,1,0)--(1,1,1)--(1,0,1)--cycle;
+        \draw[rounded corners=.1mm,fill=#4] (.33,.33,1)--(.66,.33,1)--(.66,.66,1)--(.33,.66,1)--cycle;
+        \draw[rounded corners=.1mm,fill=#4] (1,.33,.33)--(1,.66,.33)--(1,.66,.66)--(1,.33,.66)--cycle;
+        \begin{scope}
+            \clip (.33,.33,1)--(.66,.33,1)--(.66,.66,1)--(.33,.66,1)--cycle;
+            \draw (.33,.33,1)--(.33,.33,.66) (.33,.66,.66)--(.33,.33,.66) (.66,.33,.66)--(.33,.33,.66);
+        \end{scope}
+        \begin{scope}
+            \clip (1,.33,.33)--(1,.66,.33)--(1,.66,.66)--(1,.33,.66)--cycle;
+            \draw (.66,.33,.33)--(1,.33,.33);
+        \end{scope}
+        \draw[rounded corners=.1mm,fill=#4] (.33,1,.33)--(.66,1,.33)--(.66,1,.66)--(.33,1,.66)--cycle;
+        \begin{scope}
+            \clip (.33,1,.33)--(.66,1,.33)--(.66,1,.66)--(.33,1,.66)--cycle;
+            \draw (.33,1,.33)--(.33,.66,.33);
+        \end{scope}
+        \ifthenelse{#5=1}{
+            \draw[rounded corners=.1mm,fill=#3] (.33,1,.66)--(.66,1,.66)--(.66,1.33,.66)--(.33,1.33,.66)--cycle;
+            \draw[rounded corners=.1mm,fill=#3] (.66,1,.33)--(.66,1,.66)--(.66,1.33,.66)--(.66,1.33,.33)--cycle;
+            \draw[rounded corners=.1mm,fill=#3] (.33,1.33,.33)--(.66,1.33,.33)--(.66,1.33,.66)--(.33,1.33,.66)--cycle;
+            }{
+            \ifthenelse{#5=2}{
+                \draw[rounded corners=.1mm,fill=#3] (1,.33,.66)--(1,.66,.66)--(1.33,.66,.66)--(1.33,.33,.66)--cycle;
+                \draw[rounded corners=.1mm,fill=#3] (1,.66,.33)--(1,.66,.66)--(1.33,.66,.66)--(1.33,.66,.33)--cycle;
+                \draw[rounded corners=.1mm,fill=#3] (1.33,.33,.33)--(1.33,.66,.33)--(1.33,.66,.66)--(1.33,.33,.66)--cycle;
+            }{}}
+    \end{scope}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %PatternBlockColorAndShapes
-%%%
 \definecolor{PBeige}{RGB}{220,182,109}
+%
 \newcommand\PSquare[3]{\draw[line width=.5 pt,fill=POrange,xshift=#1in,yshift=#2in,rotate=#3](0,0)rectangle(1,1);}
 \newcommand\PTriangle[3]{\draw[line width=.5 pt,fill=PGreen,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(120:1)--cycle;}
 \newcommand\PHexagon[3]{\draw[line width=.5 pt,fill=PYellow,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(60:1)--++(120:1)--++(180:1)--++(240:1)--cycle;}
 \newcommand\PRhombusFat[3]{\draw[line width=.5 pt,fill=PBlue,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(60:1)--++(180:1)--cycle;}
 \newcommand\PRhombusThin[3]{\draw[line width=.5 pt,fill=PBeige,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(30:1)--++(180:1)--cycle;}
 \newcommand\PTrapizoid[3]{\draw[line width=.5 pt,fill=PRed,xshift=#1in,yshift=#2in,rotate=#3](0,0)--++(60:1)--++(0:1)--++(-60:1)--cycle;}
-\newcommand\FlippingCoin[3]{\draw[line width=.5 pt,fill=#3,xshift=#1in,yshift=#2in](0,0)circle (.5);}
+%
 \newcommand\PSquareNC[3]{\draw[line width=.5 pt,xshift=#1in,yshift=#2in,rotate=#3](0,0)rectangle(1,1);}
 \newcommand\PTriangleNC[3]{\draw[line width=.5 pt,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(120:1)--cycle;}
 \newcommand\PHexagonNC[3]{\draw[line width=.5 pt,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(60:1)--++(120:1)--++(180:1)--++(240:1)--cycle;}
 \newcommand\PRhombusFatNC[3]{\draw[line width=.5 pt,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(60:1)--++(180:1)--cycle;}
 \newcommand\PRhombusThinNC[3]{\draw[line width=.5 pt,xshift=#1in,yshift=#2in,rotate=#3](0,0)--(1,0)--++(30:1)--++(180:1)--cycle;}
 \newcommand\PTrapizoidNC[3]{\draw[line width=.5 pt,xshift=#1in,yshift=#2in,rotate=#3](0,0)--++(60:1)--++(0:1)--++(-60:1)--cycle;}
+%
+\newcommand\FlippingCoin[3]{\draw[line width=.5 pt,fill=#3,xshift=#1in,yshift=#2in](0,0)circle (.5);}
 
-
-%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %ES Numberlines with large assumptions and extra
-%%%
 \pgfplotsset{
       NumberlineES/.style={
             width=3.05in,
@@ -157,10 +179,9 @@
     }
     
 
-%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %New Base-10 Block Structures 
 %Which I know is gross, I need to clean this up but I do not have time to fix the code when it works
-%%%
 \def\HBlockB#1
 {
 \begin{scope}[shift={#1}]
@@ -173,7 +194,6 @@
 \begin{scope}[shift={#1}]
     \fill[draw,LBlue] (-0.001,-0.001) rectangle (0.101,1.001);
     \draw (-0.001,-0.001) grid[step=.1] (0.101,1.001);
-
 \end{scope}
 }
 \def\TBlockBlank#1
@@ -385,263 +405,145 @@
 
             \ifthenelse{#3>5}
             {
-            \foreach\x in {1,...,5}
-            {
-            \begin{scope}[shift={(.2*#2+#1*1.1+1.1,.18*\x-.18)}]
-            \OBlockB{(0,0)}
-            \end{scope}
-            }
-            \foreach\x in {6,...,#3}
-            {
-            \begin{scope}[shift={(.2*#2+#1*1.1+1.3,.18*\x-.18-.90)}]
-            \OBlockB{(0,0)}
-            \end{scope}
-            }
-
+                \foreach\x in {1,...,5}{
+                    \begin{scope}[shift={(.2*#2+#1*1.1+1.1,.18*\x-.18)}]
+                    \OBlockB{(0,0)}
+                    \end{scope}
+                    }
+                \foreach\x in {6,...,#3}{
+                    \begin{scope}[shift={(.2*#2+#1*1.1+1.3,.18*\x-.18-.90)}]
+                    \OBlockB{(0,0)}
+                    \end{scope}
+                    }
             }
             {
             \foreach\x in {1,...,#3}
             {
-            \begin{scope}[shift={(.2*#2+#1*1.1+1.1,.18*\x-.18)}]
-            \OBlockB{(0,0)}
-        \end{scope}
-        }
+                \begin{scope}[shift={(.2*#2+#1*1.1+1.1,.18*\x-.18)}]
+                \OBlockB{(0,0)}
+                \end{scope}
+            }
     }  
 \end{scope}
 }
 
 
-%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Kindergarden Handwriting Text
-%%%
-\def\IMone#1#2{
-\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (0,-.45)--(0,.45);
-}
-\def\IMtwo#1#2{
-\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (.25,-.45)--(-.25,-.45)--(.2,.05) arc (-40:180:.25);
-}
-\def\IMthree#1#2{
-\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (0,0) arc (-90:180:.225)(0,0) arc (90:-180:.225);
-}
-\def\IMfour#1#2{
-\draw[#2,line width=2pt,line cap=round,xshift=#1 in](-.25,.45)--(-.25,0)--(.25,0)(.15,.45)--(.15,-.45);
-}
-\def\IMfive#1#2{
-\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (.225,.45)--(-.225,.45)--(-.225,0) arc(135:-150:.275);
-}
-\def\IMsix#1#2{
-\draw[#2,line width=2pt,line cap=round,xshift=#1 in](-.25,-.24) arc(180:-180:.22)(-.25,-.22) arc(180:140:1);
-}
-\def\IMseven#1#2{
-\draw[#2,line width=2pt,line cap=round,xshift=#1 in](-.25,.45)--(.25,.45)--(0,-.45);
-}
-\def\IMeight#1#2{
-\draw[#2,line width=2pt,line cap=round,xshift=#1 in] 
-(0,0) to[out=165,in=-90]
-(-.2,.225)to[out=90,in=180]
-(0,.45) to[out=0, in=90]
-(.2,.225) to[out=-90,in=15]
-(0,0)to[out=-165,in=90]
-(-.2,-.225)to[out=-90,in=180] 
-(0,-.45) to[out=0, in=-90]
-(.2,-.225) to[out=90,in=-15](0,0);
-}
-\def\IMnine#1#2{
-\draw[#2,line width=2pt,line cap=round,xshift=#1 in](.25,.24) arc(0:360:.22)(.25,.46)--(.25,-.45);
-}
-\def\IMzero#1#2{
-\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (0,0) circle ( .25 and .45);
-}
+\def\IMone#1#2{\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (0,-.45)--(0,.45);}
 
-%%%%%%%%%%%%%%%
+\def\IMtwo#1#2{\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (.25,-.45)--(-.25,-.45)--(.2,.05) arc (-40:180:.25);}
+
+\def\IMthree#1#2{\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (0,0) arc (-90:180:.225)(0,0) arc (90:-180:.225);}
+
+\def\IMfour#1#2{\draw[#2,line width=2pt,line cap=round,xshift=#1 in](-.25,.45)--(-.25,0)--(.25,0)(.15,.45)--(.15,-.45);}
+
+\def\IMfive#1#2{\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (.225,.45)--(-.225,.45)--(-.225,0) arc(135:-150:.275);}
+
+\def\IMsix#1#2{\draw[#2,line width=2pt,line cap=round,xshift=#1 in](-.25,-.24) arc(180:-180:.22)(-.25,-.22) arc(180:140:1);}
+
+\def\IMseven#1#2{\draw[#2,line width=2pt,line cap=round,xshift=#1 in](-.25,.45)--(.25,.45)--(0,-.45);}
+
+\def\IMeight#1#2{\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (0,0) to[out=165,in=-90](-.2,.225)to[out=90,in=180](0,.45) to[out=0, in=90](.2,.225) to[out=-90,in=15](0,0)to[out=-165,in=90](-.2,-.225)to[out=-90,in=180](0,-.45) to[out=0, in=-90](.2,-.225) to[out=90,in=-15](0,0);}
+
+\def\IMnine#1#2{\draw[#2,line width=2pt,line cap=round,xshift=#1 in](.25,.24) arc(0:360:.22)(.25,.46)--(.25,-.45);}
+
+\def\IMzero#1#2{\draw[#2,line width=2pt,line cap=round,xshift=#1 in] (0,0) circle ( .25 and .45);}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%Small Doodles
-%%%%%%%%%%%%%%
 \newcommand\MakeADog[3]{
-\begin{scope}[xshift=#1 in, yshift=#2 in, scale=#3]
-    \draw[thin, fill=LBlue] (.35,.08)
-        --(.35,.22)
-        to[out=35,in=-110] (.45,.43)
-        to[out=30,in=-30] (.48,.55)
-        to[out=150,in=-110] (.4,.8)
-        to[out=60,in=90] (.42,.78)
-        to[out=-90,in=160] (.6,.55)
-        to[out=-10,in=-120] (1.05,.75)
-        to[out=45,in=135] (1.2,.75)
-        to[out=-45,in=180] (1.32,.7)
-        to[out=-100,in=-10] (1.2,.6)
-        to[out=-170,in=90] (1.15,.5)
-        to[out=-90,in=10] (1.05,.3)
-        to[out=-90,in=90] (1.03,.1)
-        to[out=-30,in=-30,looseness=5] (1,.07)
-        to[out=90,in=-90] (.97,.2)
-        to[out=-90,in=90] (.94,.08)
-        to[out=-30,in=-30,looseness=5] (.91,.05)
-        to[out=90,in=-90] (.89,.3)
-        to[out=180,in=0] (.7,.35)
-        to[out=180,in=45] (.6,.25)
-        to[out=-135,in=90] (.5,.125)
-        to[out=-30,in=-30,looseness=5] (.47,.095)
-        to[out=90,in=-90] (.47,.2)
-        to[out=-135,in=90] (.4,.1)
-        to[out=-30,in=-30,looseness=5] (.37,.07)
-        --(.35,.08);
-\end{scope}}
+    \begin{scope}[xshift=#1 in, yshift=#2 in, scale=#3]
+        \draw[thin, fill=LBlue] (.35,.08)--(.35,.22)to[out=35,in=-110] (.45,.43)to[out=30,in=-30] (.48,.55)to[out=150,in=-110] (.4,.8)to[out=60,in=90] (.42,.78)to[out=-90,in=160] (.6,.55)to[out=-10,in=-120] (1.05,.75)to[out=45,in=135] (1.2,.75)to[out=-45,in=180] (1.32,.7)to[out=-100,in=-10] (1.2,.6)to[out=-170,in=90] (1.15,.5)to[out=-90,in=10] (1.05,.3)to[out=-90,in=90] (1.03,.1)to[out=-30,in=-30,looseness=5] (1,.07)to[out=90,in=-90](.97,.2)to[out=-90,in=90] (.94,.08)to[out=-30,in=-30,looseness=5] (.91,.05)to[out=90,in=-90] (.89,.3)to[out=180,in=0] (.7,.35)to[out=180,in=45] (.6,.25)to[out=-135,in=90] (.5,.125)to[out=-30,in=-30,looseness=5] (.47,.095)to[out=90,in=-90] (.47,.2)to[out=-135,in=90](.4,.1)to[out=-30,in=-30,looseness=5] (.37,.07)--(.35,.08);
+    \end{scope}}
 
 \newcommand\MakeACat[3]{
-\begin{scope}[xshift=#1 in, yshift=#2 in, scale=#3]
-    \draw[thin,fill=LBlue] (.28,.25)
-        to[out=-160,in=-170,looseness=3](.21,.29)
-        to[out=80,in=-90](.14,.7)
-        to[out=90,in=-135](.15,.77)
-        to[out=45,in=-90](.12,.85)
-        to[out=90,in=-120](.13,.9)
-        to[out=90,in=-100](.11,1.01)
-        to[out=-45,in=135](.17,.95)
-        to[out=10,in=170](.26,.95)
-        to[out=45,in=-135](.33,1.01)
-        to[out=-80,in=90](.32,.9)
-        to[out=-80,in=80](.33,.84)
-        to[out=-60,in=120](.38,.77)
-        to[out=0,in=80](.6,.3)
-        to[out=-10,in=0,looseness=2](.6,.1)
-        to[out=180,in=0] (.2,.15)
-        to[out=180,in=180,looseness=3](.2,.21)
-        to[out=0,in=180](.6,.14)
-        to[out=0,in=0,looseness=2](.6,.21)
-        to[out=180,in=0](.34,.22)
-        to[out=190,in=-80,looseness=2](.28,.25);
-\end{scope}}
+    \begin{scope}[xshift=#1 in, yshift=#2 in, scale=#3]
+        \draw[thin,fill=LBlue] (.28,.25)to[out=-160,in=-170,looseness=3](.21,.29)to[out=80,in=-90](.14,.7)to[out=90,in=-135](.15,.77)to[out=45,in=-90](.12,.85)to[out=90,in=-120](.13,.9)to[out=90,in=-100](.11,1.01)to[out=-45,in=135](.17,.95)to[out=10,in=170](.26,.95)to[out=45,in=-135](.33,1.01)to[out=-80,in=90](.32,.9)to[out=-80,in=80](.33,.84)to[out=-60,in=120](.38,.77)to[out=0,in=80](.6,.3)to[out=-10,in=0,looseness=2](.6,.1)to[out=180,in=0] (.2,.15)to[out=180,in=180,looseness=3](.2,.21)to[out=0,in=180](.6,.14)to[out=0,in=0,looseness=2](.6,.21)to[out=180,in=0](.34,.22)to[out=190,in=-80,looseness=2](.28,.25);
+    \end{scope}}
 
 \newcommand\MakeAFish[3]{
-\begin{scope}[xshift=#1 in, yshift=#2 in, scale=#3]
-    \draw[thin,fill=LBlue] (.05,.45)
-        to[out=60,in=180] (.28,.62)
-        to[out=70,in=180] (.52,.74)
-        to[out=-150,in=90] (.45,.62)
-        to[out=00,in=135] (.72,.48)
-        to[out=60,in=150] (.9,.58)
-        to[out=-90,in=70] (.84,.4)
-        to[out=-70,in=80] (.86,.2)
-        to[out=160,in=-60] (.71,.32)
-        to[out=-135,in=0] (.43,.21)
-        to[out=-10,in=150] (.53,.11)
-        to[out=180,in=-90] (.27,.25)
-        to[out=150,in=-70] (.05,.45);
-\end{scope}
-}
+    \begin{scope}[xshift=#1 in, yshift=#2 in, scale=#3]
+        \draw[thin,fill=LBlue] (.05,.45)to[out=60,in=180] (.28,.62)to[out=70,in=180] (.52,.74)to[out=-150,in=90] (.45,.62)to[out=00,in=135] (.72,.48)to[out=60,in=150] (.9,.58)to[out=-90,in=70] (.84,.4)to[out=-70,in=80] (.86,.2)to[out=160,in=-60] (.71,.32)to[out=-135,in=0] (.43,.21)to[out=-10,in=150] (.53,.11)to[out=180,in=-90] (.27,.25)to[out=150,in=-70] (.05,.45);
+    \end{scope}}
 
 \newcommand\MakeARail[3]{
-\begin{scope}[xshift=#1 in, yshift=#2 in, scale=#3]
-\begin{scope}[scale=.5]
-\fill[rounded corners=.05 in](-.4,-.5)rectangle(.4,.5);
-\fill[white,rounded corners=.02 in](-.325,0)rectangle(.325,.4);
-\fill[white,rounded corners=.02 in](-.2,.35)rectangle(.2,.45);
-\fill[white] (-.3,-.35) circle (.05);
-\fill[white] (.3,-.35) circle (.051);
-\fill (-.4,-1)--(-.3,-.5)--(.3,-.5)--(.4,-1)--cycle;
-\fill[white] (-.35,-1)--(-.33,-.9)--(.33,-.9)--(.35,-1)--cycle;
-\fill[white] (-.31,-.8)--(-.29,-.7)--(.29,-.7)--(.31,-.8)--cycle;
-\fill[white] (-.27,-.6)--(-.25,-.5)--(.25,-.5)--(.27,-.6)--cycle;
-\end{scope}
-\end{scope}
-}
+    \begin{scope}[xshift=#1 in, yshift=#2 in, scale=#3]
+        \begin{scope}[scale=.5]
+        \fill[rounded corners=.05 in](-.4,-.5)rectangle(.4,.5);
+        \fill[white,rounded corners=.02 in](-.325,0)rectangle(.325,.4);
+        \fill[white,rounded corners=.02 in](-.2,.35)rectangle(.2,.45);
+        \fill[white] (-.3,-.35) circle (.05);
+        \fill[white] (.3,-.35) circle (.051);
+        \fill (-.4,-1)--(-.3,-.5)--(.3,-.5)--(.4,-1)--cycle;
+        \fill[white] (-.35,-1)--(-.33,-.9)--(.33,-.9)--(.35,-1)--cycle;
+        \fill[white] (-.31,-.8)--(-.29,-.7)--(.29,-.7)--(.31,-.8)--cycle;
+        \fill[white] (-.27,-.6)--(-.25,-.5)--(.25,-.5)--(.27,-.6)--cycle;
+        \end{scope}
+    \end{scope}}
 
 \newcommand\MakeABus[3]{
-\begin{scope}[xshift=#1 in, yshift=#2 in, scale=#3]
-\fill[rounded corners=.05 in](-.5,0)--(.5,0)--(.5,.2)--(.45,.5)--(-.5,.5)--cycle;
-\fill[white,rounded corners=.02 in](-.45,.45) rectangle (-.3,.25);
-\fill[white,rounded corners=.02 in](-.25,.45) rectangle (-.1,.25);
-\fill[white,rounded corners=.02 in](-.05,.45) rectangle (.1,.25);
-\fill[white,rounded corners=.02 in](.15,.45)--(.4,.45)--(.45,.2)--(.3,.2)--(.15,.25)--cycle;
-\fill[white] (-.3,0) circle (.1);
-\fill[black] (-.3,0) circle (.08);
-\fill[white] (.3,0) circle (.1);
-\fill[black] (.3,0) circle (.08);
-\end{scope}
+    \begin{scope}[xshift=#1 in, yshift=#2 in, scale=#3]
+        \fill[rounded corners=.05 in](-.5,0)--(.5,0)--(.5,.2)--(.45,.5)--(-.5,.5)--cycle;
+        \fill[white,rounded corners=.02 in](-.45,.45) rectangle (-.3,.25);
+        \fill[white,rounded corners=.02 in](-.25,.45) rectangle (-.1,.25);
+        \fill[white,rounded corners=.02 in](-.05,.45) rectangle (.1,.25);
+        \fill[white,rounded corners=.02 in](.15,.45)--(.4,.45)--(.45,.2)--(.3,.2)--(.15,.25)--cycle;
+        \fill[white] (-.3,0) circle (.1);
+        \fill[black] (-.3,0) circle (.08);
+        \fill[white] (.3,0) circle (.1);
+        \fill[black] (.3,0) circle (.08);
+    \end{scope}
 }
 
 \newcommand\MakeACar[3]{
-\begin{scope}[xshift=#1 in, yshift=#2 in, scale=#3]
-\fill[rounded corners=.05 in](-.5,0)--(.5,0)--(.5,.25)--(.3,.25)--(.1,.45)--(-.3,.45)--(-.5,.25)--cycle;
-\fill[white,rounded corners=.02 in] (-.45,.25)--(-.3,.4)--(-.15,.4)--(-.15,.25)--cycle;
-\fill[white,rounded corners=.02 in] (-.1,.25)--(-.1,.4)--(.1,.4)--(.25,.25)--cycle;
-\fill[white] (-.3,0) circle (.1);
-\fill[black] (-.3,0) circle (.08);
-\fill[white] (.3,0) circle (.1);
-\fill[black] (.3,0) circle (.08);
-\end{scope}
+    \begin{scope}[xshift=#1 in, yshift=#2 in, scale=#3]
+        \fill[rounded corners=.05 in](-.5,0)--(.5,0)--(.5,.25)--(.3,.25)--(.1,.45)--(-.3,.45)--(-.5,.25)--cycle;
+        \fill[white,rounded corners=.02 in] (-.45,.25)--(-.3,.4)--(-.15,.4)--(-.15,.25)--cycle;
+        \fill[white,rounded corners=.02 in] (-.1,.25)--(-.1,.4)--(.1,.4)--(.25,.25)--cycle;
+        \fill[white] (-.3,0) circle (.1);
+        \fill[black] (-.3,0) circle (.08);
+        \fill[white] (.3,0) circle (.1);
+        \fill[black] (.3,0) circle (.08);
+    \end{scope}
 }
 
 \newcommand\MakeAPerson[3]{
-\begin{scope}[xshift=#1 in, yshift=#2 in, scale=#3]
-\fill[rounded corners=.01 in](0,0)--++(60:.25)--++(75:.4)--++(-150:.075)--++(-120:.15)--++(-210:.075)--++(60:.15)--++(30:.2)--++(-15:.15)--++(-60:.15)--++(-30:.15)--++(-120:.075)--++(-210:.15)--++(-240:.075)--++(-105:.2)--++(-30:.1)--++(-90:.3)--++(-180:.1)--++(90:.25)--++(150:.1125)--++(-103:.1)--++(-120:.25)--cycle;
-\fill[black] (.375,.8) circle (.08);
-\fill[black] (.058,0) circle (.05);
-\fill[black] (.4,0) circle (.05);
-\fill[black] (.06,.46) circle (.0375);
-\fill[black] (.6,.43) circle (.0375);
-\end{scope}
+    \begin{scope}[xshift=#1 in, yshift=#2 in, scale=#3]
+        \fill[rounded corners=.01 in](0,0)--++(60:.25)--++(75:.4)--++(-150:.075)--++(-120:.15)--++(-210:.075)--++(60:.15)--++(30:.2)--++(-15:.15)--++(-60:.15)--++(-30:.15)--++(-120:.075)--++(-210:.15)--++(-240:.075)--++(-105:.2)--++(-30:.1)--++(-90:.3)--++(-180:.1)--++(90:.25)--++(150:.1125)--++(-103:.1)--++(-120:.25)--cycle;
+        \fill[black] (.375,.8) circle (.08);
+        \fill[black] (.058,0) circle (.05);
+        \fill[black] (.4,0) circle (.05);
+        \fill[black] (.06,.46) circle (.0375);
+        \fill[black] (.6,.43) circle (.0375);
+    \end{scope}
 }
 
 \newcommand\MakeAFlower[2]{
-\draw[fill=#1] (18:.1) circle (.1);
-\draw[fill=#1] (90:.1) circle (.1);
-\draw[fill=#1] (162:.1) circle (.1);
-\draw[fill=#1] (234:.1) circle (.1);
-\draw[fill=#1] (-54:.1) circle (.1);
-\draw[fill=#2] (36:0) circle (.1);
+    \draw[fill=#1] (18:.1) circle (.1);
+    \draw[fill=#1] (90:.1) circle (.1);
+    \draw[fill=#1] (162:.1) circle (.1);
+    \draw[fill=#1] (234:.1) circle (.1);
+    \draw[fill=#1] (-54:.1) circle (.1);
+    \draw[fill=#2] (36:0) circle (.1);
 }
+
 \newcommand\MakeASmilie[1]{
-\draw[thin,fill=#1] (0,0) circle (.125);
-\fill(.03,.03) circle (.0125);
-\fill(-.03,.03) circle (.0125);
-\draw[thin] (.08,0)to[out=-90,in=-90,looseness=1.5](-.08,0);
+    \draw[thin,fill=#1] (0,0) circle (.125);
+    \fill(.03,.03) circle (.0125);
+    \fill(-.03,.03) circle (.0125);
+    \draw[thin] (.08,0)to[out=-90,in=-90,looseness=1.5](-.08,0);
 }
+
 \newcommand\MakeADude{
-\draw (0,.2) circle (.05);
-\draw (0,.15)--(0,0);
-\draw (.075,.12)--(0,.1)--(-.075,.12);
-\draw (.075,-.05)--(0,0)--(-.075,-.05);
+    \draw (0,.2) circle (.05);
+    \draw (0,.15)--(0,0);
+    \draw (.075,.12)--(0,.1)--(-.075,.12);
+    \draw (.075,-.05)--(0,0)--(-.075,-.05);
 }
+
 \newcommand\MakeAHeart[1]{
-\draw[fill=#1,scale=1.25] (0,.05)to[out=70,in=180](.05,.1)to[out=0,in=90](.1,.05)to[out=-90,in=60](0,-.1)to[out=120,in=-90](-.1,.05)to[out=90,in=180](-.05,.1)to[out=0,in=110](0,.05)--cycle;
-}
-
-
-%%%
-%Potentially Depricated Old code that needs to be cast into the fires of mordor when validated
-%%%
-\newcommand\MakeAConnectingCubeMetric[5]{
-    \begin{scope}[xshift=#1 cm,yshift=#2cm ,shift={(-.5,-.5)}]
-        \draw[rounded corners=.1mm,fill=#3] (0,0,1)--(1,0,1)--(1,1,1)--(0,1,1)--cycle;
-        \draw[rounded corners=.1mm,fill=#3] (0,1,0)--(1,1,0)--(1,1,1)--(0,1,1)--cycle;
-        \draw[rounded corners=.1mm,fill=#3] (1,0,0)--(1,1,0)--(1,1,1)--(1,0,1)--cycle;
-        \draw[rounded corners=.1mm,fill=#4] (.33,.33,1)--(.66,.33,1)--(.66,.66,1)--(.33,.66,1)--cycle;
-        \draw[rounded corners=.1mm,fill=#4] (1,.33,.33)--(1,.66,.33)--(1,.66,.66)--(1,.33,.66)--cycle;
-        \begin{scope}
-            \clip (.33,.33,1)--(.66,.33,1)--(.66,.66,1)--(.33,.66,1)--cycle;
-            \draw (.33,.33,1)--(.33,.33,.66) (.33,.66,.66)--(.33,.33,.66) (.66,.33,.66)--(.33,.33,.66);
-        \end{scope}
-        \begin{scope}
-            \clip (1,.33,.33)--(1,.66,.33)--(1,.66,.66)--(1,.33,.66)--cycle;
-            \draw (.66,.33,.33)--(1,.33,.33);
-        \end{scope}
-        \draw[rounded corners=.1mm,fill=#4] (.33,1,.33)--(.66,1,.33)--(.66,1,.66)--(.33,1,.66)--cycle;
-        \begin{scope}
-            \clip (.33,1,.33)--(.66,1,.33)--(.66,1,.66)--(.33,1,.66)--cycle;
-            \draw (.33,1,.33)--(.33,.66,.33);
-        \end{scope}
-        \ifthenelse{#5=1}{
-            \draw[rounded corners=.1mm,fill=#3] (.33,1,.66)--(.66,1,.66)--(.66,1.33,.66)--(.33,1.33,.66)--cycle;
-            \draw[rounded corners=.1mm,fill=#3] (.66,1,.33)--(.66,1,.66)--(.66,1.33,.66)--(.66,1.33,.33)--cycle;
-            \draw[rounded corners=.1mm,fill=#3] (.33,1.33,.33)--(.66,1.33,.33)--(.66,1.33,.66)--(.33,1.33,.66)--cycle;
-            }{
-            \ifthenelse{#5=2}{
-                \draw[rounded corners=.1mm,fill=#3] (1,.33,.66)--(1,.66,.66)--(1.33,.66,.66)--(1.33,.33,.66)--cycle;
-                \draw[rounded corners=.1mm,fill=#3] (1,.66,.33)--(1,.66,.66)--(1.33,.66,.66)--(1.33,.66,.33)--cycle;
-                \draw[rounded corners=.1mm,fill=#3] (1.33,.33,.33)--(1.33,.66,.33)--(1.33,.66,.66)--(1.33,.33,.66)--cycle;
-            }{}}
-    \end{scope}
+    \draw[fill=#1,scale=1.25] (0,.05)to[out=70,in=180](.05,.1)to[out=0,in=90](.1,.05)to[out=-90,in=60](0,-.1)to[out=120,in=-90](-.1,.05)to[out=90,in=180](-.05,.1)to[out=0,in=110](0,.05)--cycle;
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -681,12 +583,7 @@
     %%Variables
     \def\scale{2}
     %% Conditional clipping mask
-        \ifthenelse{#3=0}{
-        \clip(-\THP/2,-.025)rectangle(\THP/2,2.05);
-        }
-        {
-        \clip(-\HP/2,-.025)rectangle(\HP/2,2.3);
-        }
+    \ifthenelse{#3=0}{\clip(-\THP/2,-.025)rectangle(\THP/2,2.05);}{\clip(-\HP/2,-.025)rectangle(\HP/2,2.3);}
     \begin{scope}[xshift=-.5*\scale in]
         %%Fills
         \fill[LBlue,scale=\scale](0,0)rectangle(.1*#1,1)rectangle(.1*#1+.1,1-.1*#2);
@@ -694,12 +591,12 @@
         \foreach \z in{.1,.2,...,.9}{
                 \draw[dashed] (\scale*\z,0)--(\scale*\z,\scale);
                 \draw[dashed] (0,\scale*\z)--(\scale,\scale*\z);
-            }
+                }
         %%Labels
             \ifnum#3>0{
                 \draw[line width=1pt,decorate,decoration={brace,amplitude=5pt}] (-.03,0) -- node[left=5pt] {1} (-.03,\scale);
                 \draw[line width=1pt,decorate,decoration={brace,amplitude=5pt}] (0,\scale+.03) -- node[above=5pt] {1} (\scale,\scale+.03);
-            }\fi
+                }\fi
         %% Rectangle
             \draw (0,0) rectangle(\scale,\scale);
     \end{scope}
@@ -723,16 +620,16 @@
     \foreach \x in {1,...,\numba}{
        \draw (\x/\numba*3-1.5,0)--(\x/\numba*3-1.5,.25);
        \node at (3*\x/\numba-1.5-1.5/\numba,.125) {#4};
-    }
+        }
     \foreach \x in {1,...,\numbaD}{
         \draw[dashed] (\x/\numbaD*3-1.5,0)--(\x/\numbaD*3-1.5,.25);
         \node at (3*\x/\numbaD-1.5-1.5/\numbaD,.125) {#5};
-    }
+        }
     \draw (-1.5,0)rectangle(1.5,.25);
     \ifnum#6>0{
-    \draw[line width=1pt,decorate,decoration={brace,amplitude=10pt}] (1.5,-.03) -- node[below=10pt] {#6} (-1.5,-.03);
-    }\fi
-    }
+        \draw[line width=1pt,decorate,decoration={brace,amplitude=10pt}] (1.5,-.03) -- node[below=10pt] {#6} (-1.5,-.03);
+        }\fi
+        }
    
        
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -744,18 +641,18 @@
         \clip (-\HP/2,-.65) rectangle (\HP/2,.65);
     %%Top
         \begin{scope}[yshift=.0625 in]
-        \ifnum#2>1{\draw[line width=1pt,decorate,decoration={brace,amplitude=10pt}] (-.5,.27) -- node[above=10pt] {\small{#2}} (#1*2-.5,.27);}\fi
-        \ifnum#3>1{\draw[line width=1pt,decorate,decoration={brace,amplitude=10pt}] (#1*2-.5,.27) -- node[above=10pt] {\small{#3}} (1.5,.27);}\fi
-        \draw[fill=LBlue] (-.5,0) rectangle (#1*2-.5,.25);
-        \draw[dashed] (#1*2-.5,0) rectangle (1.5,.25);
-        \node[anchor=east]at(-.5,.125){#5};
+            \ifnum#2>1{\draw[line width=1pt,decorate,decoration={brace,amplitude=10pt}] (-.5,.27) -- node[above=10pt] {\small{#2}} (#1*2-.5,.27);}\fi
+            \ifnum#3>1{\draw[line width=1pt,decorate,decoration={brace,amplitude=10pt}] (#1*2-.5,.27) -- node[above=10pt] {\small{#3}} (1.5,.27);}\fi
+            \draw[fill=LBlue] (-.5,0) rectangle (#1*2-.5,.25);
+            \draw[dashed] (#1*2-.5,0) rectangle (1.5,.25);
+            \node[anchor=east]at(-.5,.125){#5};
         \end{scope}
         
     %%Bottom
         \begin{scope}[yshift=-.0625 in]
-        \ifnum#4>1{\draw[line width=1pt,decorate,decoration={brace,amplitude=10pt}] (1.5,-.27) -- node[below=10pt] {\small{#4}} (-.5,-.27);}\fi
-        \draw[fill=LBlue] (-.5,0) rectangle (1.5,-.25);
-        \node[anchor=east]at(-.5,-.125){#6};
+            \ifnum#4>1{\draw[line width=1pt,decorate,decoration={brace,amplitude=10pt}] (1.5,-.27) -- node[below=10pt] {\small{#4}} (-.5,-.27);}\fi
+            \draw[fill=LBlue] (-.5,0) rectangle (1.5,-.25);
+            \node[anchor=east]at(-.5,-.125){#6};
         \end{scope}
     }
    
@@ -776,15 +673,15 @@
 %Entry Log 200805
 %Added the Beaker
 \newcommand\BeakerES[5]{%\minor\major\fillamount\label
-\clip(-.075,-.05)rectangle(\QP-.075,2.2);
-\fill[LBlue] (0,0) rectangle(1.5,2*#3/#1);
-\draw (0,2)--(0,0)--(1.5,0)--(1.5,2);
-\draw (0,2)to[out=90,in=0](-.05,2.15);
-\draw (1.5,2)to[out=90,in=180](1.55,2.15);
-\node[anchor=east] at (1.5,2){#4};
-\foreach \x in {1,...,#1}{\draw (0,2*\x/#1)--++(0:.1);}
-\foreach \x in {0,#2,...,#1}{\ifnum\x>0{\draw (0,2*\x/#1)--++(0:.25)node[anchor=west]{\x};}\fi}
-\ifnum#5>0{\foreach \x in {1,...,#5}{\draw[] (0,2*\x/#5)--++(0:.1);}}\fi
+    \clip(-.075,-.05)rectangle(\QP-.075,2.2);
+    \fill[LBlue] (0,0) rectangle(1.5,2*#3/#1);
+    \draw (0,2)--(0,0)--(1.5,0)--(1.5,2);
+    \draw (0,2)to[out=90,in=0](-.05,2.15);
+    \draw (1.5,2)to[out=90,in=180](1.55,2.15);
+    \node[anchor=east] at (1.5,2){#4};
+    \foreach \x in {1,...,#1}{\draw (0,2*\x/#1)--++(0:.1);}
+    \foreach \x in {0,#2,...,#1}{\ifnum\x>0{\draw (0,2*\x/#1)--++(0:.25)node[anchor=west]{\x};}\fi}
+    \ifnum#5>0{\foreach \x in {1,...,#5}{\draw[] (0,2*\x/#5)--++(0:.1);}}\fi
 }
 
 
@@ -856,4 +753,4 @@
 %Entry Log 200812
 %Edited ES First Quadrant to show lables correctly
 %Edited Base 10 Digits to show correct spacing
-%Added in slashes to the 
+%Added in slashes to the broken decimal square
