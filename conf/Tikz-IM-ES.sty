@@ -644,13 +644,12 @@
     \end{scope}
 }
 
-%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %ENTRY LOG 200604
 %% Added Chonky Numberline for Grade 2
 %% Edit for the scaling on the division symbol
 %% Added Chonky numberline jumps
 %% Added Normal Numberline Jumps
-%%%%%%%%%%%%%%
 \pgfplotsset{
       NumberlineESChunk/.style={
         x tick style={line width =2 pt},
@@ -675,10 +674,9 @@
 
 
     
-%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %ENTRY LOG 200712
 %% Made a smaller sized DeciSquare
-%%%%%%%%%%%%%%   
 \newcommand\DeciSquare[3]{%% {Tens}{Ones}{braces}
     %%Variables
     \def\scale{2}
@@ -707,12 +705,12 @@
     \end{scope}
         }
 
-%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Entry Log 200715
 %Changed scale of Decisquare from 1.5 to 2
 %Added FractionBar Function
 %Added the B to the one blocl
-%%%%%%%%%%%%%%%%%%
+
 \newcommand\FractionBar[6]{%{Whole}{Bits}{Fill}{Whole label}{bits label}{brace label}
     %%%%Def
     \def\numba{#1}
@@ -737,11 +735,11 @@
     }
    
        
-%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Entry Log 200722
 %Added Clipping Mask for DeciSquares
 %Also added Labeled tape diagrams
-%%%%%%%%%%%%%%%%%%%
+
 \newcommand\TapeTwinLabeled[6]{%{fraction}{top left}{top right}{bottom value}{top label }{bottom label}
         \clip (-\HP/2,-.65) rectangle (\HP/2,.65);
     %%Top
@@ -761,10 +759,9 @@
         \end{scope}
     }
    
-%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Entry Log 200727
 %Added Clock
-%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand\ClockES[3]{
     \clip (-\THP/2,-\THP/2) rectangle (\THP/2,\THP/2);
     \foreach \x in {1,...,12}{\draw (\x*30:1) -- (\x*30:.9);\node at (-\x*30+90:.8) {\x};}
@@ -775,10 +772,9 @@
     \fill (0,0) circle (2pt);
     }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Entry Log 200805
 %Added the Beaker
-%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand\BeakerES[5]{%\minor\major\fillamount\label
 \clip(-.075,-.05)rectangle(\QP-.075,2.2);
 \fill[LBlue] (0,0) rectangle(1.5,2*#3/#1);
@@ -792,12 +788,10 @@
 }
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Entry Log 200810
 %ES First Quadrant 
 %Base 10 Digits
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \pgfplotsset{
         FirstQuadES/.style={
         width=3.25in,
@@ -815,8 +809,8 @@
         clip=true,
         xlabel={ },
         ylabel={ },
-        xlabel style={anchor=north east,yshift=-.1in,xshift=0in,inner sep=0pt,outer sep=0pt},
-        ylabel style={anchor=north east,yshift=0,xshift=-.1in,inner sep=0pt,outer sep=0pt},
+        xlabel near ticks,
+        ylabel near ticks,
         yticklabel style={font=\sansmath\sffamily\footnotesize,xshift=0in,yshift=-.01in},
         xticklabel style={font=\sansmath\sffamily\footnotesize,xshift=-.00in,yshift=.02in,},
         after end axis/.code={
@@ -827,14 +821,11 @@
        }
     }
 
-
 \newcommand\MakeBlocksDigits[3]{
-    %%%%%%%%%%%
-        \pgfmathsetmacro\hunsL{#1-1}
-        \pgfmathsetmacro\tensL{#2-1}
-        \pgfmathsetmacro\onesL{#3-1}
-        \newcounter{ga}\setcounter{ga}{1}
-    %%%%%%%%%
+    \pgfmathsetmacro\hunsL{#1-1}
+    \pgfmathsetmacro\tensL{#2-1}
+    \pgfmathsetmacro\onesL{#3-1}
+    \newcounter{ga}\setcounter{ga}{1}
     \ifthenelse{#1=0}{}{
         \foreach \x in {0,...,\hunsL}{
             \begin{scope}[shift={(1.1*\x,0)}]
