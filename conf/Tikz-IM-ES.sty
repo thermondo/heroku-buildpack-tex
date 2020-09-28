@@ -196,6 +196,14 @@
     \draw (-0.001,-0.001) grid[step=.1] (0.101,1.001);
 \end{scope}
 }
+\def\HBlockBlank#1
+{
+\begin{scope}[shift={#1}]
+    \fill[draw,LBlue] (-0.001,-0.001) rectangle (1.001,1.001);
+    \draw (-0.001,-0.001) rectangle (1.001,1.001);
+
+\end{scope}
+}
 \def\TBlockBlank#1
 {
 \begin{scope}[shift={#1}]
@@ -203,7 +211,6 @@
     \draw (-0.001,-0.001) rectangle (0.101,1.001);
 \end{scope}
 }
-
 \def\OBlockB#1
 {
 \begin{scope}[shift={#1}]
@@ -291,11 +298,12 @@
         {
         \begin{scope}[shift={(.2*\x,0)}]
         \TBlockBlank{(0,0)}
-        \ifthenelse{\x=#1}{
+         \ifthenelse{\x=#1}{
         \draw[rounded corners=6pt](-.05,-.05)rectangle(.15,1.05);
-        \draw[->] (.05,1.05)--(.05,1.25);
-        \draw[rounded corners=6pt](-.15,1.25)rectangle(.25,2.17);
+        \draw[->,rounded corners=3pt] (.05,1.05)--(.05,1.10)--(.35,1.10)--(.35,1.25);
         \draw[line width=2pt, Red](0,-0.025)--(.1,1.025);
+        \begin{scope}[xshift=.3in]
+        \draw[rounded corners=6pt](-.15,1.25)rectangle(.25,2.17);
         \foreach\i in {1,...,5}
             {
             \begin{scope}[shift={(-.1,.18*\i-.18+1.3)}]
@@ -305,6 +313,7 @@
             \OBlockB{(0,0)}
             \end{scope}
             }
+        \end{scope}
         }{}
         \end{scope}
         }
@@ -344,9 +353,10 @@
         \TBlockB{(0,0)}
         \ifthenelse{\x=#1}{
         \draw[rounded corners=6pt](-.05,-.05)rectangle(.15,1.05);
-        \draw[->] (.05,1.05)--(.05,1.25);
-        \draw[rounded corners=6pt](-.15,1.25)rectangle(.25,2.17);
+        \draw[->,rounded corners=3pt] (.05,1.05)--(.05,1.10)--(.35,1.10)--(.35,1.25);
         \draw[line width=2pt, Red](0,-0.025)--(.1,1.025);
+        \begin{scope}[xshift=.3in]
+        \draw[rounded corners=6pt](-.15,1.25)rectangle(.25,2.17);
         \foreach\i in {1,...,5}
             {
             \begin{scope}[shift={(-.1,.18*\i-.18+1.3)}]
@@ -356,6 +366,7 @@
             \OBlockB{(0,0)}
             \end{scope}
             }
+        \end{scope}
         }{}
         \end{scope}
         }
@@ -703,7 +714,7 @@
         axis lines=middle,
         minor tick num=0,
         grid style={line width=.5pt,black!50},
-        clip=false,
+        clip=true,
         xlabel={ },
         ylabel={ },
         xlabel near ticks,
@@ -754,3 +765,43 @@
 %Edited ES First Quadrant to show lables correctly
 %Edited Base 10 Digits to show correct spacing
 %Added in slashes to the broken decimal square
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Entry Log200928
+%Updated the Unit 2 images
+%Blank Digits
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand\MakeBlocksDigitsBlank[3]{
+    \pgfmathsetmacro\hunsL{#1-1}
+    \pgfmathsetmacro\tensL{#2-1}
+    \pgfmathsetmacro\onesL{#3-1}
+    \newcounter{ga}\setcounter{ga}{1}
+    \ifthenelse{#1=0}{}{
+        \foreach \x in {0,...,\hunsL}{
+            \begin{scope}[shift={(1.1*\x,0)}]
+                \HBlockBlank{(0,0)}
+            \end{scope}
+        }
+    }
+    \ifthenelse{#2=0}{}{
+        \foreach \x in {0,...,\tensL}{
+            \begin{scope}[shift={(.2*\x+.4+1.1*#1,0)}]
+                \TBlockBlank{(0,0)}
+            \end{scope}
+        }
+    }           
+    \ifthenelse{#3=0}{}{
+        \foreach \x in {0,...,\onesL}{
+        \pgfmathparse{Mod(\x,5)==0?1:0}
+        \ifnum\pgfmathresult>0{\stepcounter{ga}}\fi
+        \begin{scope}[shift={(.4+1.1*#1+.2*#2+\thega*.2,1.8+.18*\x+\thega*-.9)}]
+            \OBlockB{(0,0)}
+        \end{scope}
+        }
+  }
+}
