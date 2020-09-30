@@ -1,7 +1,9 @@
 \usepackage{dashbox}
 \usepackage{mathtools}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Global Coutners
+\newcounter{ga}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\drawrectangle}[5][]{\draw[#1](#2-#4/2,#3-#5/2)rectangle(#2+#4/2,#3+#5/2);}
 
@@ -733,7 +735,7 @@
     \pgfmathsetmacro\hunsL{#1-1}
     \pgfmathsetmacro\tensL{#2-1}
     \pgfmathsetmacro\onesL{#3-1}
-    \newcounter{ga}\setcounter{ga}{1}
+    \setcounter{ga}{1}
     \ifthenelse{#1=0}{}{
         \foreach \x in {0,...,\hunsL}{
             \begin{scope}[shift={(1.1*\x,0)}]
@@ -780,7 +782,7 @@
     \pgfmathsetmacro\hunsL{#1-1}
     \pgfmathsetmacro\tensL{#2-1}
     \pgfmathsetmacro\onesL{#3-1}
-    \newcounter{ga}\setcounter{ga}{1}
+    \setcounter{ga}{1}
     \ifthenelse{#1=0}{}{
         \foreach \x in {0,...,\hunsL}{
             \begin{scope}[shift={(1.1*\x,0)}]
