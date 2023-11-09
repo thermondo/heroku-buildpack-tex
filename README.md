@@ -1,5 +1,7 @@
 # TeX Live buildpack for Heroku
 
+**this repository is archived, we @thermondo don't use the buildpack anymore**.
+
 [![Build Status](https://travis-ci.org/Thermondo/heroku-buildpack-tex.svg?branch=master)](https://travis-ci.org/Thermondo/heroku-buildpack-tex)
 [![Latest Release](https://img.shields.io/github/tag/Thermondo/heroku-buildpack-tex.svg)](https://github.com/Thermondo/heroku-buildpack-tex/releases)
 
